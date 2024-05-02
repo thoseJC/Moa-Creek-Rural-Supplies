@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+
+<nav class="navbar">
+  <div class="wrapper">
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+    <div class="logo">
+      <a href="#">
+        <img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block me-1">
+        Moa Creek Rural Supplies
+      </a>
+    </div>
+    <input type="radio" name="slider" id="menu-btn">
+    <input type="radio" name="slider" id="close-btn">
+    <ul class="nav-links">
+      <label for="close-btn" class="btn close-btn">
+        <i class="fas fa-times"></i>
+      </label>
+      <li>
+        <a href="{{ url_for('home') }}">Home</a>
+      </li>
+      <li>
+        <a href="#" class="desktop-item">Dropdown Menu</a>
+        <input type="checkbox" id="showDrop">
+        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
+        <ul class="drop-menu">
+          <li><a href="#">Drop menu 1</a></li>
+          <li><a href="#">Drop menu 2</a></li>
+          <li><a href="#">Drop menu 3</a></li>
+          <li><a href="#">Drop menu 4</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" class="desktop-item">Mega Menu</a>
+        <input type="checkbox" id="showMega">
+        <label for="showMega" class="mobile-item">Mega Menu</label>
+        <div class="mega-box">
+          <div class="content">
+            <div class="row">
+              <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
+            </div>
+            <div class="row">
+              <header>Header</header>
+              <ul class="mega-links">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+              </ul>
+            </div>
+            <div class="row">
+              <header>Header</header>
+              <ul class="mega-links">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+              </ul>
+            </div>
+            <div class="row">
+              <header>Header</header>
+              <ul class="mega-links">
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-side--links">
+      <a class="nav-side--link" href="#">
+        <img src="{{ url_for('static', filename='images/icon-account.svg') }}" />
+      </a>
+      <a class="nav-side--link" href="#">
+        <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
+      </a>
+    </div>
+  </div>
+</nav>

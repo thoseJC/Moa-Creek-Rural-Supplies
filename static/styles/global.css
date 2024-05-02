@@ -1,0 +1,20 @@
+:root {
+  --bg-header: #3D8361;
+  --darker-bg: #1C6758;
+  --link-hover: #289672;
+  --light-white: #FAFAFA;
+}
+
+* {
+  font-family: "Abel", sans-serif;
+}
+
+section.content {
+  padding-top: 86px;
+}
+
+@media (max-width: 1024px) {
+  section.content {
+    padding-top: 0;
+  }
+}
