@@ -12,9 +12,3 @@
 section.content {
   padding-top: 86px;
 }
-
-@media (max-width: 1024px) {
-  section.content {
-    padding-top: 0;
-  }
-}
