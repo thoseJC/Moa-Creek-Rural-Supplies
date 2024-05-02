@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/section-header.css') }}">
+
+<div class="section-header">
+  {% if section_header != '' %}
+  <div class="section-header--title">{{ section_header }}</div>
+  {% endif %}
+  {% if section_description != '' %}
+  <div class="section-header--description">{{ section_description }}</div>
+  {% endif %}
+</div>
