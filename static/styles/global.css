@@ -1,6 +1,7 @@
 @import url('category-card.css');
 @import url('product-card.css');
 @import url('footer.css');
+@import url('hero-section.css');
 
 :root {
   --bg-header: #a5d4e5;
