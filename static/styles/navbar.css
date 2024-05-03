@@ -19,7 +19,7 @@
 }
 
 .wrapper .logo a {
-  color: var(--light-white);
+  color: var(--black);
   font-size: 16px;
   text-decoration: none;
   display: flex;
@@ -41,7 +41,7 @@
 }
 
 .nav-links li a {
-  color: var(--light-white);
+  color: var(--black);
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
@@ -116,7 +116,7 @@
 }
 
 .content .row header {
-  color: var(--light-white);
+  color: var(--black);
   font-size: 20px;
   font-weight: 500;
 }
@@ -133,7 +133,7 @@
 .row .mega-links li a {
   padding: 0px;
   padding: 0 20px;
-  color: var(--light-white);
+  color: var(--black);
   font-size: 17px;
   display: block;
 }
@@ -143,7 +143,7 @@
 }
 
 .wrapper .btn {
-  color: var(--light-white);
+  color: var(--black);
   font-size: 20px;
   cursor: pointer;
   display: none;
@@ -200,8 +200,8 @@
 
   .btn.close-btn:active,
   .btn.menu-btn:active {
-    color: var(--light-white);
-    border-color: var(--light-white);
+    color: var(--black);
+    border-color: var(--black);
   }
 
   .btn.close-btn:active:focus-visible,
@@ -251,7 +251,7 @@
 
   .nav-links .mobile-item {
     display: block;
-    color: var(--light-white);
+    color: var(--black);
     font-size: 20px;
     font-weight: 500;
     padding-left: 20px;
