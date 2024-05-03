@@ -5,6 +5,7 @@
   --darker-bg: #1C6758;
   --link-hover: #289672;
   --light-white: #FAFAFA;
+  --black: #252526;
 }
 
 * {
@@ -13,4 +14,33 @@
 
 section.content {
   padding-top: 86px;
+}
+
+.common-btn--text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--black);
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:hover {
+  color: var(--link-hover);
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:hover:after {
+  border-color: var(--link-hover);
+  transition: all 0.3s ease;
 }

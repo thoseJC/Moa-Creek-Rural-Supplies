@@ -6,17 +6,26 @@
 {% block content %}
 
 <div class="home-container">
-  {% set section_header = 'Shop most popular collections' %}
-  {% set section_description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." %}
-  {% include "components/section-header.html" %}
 
-  <category-cards>
-    <div class="category-cards" id="home-category-cards">
-      {% include "components/category-card.html" %}
-      {% include "components/category-card.html" %}
-      {% include "components/category-card.html" %}
-      {% include "components/category-card.html" %}
-    </div>
-  </category-cards>
+  <!-- 'Most Popular Collections Section' - Begin -->
+  <div class="container">
+    {% set section_header = 'Shop most popular collections' %}
+    {% set section_description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." %}
+    {% include "components/section-header.html" %}
+
+    <category-cards>
+      <div class="category-cards" id="home-category-cards">
+        {% include "components/category-card.html" %}
+        {% include "components/category-card.html" %}
+        {% include "components/category-card.html" %}
+        {% include "components/category-card.html" %}
+      </div>
+    </category-cards>
+  </div>
+  <!-- 'Most Popular Collections' Section - End -->
+
+  <!-- 'Two Big Collection Cards' Section - Begin -->
+  {% include "components/two-big-collection-cards.html" %}
+  <!-- 'Two Big Collection Cards' Section - End -->
 </div>
 {% endblock %}
