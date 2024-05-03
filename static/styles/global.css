@@ -1,0 +1,72 @@
+@import url('category-card.css');
+@import url('product-card.css');
+@import url('footer.css');
+@import url('hero-section.css');
+
+:root {
+  --bg-header: #a5d4e5;
+  --darker-bg: #57bfe6;
+  --link-hover: #74c7e5;
+  --light-white: #FAFAFA;
+  --black: #252526;
+}
+
+* {
+  font-family: "Abel", sans-serif;
+}
+
+section.content {
+  padding-top: 86px;
+}
+
+.common-btn--text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--black);
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:hover {
+  color: var(--link-hover);
+  transition: all 0.3s ease;
+}
+
+.common-btn--text:hover:after {
+  border-color: var(--link-hover);
+  transition: all 0.3s ease;
+}
+
+.flickity-button.flickity-prev-next-button {
+  width: 20px;
+  height: 20px;
+}
+
+.flickity-button.flickity-prev-next-button.previous {
+  left: -20px;
+}
+
+.flickity-button.flickity-prev-next-button.next {
+  right: -20px;
+}
+
+@media (max-width: 1024px) {
+  .flickity-button.flickity-prev-next-button.previous {
+    left: 0;
+  }
+  
+  .flickity-button.flickity-prev-next-button.next {
+    right: 0;
+  }
+}
