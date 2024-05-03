@@ -184,4 +184,8 @@
   .category-cards .flickity-button.next {
     right: 0;
   }
+
+  .category-cards {
+    padding: 0 20px;
+  }
 }

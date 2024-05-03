@@ -59,3 +59,13 @@ section.content {
 .flickity-button.flickity-prev-next-button.next {
   right: -20px;
 }
+
+@media (max-width: 1024px) {
+  .flickity-button.flickity-prev-next-button.previous {
+    left: 0;
+  }
+  
+  .flickity-button.flickity-prev-next-button.next {
+    right: 0;
+  }
+}

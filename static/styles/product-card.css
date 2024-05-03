@@ -61,3 +61,14 @@
   font-size: 0.875rem;
   color: var(--black);
 }
+
+@media (max-width: 1024px) {
+  .product-cards {
+    padding: 0 10px;
+  }
+
+  .product-card {
+    width: 50%;
+    padding: 5px 10px;
+  }
+}

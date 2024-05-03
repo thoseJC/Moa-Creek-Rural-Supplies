@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px;
 }
 
 .collection-card--content-title {
@@ -38,4 +38,14 @@
 .collection-card--content-des {
   font-size: 0.875rem;
   margin-bottom: 5px;
+}
+
+@media (max-width: 1024px) {
+  .collection-cards {
+    flex-direction: column;
+  }
+
+  .collection-cards--container .collection-card {
+    width: 100%;
+  }
 }
