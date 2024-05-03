@@ -1,10 +1,11 @@
 @import url('category-card.css');
 @import url('product-card.css');
+@import url('footer.css');
 
 :root {
-  --bg-header: #3D8361;
-  --darker-bg: #1C6758;
-  --link-hover: #289672;
+  --bg-header: #a5d4e5;
+  --darker-bg: #57bfe6;
+  --link-hover: #74c7e5;
   --light-white: #FAFAFA;
   --black: #252526;
 }
