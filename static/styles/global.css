@@ -1,4 +1,5 @@
 @import url('category-card.css');
+@import url('product-card.css');
 
 :root {
   --bg-header: #3D8361;
@@ -43,4 +44,17 @@ section.content {
 .common-btn--text:hover:after {
   border-color: var(--link-hover);
   transition: all 0.3s ease;
+}
+
+.flickity-button.flickity-prev-next-button {
+  width: 20px;
+  height: 20px;
+}
+
+.flickity-button.flickity-prev-next-button.previous {
+  left: -20px;
+}
+
+.flickity-button.flickity-prev-next-button.next {
+  right: -20px;
 }

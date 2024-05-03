@@ -27,5 +27,20 @@
   <!-- 'Two Big Collection Cards' Section - Begin -->
   {% include "components/two-big-collection-cards.html" %}
   <!-- 'Two Big Collection Cards' Section - End -->
+
+  <!-- 'Product Cards' Section - Begin -->
+  {% set section_header = 'Most Shopped' %}
+  {% set section_description = "" %}
+  {% include "components/section-header.html" %}
+  <product-cards class="product-cards--container">
+    <div class="product-cards">
+      {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %}
+    </div>
+  </product-cards>
+  <!-- 'Product Cards' Section - End -->
 </div>
 {% endblock %}
