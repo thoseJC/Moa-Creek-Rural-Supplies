@@ -1,5 +1,6 @@
 from app import app
 from flask_hashing import Hashing
+from flask import render_template
 
 
 hashing = Hashing(app)
@@ -14,5 +15,7 @@ def checkHashingValue(hashedPassword, passwordToCheck):
 def getSalt():
         return "kiwi"
 
+def goToLogin():
+        return render_template("/login.html")
 
 
