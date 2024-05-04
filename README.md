@@ -1,11 +1,24 @@
-# Locale developement #
+# Local developement #
 ### step 1: Create virtual development on local ###
 Follow this Tutorio : https://code.visualstudio.com/docs/python/tutorial-flask 
 
 ### step 2: Install project dependencies ###
 after create virtual enviroment susefully
 run command :
-``` pip install -r requirments.txt ```
+` pip install -r requirments.txt `
+
+### step 3: Create databse connect file ###
+1. create a file name `connect.py` in the same folder as ` app.py `
+2. add belows information into `connect.py ` file:
+   
+```
+    dbuser = "root" # Your MySQL username - likely 'root'
+    dbpass = "password" # ---- PUT YOUR PASSWORD HERE ----
+    dbhost = "localhost" 
+    dbport = "3306"
+    dbname = "MRCDB"
+```
+
 
 ## Moa Creek Rural Supplies Website and System Upgrade
 ### Project Overview
