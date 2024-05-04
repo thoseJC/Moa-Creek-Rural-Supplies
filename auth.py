@@ -8,7 +8,7 @@ app.secret_key = 'gemini'
 def hashPassword(userInput):
         return hashing.hash_value(userInput, salt="kiwi")
 
-def checkValue(hashedPassword, passwordToCheck):
+def checkHashingValue(hashedPassword, passwordToCheck):
         return hashing.check_value(hashedPassword,passwordToCheck, salt="kiwi")
 
 def getSalt():
