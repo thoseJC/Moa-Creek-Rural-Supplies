@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}MCRS - Categories{% endblock %}
+
+{% block content %}
+
+<category-cards>
+<div class="category-cards" id="home-category-cards">
+{% include 'components/category-card.html' %}
+{% include 'components/category-card.html' %}
+{% include 'components/category-card.html' %}
+{% include 'components/category-card.html' %} 
+</div>
+</category-cards>
+<br>
+<category-cards>
+    <div class="category-cards" id="home-category-cards">
+    {% include 'components/category-card.html' %}
+    {% include 'components/category-card.html' %}
+    {% include 'components/category-card.html' %}
+    {% include 'components/category-card.html' %} 
+    </div>
+    </category-cards>
+
+{% endblock %}
