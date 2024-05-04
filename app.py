@@ -1,11 +1,5 @@
 from flask import Flask
-from flask import render_template
-<<<<<<< Updated upstream
-app = Flask(__name__)
-=======
-
-from cursor import getCursor
->>>>>>> Stashed changes
+from flask import render_template  
 
 from customer import customer_page
 
