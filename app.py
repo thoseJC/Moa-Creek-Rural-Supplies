@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 app = Flask(__name__)
-from auth import hashPassword, getSalt, checkValue
+from auth import hashPassword, getSalt, checkHashingValue
 from cursor import getCursor
 from flask import session
 from flask import request
@@ -57,6 +57,7 @@ def login():
 		if user is not None:
 			user_password = user[2]
 			user_status = user[3]
+			# if checkHashingValue(user_password, user_password):
 			if user_password == password:
 				if user_status == 1:
 					session["user_id"] = user[0]

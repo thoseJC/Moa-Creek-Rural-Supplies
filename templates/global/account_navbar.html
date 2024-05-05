@@ -1,0 +1,21 @@
+<div class="account-navbar--container">
+  <ul>
+    <li class="{% if current_page == 'overview' %}active{% endif %}">
+      <a href="#">Overview</a>
+    </li>
+    
+    <!-- 'Addresses' feature is currently pending -->
+    <!-- <li class="{% if current_page == 'addresses' %}active{% endif %}">
+      <a href="#">Addresses</a>
+    </li> -->
+
+    <!-- 'Order History' feature is currently pending -->
+    <!-- <li class="{% if current_page == 'order-history' %}active{% endif %}">
+      <a href="#">Order History</a>
+    </li> -->
+
+    <li>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </li>
+  </ul>
+</div>
