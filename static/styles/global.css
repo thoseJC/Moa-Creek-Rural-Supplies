@@ -9,6 +9,7 @@
   --link-hover: #74c7e5;
   --light-white: #FAFAFA;
   --black: #252526;
+  --red: #d22d1e;
 }
 
 * {
@@ -21,7 +22,6 @@ section.content {
 
 .common-btn--text {
   font-size: 0.75rem;
-  text-transform: uppercase;
   text-decoration: none;
   color: var(--black);
   position: relative;
@@ -45,6 +45,21 @@ section.content {
 
 .common-btn--text:hover:after {
   border-color: var(--link-hover);
+  transition: all 0.3s ease;
+}
+
+.common-btn--border {
+  font-size: 1rem;
+  border-radius: 25px;
+  border: 1px solid var(--black);
+  height: 50px;
+  line-height: 50px;
+  background-color: var(--bg-header);
+  transition: all 0.3s ease;
+}
+
+.common-btn--border:hover {
+  background-color: var(--link-hover);
   transition: all 0.3s ease;
 }
 
