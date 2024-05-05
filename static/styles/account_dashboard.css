@@ -1,0 +1,78 @@
+.account-dashboard--container {
+  width: 100%;
+  max-width: 1024px;
+  padding: 100px 20px;
+  margin: 0 auto;
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .account-dashboard--container {
+    flex-direction: column;
+  }
+}
+
+.account-navbar--container {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .account-navbar--container {
+    width: 100%;
+    margin: 0 0 20px 0;
+  }
+}
+
+.account-navbar--container ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@media (max-width: 1024px) {
+  .account-navbar--container ul {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+.account-navbar--container .active a:after {
+  width: 100%;
+  left: 0;
+}
+
+.account-navbar--container a {
+  text-decoration: none;
+  color: var(--black);
+  font-size: 0.875rem;
+  position: relative;
+}
+
+.account-navbar--container a:hover:after {
+  width: 100%;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+.account-navbar--container a:after {
+  content: '';
+  width: 0;
+  border-bottom: 1px solid var(--black);
+  display: block;
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transition: all 0.3s ease;
+}
+
+.account-content--container {
+  background-color: var(--light-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 500px;
+}

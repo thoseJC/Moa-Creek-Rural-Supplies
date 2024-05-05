@@ -74,7 +74,19 @@ CREATE TABLE users (
     role_id INT,
     first_name VARCHAR(250) NOT NULL,
     last_name VARCHAR(250) NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
 );
+
+INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
+
+INSERT INTO users (user_id, role_id, first_name, last_name, username, email, password, status) 
+VALUES 
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'customer@customer.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE);
+
