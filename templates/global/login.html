@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
+
+{% extends "base.html" %}
+{% block title %}MCRS - Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="login-wrapper">
+    <div class="login-top--container">
+      <div class="login-header">Welcome</div>
+      <div class="login-des">Enjoy exclusive offers, curate your wishlist, save your personal details and manage your order history.</div>
+    </div>
+    <div class="login-bottom--container">
+      <form 
+        action="{{ url_for('login') }}"
+        method="POST"
+        autocomplete="off"
+      >
+        <input 
+          type="text"
+          name="username"
+          placeholder="Username"
+        />
+        <input 
+          type="password" 
+          name="password"
+          placeholder="Password"
+        />
+        <div class="form-error">{{ err_msg }}</div>
+        <button class="common-btn--border">SIGN IN</button>
+  
+        <div class="login-tip">
+          New Customer? <a href="#" class="common-btn--text">Create Account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
