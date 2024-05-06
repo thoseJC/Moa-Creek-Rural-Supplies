@@ -43,27 +43,39 @@ def login():
 		cursor = getCursor()
 		sql_query = """
 			SELECT 
-				users.role_id, 
-				users.username, 
-				users.password, 
-				users.status, 
-				user_roles.role_name
-			FROM users
-			JOIN user_roles ON users.role_id = user_roles.role_id
-			WHERE users.username = %s;
+				u.user_id,
+				u.role_id, 
+				u.username, 
+				u.password, 
+				u.status, 
+				ur.role_name,
+				u.first_name,
+				u.last_name,
+				COUNT(o.order_id) AS order_count
+			FROM 
+				users u
+			JOIN 
+    		user_roles ur ON u.role_id = ur.role_id
+			LEFT JOIN 
+    		orders o ON u.user_id = o.user_id
+			WHERE 
+    		u.username = %s;
 		"""
 		cursor.execute(sql_query, (username,))
 		user = cursor.fetchone()
 		if user is not None:
-			user_password = user[2]
-			user_status = user[3]
+			user_password = user[3]
+			user_status = user[4]
 			# if checkHashingValue(user_password, user_password):
 			if user_password == password:
 				if user_status == 1:
 					session["user_id"] = user[0]
 					session["logged_in"] = True
-					session["user_name"] = user[1]
-					session["user_role"] = user[4]
+					session["user_name"] = user[2]
+					session["user_role"] = user[5]
+					session["first_name"] = user[6]
+					session["last_name"] = user[7]
+					session["order_count"] = user[8]
 					user_role = session.get("user_role")
 					if user_role == 'manager':
 						return redirect(url_for('manager.dashboard'))

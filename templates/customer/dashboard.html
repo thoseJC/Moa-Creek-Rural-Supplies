@@ -1,1 +1,33 @@
-<div class="account-content--container">customer dashboard content - pending</div>
+<div class="account-content--container">
+
+  <div class="account-ccount--header">
+    Welcome / {{ user["first_name"] }} {{ user["last_name"] }}
+  </div>
+
+  {% if user["user_role"] == 'customer' %}
+  <div class="account-content--wrapper">
+    <div class="account-content--item">
+      <div class="account-content--title">ORDERS OVERVIEW</div>
+      <div class="account-content--des">
+        {% if user["order_count"] == 0 %}
+        <span>You haven't placed any orders yet.</span>
+        {% else %}
+        <span>You have {{ user["order_count"] }} orders.</span>
+        <span>
+          <a href="#" class="common-btn--text">Check your order history.</a>
+        </span>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- 'Address' display section is not completed yet -->
+    <!-- Pending on address table -->
+    <div class="account-content--item">
+      <div class="account-content--title">SHIPPING ADDRESS</div>
+      <div class="account-content--des">
+        <span>Display customer's default shipping address.</span>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

@@ -8,7 +8,13 @@ customer_page = Blueprint("customer", __name__, static_folder="static", template
 
 @customer_page.route("/dashboard")
 def dashboard():
-  user_role = session.get("user_role")
-  if session.get('logged_in') != True or user_role != 'customer':
+  user = {
+    "user_id": session.get("user_id"),
+    "user_role": session.get("user_role"),
+    "first_name": session.get("first_name"),
+    "last_name": session.get("last_name"),
+    "order_count": session.get("order_count")
+  }
+  if session.get('logged_in') != True or user["user_role"] != 'customer':
     return redirect(url_for('login'))
-  return render_template("global/account_dashboard.html", user_role=user_role)
+  return render_template("global/account_dashboard.html", user=user)
