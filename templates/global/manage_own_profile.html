@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/account_dashboard.css') }}">
+
+{% extends "base.html" %}
+{% block title %}MCRS - Manage Own Profile {% endblock %}
+
+{% block content %}
+
+<div class="account-dashboard--container">
+  {% set current_page = 'profile' %}
+  {% include 'global/account_navbar.html' %}
+
+
+  <div class="account-content--container">
+
+    <div class="account-ccount--header">
+      Profile / {{ user[0] }} {{ user[1] }}
+    </div>
+    
+    <form action="{{url_for('manage_own_profile')}}" class="global-form" method="POST">
+      <div class="form-field">
+        <label for="">First Name</label>
+        <input 
+          type="text" 
+          name="first_name" 
+          value="{% if user[0] %}{{ user[0] }}{% endif %}"
+          placeholder="First Name"
+        />
+      </div>
+      <div class="form-field">
+        <label for="">Last Name</label>
+        <input 
+          type="text" 
+          name="last_name" 
+          value="{% if user[1] %}{{ user[1] }}{% endif %}"
+          placeholder="Last Name"
+        />
+      </div>
+      <div class="form-field{% if msg_obj['email'] != '' %} with-error{% endif %}">
+        <label for="">Email</label>
+        <!-- Not use type="email" as using type="text" for email -->
+        <!-- will have way to demonstrate there is email validation -->
+        <input 
+          type="text" 
+          name="email" 
+          value="{% if user[2] %}{{ user[2] }}{% endif %}"
+          placeholder="Email"
+        />
+        <div>{{ msg_obj["email"] }}</div>
+      </div>
+      <div class="form-field{% if msg_obj['phone_number'] != '' %} with-error{% endif %}">
+        <label for="">Phone Number</label>
+        <input 
+          type="text" 
+          name="phone_number" 
+          value="{% if user[3] %}{{ user[3] }}{% endif %}"
+          placeholder="Phone Number"
+        />
+        <div>{{ msg_obj["phone_number"] }}</div>
+      </div>
+      <div class="form-field{% if msg_obj['success'] != '' %} with-success{% endif %}">
+        <div class="form-msg">{{ msg_obj["success"] }}</div>
+        <button type="submit" class="common-btn--border">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

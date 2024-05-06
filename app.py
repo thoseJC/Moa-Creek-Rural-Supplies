@@ -7,6 +7,7 @@ from flask import session
 from flask import request
 from flask import redirect
 from flask import url_for
+from validation import is_valid_email, is_valid_phone_number
 
 from manager import manager_page
 from customer import customer_page
@@ -101,3 +102,58 @@ def logout():
 	session.pop('user_name', None)
 	session.pop('user_role', None)
 	return redirect(url_for('home'))
+
+@app.route('/manage-own-profile', methods=['GET', 'POST'])
+def manage_own_profile():
+	msg_obj = {
+		"email": "",
+		"phone_number": "",
+		"success": ""
+	}
+	user_id = session.get("user_id")
+	cursor = getCursor()
+
+	if request.method == 'POST':
+		first_name = request.form.get('first_name')
+		last_name = request.form.get('last_name')
+		email = request.form.get('email')
+		phone_number = request.form.get('phone_number')
+		user = (first_name, last_name, email, phone_number)
+		check_status = True
+		if email and is_valid_email(email) != True:
+			check_status = False
+			msg_obj["email"] = "Please enter a correct email address!"
+		if phone_number and is_valid_phone_number(phone_number) != True:
+			check_status = False
+			msg_obj["phone_number"] = "Please enter a correct phone number!"
+		if check_status:
+			sql_query = """
+				UPDATE 
+					users
+				SET 
+					first_name = %s,
+					last_name = %s,
+					email = %s,
+					phone_number = %s
+				WHERE
+					user_id = %s;
+			"""
+			cursor.execute(sql_query, (first_name, last_name, email, phone_number, user_id,))
+			msg_obj["success"] = "Your profile has been updated successfully!"
+
+	else:
+		sql_query = """
+			SELECT 
+				first_name,
+				last_name,
+				email,
+				phone_number
+			FROM users
+			WHERE user_id = %s;
+		"""
+		cursor.execute(sql_query, (user_id,))
+		user = cursor.fetchone()
+
+	return render_template('global/manage_own_profile.html',
+		user=user, 
+		msg_obj=msg_obj)
