@@ -47,11 +47,11 @@ CREATE TABLE customers (
 
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
+    user_id varchar(36),
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'pending', -- Example statuses: pending, completed, cancelled
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE order_items (
@@ -78,6 +78,9 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT TRUE,
+    phone_number VARCHAR(20),
+    loyalty_points INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
 );
 
