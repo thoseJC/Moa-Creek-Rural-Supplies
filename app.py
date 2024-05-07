@@ -64,7 +64,9 @@ def login():
 		"""
 		cursor.execute(sql_query, (username,))
 		user = cursor.fetchone()
-		if user is not None:
+		if username == '' or password == '':
+			err_msg = "Please fill update the login form!"
+		elif user is not None:
 			user_password = user[3]
 			user_status = user[4]
 			# if checkHashingValue(user_password, user_password):
