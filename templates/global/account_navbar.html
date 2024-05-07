@@ -1,7 +1,19 @@
 <div class="account-navbar--container">
   <ul>
     <li class="{% if current_page == 'overview' %}active{% endif %}">
-      <a href="#">Overview</a>
+      {% if session["user_role"] == 'manager' %}
+      <a href="{{url_for('manager.dashboard')}}">Overview</a>
+      {% elif session["user_role"] == 'customer' %}
+      <a href="{{url_for('customer.dashboard')}}">Overview</a>
+      {% elif session["user_role"] == 'admin' %}
+      <a href="{{url_for('admin.dashboard')}}">Overview</a>
+      {% elif session["user_role"] == 'staff' %}
+      <a href="{{url_for('staff.dashboard')}}">Overview</a>
+      {% endif %}
+    </li>
+
+    <li class="{% if current_page == 'profile' %}active{% endif %}">
+      <a href="{{url_for('manage_own_profile')}}">Profile</a>
     </li>
     
     <!-- 'Addresses' feature is currently pending -->
