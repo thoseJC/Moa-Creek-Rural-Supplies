@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/account_dashboard.css') }}">
 
 {% extends "base.html" %}
-{% block title %}MCRS - {{ user_role | capitalize }} Dashboard {% endblock %}
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Dashboard {% endblock %}
 
 {% block content %}
 
@@ -9,13 +9,15 @@
   {% set current_page = 'overview' %}
   {% include 'global/account_navbar.html' %}
 
-  {% if user_role == 'customer' %}
+
+  {% set user = user %}
+  {% if user["user_role"] == 'customer' %}
     {% include 'customer/dashboard.html' %}
-  {% elif user_role == 'manager' %}
+  {% elif user["user_role"] == 'manager' %}
     {% include 'manager/dashboard.html' %}
-  {% elif user_role == 'admin' %}
+  {% elif user["user_role"] == 'admin' %}
     {% include 'admin/dashboard.html' %}
-  {% elif user_role == 'staff' %}
+  {% elif user["user_role"] == 'staff' %}
     {% include 'staff/dashboard.html' %}
   {% endif %}
 </div>

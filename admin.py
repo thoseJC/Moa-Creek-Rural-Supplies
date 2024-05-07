@@ -8,7 +8,11 @@ admin_page = Blueprint("admin", __name__, static_folder="static", template_folde
 
 @admin_page.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
-   user_role = session.get("user_role")
-   if session.get('logged_in') != True or user_role != 'admin':
+   user = {
+      "user_id": session.get("user_id"),
+      "user_role": session.get("user_role"),
+      "first_name": session.get("first_name")
+   }
+   if session.get('logged_in') != True or user["user_role"] != 'admin':
       return redirect(url_for('login'))
-   return render_template("global/account_dashboard.html", user_role = user_role)
+   return render_template("global/account_dashboard.html", user=user)

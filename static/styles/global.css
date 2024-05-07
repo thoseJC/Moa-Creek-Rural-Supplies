@@ -10,6 +10,7 @@
   --light-white: #FAFAFA;
   --black: #252526;
   --red: #d22d1e;
+  --green: #127d34;
 }
 
 * {
@@ -17,7 +18,7 @@
 }
 
 section.content {
-  padding-top: 86px;
+  padding-top: 85px;
 }
 
 .common-btn--text {
@@ -84,4 +85,52 @@ section.content {
   .flickity-button.flickity-prev-next-button.next {
     right: 0;
   }
+}
+
+.global-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+}
+
+.global-form .form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.global-form .form-field.with-error {
+  color: var(--red);
+}
+
+.global-form .form-field label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.global-form .form-field input {
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--black);
+  padding-left: 0;
+}
+
+.global-form .form-field input:focus {
+  outline: none;
+}
+
+.global-form .form-field.with-error input {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.global-form .form-field.with-success .form-msg {
+  text-align: center;
+  margin: 0 auto 5px auto;
+  color: var(--green);
+}
+
+.global-form .form-field .form-msg {
+  font-size: 0.85rem;
+  color: var(--red);
 }
