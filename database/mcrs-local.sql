@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS customers;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS address;
 
 
 CREATE TABLE categories (
@@ -34,20 +34,31 @@ CREATE TABLE inventory (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE customers (
-    customer_id int auto_increment PRIMARY KEY,
+
+CREATE TABLE user_roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE users (
+    user_id VARCHAR(36) PRIMARY KEY,
+    role_id INT,
+    first_name VARCHAR(250) NOT NULL,
+    last_name VARCHAR(250) NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    phone_number VARCHAR (20),
+    loyalty_points int DEFAULT 0,
     password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    phone_number VARCHAR(20),
-    loyalty_points INT DEFAULT 0,
+    status BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id varchar(36),
+    user_id VARCHAR(36),
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'pending', -- Example statuses: pending, completed, cancelled
@@ -82,6 +93,16 @@ CREATE TABLE users (
     loyalty_points INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
+CREATE TABLE address (
+    address_id int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(36) not NULL,
+    recipient_name VARCHAR(255) NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    suburb VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    phone_number INT NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
