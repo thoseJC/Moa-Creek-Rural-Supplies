@@ -81,18 +81,21 @@ CREATE TABLE user_roles (
 );
 
 CREATE TABLE users (
-    user_id varchar(36) PRIMARY KEY,
+    user_id VARCHAR(36) PRIMARY KEY,
     role_id INT,
     first_name VARCHAR(250) NOT NULL,
     last_name VARCHAR(250) NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    phone_number VARCHAR (20),
+    loyalty_points int DEFAULT 0,
     password VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT TRUE,
-    phone_number VARCHAR(20),
-    loyalty_points INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
+    address TEXT NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE address (
     address_id int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) not NULL,
