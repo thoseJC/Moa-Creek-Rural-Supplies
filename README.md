@@ -1,3 +1,4 @@
+![mcrs ERDs](COMP639S1_Project_2_Group_P\static\images\mcrs5.png "mcrs ERDs]")
 # Local developement #
 ### step 1: Create virtual development on local ###
 Follow this Tutorio : https://code.visualstudio.com/docs/python/tutorial-flask 
