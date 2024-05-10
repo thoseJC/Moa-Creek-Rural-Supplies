@@ -3,9 +3,11 @@ DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS inventory;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS address;
+DROP TABLE IF EXISTS invoice;
 
 
 CREATE TABLE categories (
@@ -50,19 +52,33 @@ CREATE TABLE users (
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
     password VARCHAR(255) NOT NULL,
+    address TEXT,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
+CREATE TABLE payment (
+    payment_id VARCHAR(36) primary KEY,
+    user_id VARCHAR(36) NOT NULL ,
+    total decimal(10,2) NOT NULL,
+    GST decimal(10,2) NOT NULL,
+    payment_type VARCHAR(20),
+    paid_date timestamp DEFAULT  CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
 CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(36),
+    order_id INT AUTO_INCREMENT PRIMARY key,
+    user_id VARCHAR(36) not null,
+    payment_id VARCHAR(36), -- use to define whether an order has been paid or not
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'pending', -- Example statuses: pending, completed, cancelled
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (payment_id) REFERENCES payment (payment_id)
 );
 
 CREATE TABLE order_items (
@@ -75,38 +91,17 @@ CREATE TABLE order_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE user_roles (
-    role_id INT AUTO_INCREMENT PRIMARY KEY,
-    role_name VARCHAR(255) NOT NULL UNIQUE
-);
-
-CREATE TABLE users (
-    user_id VARCHAR(36) PRIMARY KEY,
-    role_id INT,
-    first_name VARCHAR(250) NOT NULL,
-    last_name VARCHAR(250) NOT NULL,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    phone_number VARCHAR (20),
-    loyalty_points int DEFAULT 0,
-    password VARCHAR(255) NOT NULL,
-    status BOOLEAN DEFAULT TRUE,
-    address TEXT NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE address (
-    address_id int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(36) not NULL,
-    recipient_name VARCHAR(255) NOT NULL,
-    street VARCHAR(255) NOT NULL,
-    suburb VARCHAR(255) NOT NULL,
-    city VARCHAR(255) NOT NULL,
-    phone_number INT NOT NULL,
-    is_default BOOLEAN DEFAULT FALSE,
+CREATE TABLE invoice(
+    invoice_id VARCHAR(36) primary KEY,
+    user_id varchar(36) not NULL,
+    invoice_GST DECIMAL(10,2) not NULL,
+    invoice_total DECIMAL(10,2) NOT NULL,
+    invoice_date timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+
+
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
