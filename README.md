@@ -1,3 +1,4 @@
+![mcrs ERDs](static/images/mcrs8.png "mcrs ERDs")
 # Local developement #
 ### step 1: Create virtual development on local ###
 Follow this Tutorio : https://code.visualstudio.com/docs/python/tutorial-flask 
@@ -5,7 +6,7 @@ Follow this Tutorio : https://code.visualstudio.com/docs/python/tutorial-flask
 ### step 2: Install project dependencies ###
 after create virtual enviroment susefully
 run command :
-` pip install -r requirments.txt `
+` pip install -r requirements.txt `
 
 ### step 3: Create databse connect file ###
 1. create a file name `connect.py` in the same folder as ` app.py `
