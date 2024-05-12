@@ -78,3 +78,43 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
 );
+
+
+INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
+
+INSERT INTO users (user_id, role_id, first_name, last_name, username, email, password, status) 
+VALUES 
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'customer@customer.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE);
+
+
+INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
+('Animal Health Care', NULL, 'Products aimed at maintaining animal health.', 'images/category_image/animal_healthcare.jpg'),
+('Animal Feed & Nutrition', NULL, 'Nutritional products for various animals.', 'images/category_image/animal_health_care.jpg'),
+('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.', 'images/category_image/niuniu.jpg'),
+('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
+('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
+('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
+('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
+('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
+('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
+('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg'),
+('Garden Supplies', NULL, 'Tools and materials for gardening.', 'images/category_image/garden_supplies.jpg'),
+('Agrichemicals', NULL, 'Chemicals used in agriculture.', 'images/category_image/Agrichemicals.jpg'),
+('Machinery & Oil', NULL, 'Machines and oils for agricultural use.', 'images/category_image/Machinery & Oil.jpg'),
+('Pasture & Cropping', NULL, 'Products for pasture management and cropping.', 'images/category_image/Pasture & Cropping.jpg'),
+('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
+('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
+
+-- Inserting sub-categories for 'Animal Health Care'
+-- INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
+-- ('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
+-- ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
+
+
+
+
+
+>>>>>>> Stashed changes
