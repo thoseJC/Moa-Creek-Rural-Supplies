@@ -53,8 +53,8 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
-    password VARCHAR(255) NOT NULL,
-    address TEXT,
+    user_password VARCHAR(255) NOT NULL,
+    shipping_address TEXT,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -101,17 +101,6 @@ CREATE TABLE invoice(
     total DECIMAL(10,2) NOT NULL,
     invoice_date timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
-
-CREATE TABLE users (
-    user_id varchar(36) PRIMARY KEY,
-    role_id INT,
-    first_name VARCHAR(250) NOT NULL,
-    last_name VARCHAR(250) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES user_roles(role_id)
 );
 
 
