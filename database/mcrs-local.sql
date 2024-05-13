@@ -140,6 +140,9 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
 
 
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
+(8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
+(8, 'hat', 'hat', 22.00, 'product2.webp', 1);
 
 
 
