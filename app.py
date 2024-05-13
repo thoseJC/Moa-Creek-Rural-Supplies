@@ -7,6 +7,7 @@ from flask import session
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import flash
 from validation import is_valid_email, is_valid_phone_number
 
 from manager import manager_page
@@ -191,3 +192,40 @@ def show_product(product_id):
 	}
 
 	return render_template('product/product_info.html',product = product)
+ 
+ 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        phone_number = request.form.get('phoneNumber') or None
+        address = request.form.get('address') or None
+
+        if not is_valid_email(email):
+            return render_template('global/register.html', error="Invalid email format.")
+        if phone_number and not is_valid_phone_number(phone_number):
+            return render_template('global/register.html', error="Invalid phone number format.")
+
+        hashed_password = hashPassword(password)
+        cursor = getCursor()
+
+        try:
+            cursor.execute("""
+                INSERT INTO users (user_id, role_id, first_name, last_name, username, email, phone_number, loyalty_points, password, address, status)
+                VALUES (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), %s, %s, %s, %s, %s, 0, %s, %s, TRUE)
+            """, (first_name, last_name, username, email, phone_number, password, address))
+
+            flash('Registration successful!')
+            return redirect(url_for('login'))
+        except Exception as e:
+            flash(f'Registration failed: {str(e)}', 'error')
+            return render_template('global/register.html', error=str(e))
+        finally:
+            cursor.close()  
+
+    return render_template('global/register.html')
