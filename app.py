@@ -192,7 +192,43 @@ def show_product(product_id):
 	}
 
 	return render_template('product/product_info.html',product = product)
- 
+
+
+@app.route('/product/add', methods=['GET', 'POST'])
+def add_product():
+	category_id = request.args.get('category_id')
+	if category_id is not None:
+		category_id = int(category_id)  # Convert to integer if it's not None
+	if request.method == 'POST':
+        # Retrieve form data
+		name = request.form['name']
+		description = request.form['description']
+		price = request.form['price']
+		image_path = request.form['image_path']
+		category_id = request.form['category_id']
+
+		# Insert the new product into the database
+		cursor = getCursor()
+		sql_query = """
+			INSERT INTO products (name, description, price, pd_image_path, category_id, is_active)
+			VALUES (%s, %s, %s, %s, %s, %s)
+		"""
+		cursor.execute(sql_query, (name, description, price, image_path, category_id, 1))
+
+		# Redirect to the product info page of the newly added product
+		return redirect(url_for('show_product', product_id=cursor.lastrowid))
+	else:
+        # If it's a GET request, render the form to add a new product
+        # Retrieve category options from the database
+		cursor = getCursor()
+		sql_query = "SELECT category_id, name FROM categories;"
+		cursor.execute(sql_query)
+		categories = cursor.fetchall()
+		print(category_id)
+		return render_template('product/add_product.html', selected_category_id=category_id, categories=categories)
+
+
+
  
 
 @app.route('/register', methods=['GET', 'POST'])
