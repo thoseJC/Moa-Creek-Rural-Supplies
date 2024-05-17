@@ -1,10 +1,11 @@
 <div class="product-card">
   <div class="product-card--image">
-    <img src="{{ url_for('static', filename='images/product-card-img-one.webp') }}" alt="Product Image">
-    <img src="{{ url_for('static', filename='images/product-card-img-two.webp') }}" alt="Product Image">
+    <img src="{{ url_for('static', filename=image_path) }}" alt="Product Image">
   </div>
   <div class="product-card--content">
-    <div class="product-card--name">Product Name</div>
-    <div class="product-card--price">$199.99</div>
+    <div class="product-card--name">{{ product_Name }}</div>
+    <div class="product-card--price">{{ product_price }}</div>
   </div>
 </div>
+
+
