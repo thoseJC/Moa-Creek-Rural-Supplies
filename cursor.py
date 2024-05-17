@@ -13,5 +13,3 @@ def getCursor():
   database=connect.dbname, autocommit=True)
   dbconn = connection.cursor()
   return dbconn
-
-# sys.modules[__name__] = getCursor
