@@ -15,6 +15,9 @@ from customer import customer_page
 from admin import admin_page
 from staff import staff_page
 
+# import query function 
+from app_query import query_user_when_login, query_product_by_id,register_new_user,update_user_profile_query, get_user_profile_query
+
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
 app.register_blueprint(admin_page, url_prefix="/admin")
@@ -23,79 +26,64 @@ app.register_blueprint(staff_page, url_prefix="/staff")
 
 @app.route("/")
 def home():
-    return render_template('global/index.html')
+	return render_template('global/index.html')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-	err_msg = ""
-	if session.get("logged_in") == True:
-		user_role = session.get("user_role")
-		if user_role == 'manager':
-			return redirect(url_for('manager.dashboard'))
-		elif user_role == 'customer':
-			return redirect(url_for('customer.dashboard'))
-		elif user_role == 'admin':
-			return redirect(url_for('admin.dashboard'))
-		elif user_role == 'staff':
-			return redirect(url_for('staff.dashboard'))
-	
-	if request.method == 'POST':
-		username = request.form.get('username')
-		password = request.form.get('password')
-		cursor = getCursor()
-		sql_query = """
-			SELECT 
-				u.user_id,
-				u.role_id, 
-				u.username, 
-				u.password, 
-				u.status, 
-				ur.role_name,
-				u.first_name,
-				u.last_name,
-				COUNT(o.order_id) AS order_count
-			FROM 
-				users u
-			JOIN 
-    		user_roles ur ON u.role_id = ur.role_id
-			LEFT JOIN 
-    		orders o ON u.user_id = o.user_id
-			WHERE 
-    		u.username = %s;
-		"""
-		cursor.execute(sql_query, (username,))
-		user = cursor.fetchone()
-		if username == '' or password == '':
-			err_msg = "Please fill update the login form!"
-		elif user is not None:
-			user_password = user[3]
-			user_status = user[4]
-			# if checkHashingValue(user_password, user_password):
-			if user_password == password:
-				if user_status == 1:
-					session["user_id"] = user[0]
-					session["logged_in"] = True
-					session["user_name"] = user[2]
-					session["user_role"] = user[5]
-					session["first_name"] = user[6]
-					session["last_name"] = user[7]
-					session["order_count"] = user[8]
-					user_role = session.get("user_role")
-					if user_role == 'manager':
-						return redirect(url_for('manager.dashboard'))
-					elif user_role == 'customer':
-						return redirect(url_for('customer.dashboard'))
-					elif user_role == 'admin':
-						return redirect(url_for('admin.dashboard'))
-					elif user_role == 'staff':
-						return redirect(url_for('staff.dashboard'))
+	try:
+		err_msg = ""
+		if session.get("logged_in") == True:
+			user_role = session.get("user_role")
+			if user_role == 'manager':
+				return redirect(url_for('manager.dashboard'))
+			elif user_role == 'customer':
+				return redirect(url_for('customer.dashboard'))
+			elif user_role == 'admin':
+				return redirect(url_for('admin.dashboard'))
+			elif user_role == 'staff':
+				return redirect(url_for('staff.dashboard'))
+		
+		if request.method == 'POST':
+			username = request.form.get('username')
+			password = request.form.get('password')
+			cursor = getCursor()
+			sql_query = query_user_when_login()
+			cursor.execute(sql_query, (username,))
+			user = cursor.fetchone()
+			if username == '' or password == '':
+				err_msg = "Please fill update the login form!"
+			elif user is not None:
+				user_password = user[3]
+				user_status = user[4]
+				# if checkHashingValue(user_password, user_password):
+				if user_password == password:
+					if user_status == 1:
+						session["user_id"] = user[0]
+						session["logged_in"] = True
+						session["user_name"] = user[2]
+						session["user_role"] = user[5]
+						session["first_name"] = user[6]
+						session["last_name"] = user[7]
+						session["order_count"] = user[8]
+						user_role = session.get("user_role")
+						if user_role == 'manager':
+							return redirect(url_for('manager.dashboard'))
+						elif user_role == 'customer':
+							return redirect(url_for('customer.dashboard'))
+						elif user_role == 'admin':
+							return redirect(url_for('admin.dashboard'))
+						elif user_role == 'staff':
+							return redirect(url_for('staff.dashboard'))
+					else:
+						err_msg = "Your account is suspended, please contact the web administrator!"
 				else:
-					err_msg = "Your account is suspended, please contact the web administrator!"
+					err_msg = "Incorrect password, please try again!"
 			else:
-				err_msg = "Incorrect password, please try again!"
-		else:
-			err_msg = "The account doesn't exist, please check!"
-	return render_template('global/login.html', err_msg=err_msg)
+				err_msg = "The account doesn't exist, please check!"
+		return render_template('global/login.html', err_msg=err_msg)
+	except Exception as e:
+		print("@app.route(/login) : %s",e)
+		render_template('global/login.html', err_msg=e)
 
 
 @app.route('/logout')
@@ -130,30 +118,12 @@ def manage_own_profile():
 			check_status = False
 			msg_obj["phone_number"] = "Please enter a correct phone number!"
 		if check_status:
-			sql_query = """
-				UPDATE 
-					users
-				SET 
-					first_name = %s,
-					last_name = %s,
-					email = %s,
-					phone_number = %s
-				WHERE
-					user_id = %s;
-			"""
+			sql_query = update_user_profile_query()
 			cursor.execute(sql_query, (first_name, last_name, email, phone_number, user_id,))
 			msg_obj["success"] = "Your profile has been updated successfully!"
 
 	else:
-		sql_query = """
-			SELECT 
-				first_name,
-				last_name,
-				email,
-				phone_number
-			FROM users
-			WHERE user_id = %s;
-		"""
+		sql_query = get_user_profile_query()
 		cursor.execute(sql_query, (user_id,))
 		user = cursor.fetchone()
 
@@ -164,20 +134,7 @@ def manage_own_profile():
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
 	cursor = getCursor()
-	sql_query = """
-		SELECT 
-			p.product_id,
-			p.name,
-			p.description,
-			p.price,
-			p.pd_image_path,
-			c.name,
-			p.is_active
-		FROM products p 
-		JOIN categories c
-		ON p.category_id = c.category_id
-		WHERE p.product_id = %s;
-	"""
+	sql_query = query_product_by_id()
 	cursor.execute(sql_query, (product_id,))
 	fetched_product = cursor.fetchone()
 	product = {
@@ -197,35 +154,38 @@ def show_product(product_id):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        first_name = request.form.get('firstName')
-        last_name = request.form.get('lastName')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        phone_number = request.form.get('phoneNumber') or None
-        address = request.form.get('address') or None
+	try:
+		if request.method == 'POST':
+			username = request.form.get('username')
+			first_name = request.form.get('firstName')
+			last_name = request.form.get('lastName')
+			email = request.form.get('email')
+			password = request.form.get('password')
+			phone_number = request.form.get('phoneNumber') or None
+			address = request.form.get('address') or None
 
-        if not is_valid_email(email):
-            return render_template('global/register.html', error="Invalid email format.")
-        if phone_number and not is_valid_phone_number(phone_number):
-            return render_template('global/register.html', error="Invalid phone number format.")
+			if not is_valid_email(email):
+				return render_template('global/register.html', error="Invalid email format.")
+			if phone_number and not is_valid_phone_number(phone_number):
+				return render_template('global/register.html', error="Invalid phone number format.")
 
-        hashed_password = hashPassword(password)
-        cursor = getCursor()
+			hashed_password = hashPassword(password)
+			cursor = getCursor()
+			register_query = register_new_user()
 
-        try:
-            cursor.execute("""
-                INSERT INTO users (user_id, role_id, first_name, last_name, username, email, phone_number, loyalty_points, password, address, status)
-                VALUES (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), %s, %s, %s, %s, %s, 0, %s, %s, TRUE)
-            """, (first_name, last_name, username, email, phone_number, password, address))
+			try:
+				cursor.execute(register_query
+				, (first_name, last_name, username, email, phone_number, password, address))
 
-            flash('Registration successful!')
-            return redirect(url_for('login'))
-        except Exception as e:
-            flash(f'Registration failed: {str(e)}', 'error')
-            return render_template('global/register.html', error=str(e))
-        finally:
-            cursor.close()  
+				flash('Registration successful!')
+				return redirect(url_for('login'))
+			except Exception as e:
+				flash(f'Registration failed: {str(e)}', 'error')
+				return render_template('global/register.html', error=str(e))
+			finally:
+				cursor.close()  
 
-    return render_template('global/register.html')
+		return render_template('global/register.html')
+	except Exception as e:
+		print("@app.route('/register'): %s",e)
+		return render_template('global/register.html', error_msg = e)
