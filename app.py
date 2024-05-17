@@ -9,6 +9,7 @@ from flask import redirect
 from flask import url_for
 from flask import flash
 from validation import is_valid_email, is_valid_phone_number
+from login_helper import redirect_by_role, setUp_session
 
 from manager import manager_page
 from customer import customer_page
@@ -34,15 +35,7 @@ def login():
 		err_msg = ""
 		if session.get("logged_in") == True:
 			user_role = session.get("user_role")
-			if user_role == 'manager':
-				return redirect(url_for('manager.dashboard'))
-			elif user_role == 'customer':
-				return redirect(url_for('customer.dashboard'))
-			elif user_role == 'admin':
-				return redirect(url_for('admin.dashboard'))
-			elif user_role == 'staff':
-				return redirect(url_for('staff.dashboard'))
-		
+			return redirect_by_role(user_role)
 		if request.method == 'POST':
 			username = request.form.get('username')
 			password = request.form.get('password')
@@ -50,37 +43,20 @@ def login():
 			sql_query = query_user_when_login()
 			cursor.execute(sql_query, (username,))
 			user = cursor.fetchone()
-			if username == '' or password == '':
-				err_msg = "Please fill update the login form!"
-			elif user is not None:
-				user_password = user[3]
-				user_status = user[4]
+			if user == None:
+				return render_template('global/login.html', err_msg="User Not Exist")
+			user_password = user[3]
+			user_status = user[4]
 				# if checkHashingValue(user_password, user_password):
-				if user_password == password:
-					if user_status == 1:
-						session["user_id"] = user[0]
-						session["logged_in"] = True
-						session["user_name"] = user[2]
-						session["user_role"] = user[5]
-						session["first_name"] = user[6]
-						session["last_name"] = user[7]
-						session["order_count"] = user[8]
-						user_role = session.get("user_role")
-						if user_role == 'manager':
-							return redirect(url_for('manager.dashboard'))
-						elif user_role == 'customer':
-							return redirect(url_for('customer.dashboard'))
-						elif user_role == 'admin':
-							return redirect(url_for('admin.dashboard'))
-						elif user_role == 'staff':
-							return redirect(url_for('staff.dashboard'))
-					else:
-						err_msg = "Your account is suspended, please contact the web administrator!"
-				else:
-					err_msg = "Incorrect password, please try again!"
-			else:
-				err_msg = "The account doesn't exist, please check!"
-		return render_template('global/login.html', err_msg=err_msg)
+			if user_password != password:
+				return render_template('global/login.html', err_msg="Password Not Correct")
+			if user_status != 1:
+					return render_template('global/login.html', err_msg="Account Suspended")
+			setUp_session(user)
+			user_role = session.get("user_role")
+			return redirect_by_role(user_role)
+		else:
+			return render_template('global/login.html', err_msg=err_msg)
 	except Exception as e:
 		print("@app.route(/login) : %s",e)
 		render_template('global/login.html', err_msg=e)
@@ -101,35 +77,44 @@ def manage_own_profile():
 		"phone_number": "",
 		"success": ""
 	}
-	user_id = session.get("user_id")
-	cursor = getCursor()
+	try:
+		user_id = session.get("user_id")
+		cursor = getCursor()
 
-	if request.method == 'POST':
-		first_name = request.form.get('first_name')
-		last_name = request.form.get('last_name')
-		email = request.form.get('email')
-		phone_number = request.form.get('phone_number')
-		user = (first_name, last_name, email, phone_number)
-		check_status = True
-		if email and is_valid_email(email) != True:
-			check_status = False
-			msg_obj["email"] = "Please enter a correct email address!"
-		if phone_number and is_valid_phone_number(phone_number) != True:
-			check_status = False
-			msg_obj["phone_number"] = "Please enter a correct phone number!"
-		if check_status:
-			sql_query = update_user_profile_query()
-			cursor.execute(sql_query, (first_name, last_name, email, phone_number, user_id,))
-			msg_obj["success"] = "Your profile has been updated successfully!"
+		if request.method == 'POST':
+			first_name = request.form.get('first_name')
+			last_name = request.form.get('last_name')
+			email = request.form.get('email')
+			phone_number = request.form.get('phone_number')
+			user_password = request.form.get("first_password")
+			print("password : %s", user_password)
+			user = (first_name, last_name, email, phone_number)
+			check_status = True
+			if email and is_valid_email(email) != True:
+				check_status = False
+				msg_obj["email"] = "Please enter a correct email address!"
+			if phone_number and is_valid_phone_number(phone_number) != True:
+				check_status = False
+				msg_obj["phone_number"] = "Please enter a correct phone number!"
+			if check_status:
+				sql_query = update_user_profile_query()
+				cursor.execute(sql_query, (first_name, last_name, email, phone_number, user_id,))
+				msg_obj["success"] = "Your profile has been updated successfully!"
 
-	else:
-		sql_query = get_user_profile_query()
-		cursor.execute(sql_query, (user_id,))
-		user = cursor.fetchone()
+		else:
+			sql_query = get_user_profile_query()
+			cursor.execute(sql_query, (user_id,))
+			user = cursor.fetchone()
 
-	return render_template('global/manage_own_profile.html',
-		user=user, 
-		msg_obj=msg_obj)
+		return render_template('global/manage_own_profile.html',
+			user=user, 
+			msg_obj=msg_obj)
+	except Exception as e:
+		print("def manage_own_profile(): %s", e)
+		return render_template('global/manage_own_profile.html',
+			user=user, 
+			msg_obj=msg_obj, error_msg = e)
+
 
 @app.route('/product/<int:product_id>')
 def show_product(product_id):
