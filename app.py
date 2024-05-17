@@ -1,66 +1,36 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask,session,request,redirect,url_for,flash,render_template
 app = Flask(__name__)
 from auth import hashPassword, getSalt, checkHashingValue
 from cursor import getCursor
-from flask import session
-from flask import request
-from flask import redirect
-from flask import url_for
-from flask import flash
 from validation import is_valid_email, is_valid_phone_number
-from login_helper import redirect_by_role, setUp_session
-
 from manager import manager_page
 from customer import customer_page
 from admin import admin_page
 from staff import staff_page
+from product import product_page
+from order import order_page
+from message import message_page
+from login import login_page
+from register import register_page
 
 # import query function 
-from app_query import query_user_when_login, query_product_by_id,register_new_user,update_user_profile_query, get_user_profile_query
+from app_query import query_product_by_id,register_new_user,update_user_profile_query, get_user_profile_query
+
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
 app.register_blueprint(admin_page, url_prefix="/admin")
 app.register_blueprint(staff_page, url_prefix="/staff")
+app.register_blueprint(product_page, url_prefix="/product")
+app.register_blueprint(order_page, url_prefix="/order")
+app.register_blueprint(message_page, url_prefix="/message")
+app.register_blueprint(login_page, url_prefix="/login")
+app.register_blueprint(register_page, url_prefix="/register")
 
 
 @app.route("/")
 def home():
 	return render_template('global/index.html')
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-	try:
-		err_msg = ""
-		if session.get("logged_in") == True:
-			user_role = session.get("user_role")
-			return redirect_by_role(user_role)
-		if request.method == 'POST':
-			username = request.form.get('username')
-			password = request.form.get('password')
-			cursor = getCursor()
-			sql_query = query_user_when_login()
-			cursor.execute(sql_query, (username,))
-			user = cursor.fetchone()
-			if user == None:
-				return render_template('global/login.html', err_msg="User Not Exist")
-			user_password = user[3]
-			user_status = user[4]
-				# if checkHashingValue(user_password, user_password):
-			if user_password != password:
-				return render_template('global/login.html', err_msg="Password Not Correct")
-			if user_status != 1:
-					return render_template('global/login.html', err_msg="Account Suspended")
-			setUp_session(user)
-			user_role = session.get("user_role")
-			return redirect_by_role(user_role)
-		else:
-			return render_template('global/login.html', err_msg=err_msg)
-	except Exception as e:
-		print("@app.route(/login) : %s",e)
-		render_template('global/login.html', err_msg=e)
-
 
 @app.route('/logout')
 def logout():
@@ -111,9 +81,7 @@ def manage_own_profile():
 			msg_obj=msg_obj)
 	except Exception as e:
 		print("def manage_own_profile(): %s", e)
-		return render_template('global/manage_own_profile.html',
-			user=user, 
-			msg_obj=msg_obj, error_msg = e)
+		return render_template('global/manage_own_profile.html',user=user, msg_obj=msg_obj, error_msg = e)
 
 
 @app.route('/product/<int:product_id>')
