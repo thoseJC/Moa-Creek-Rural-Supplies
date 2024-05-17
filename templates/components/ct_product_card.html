@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/categories_page.css') }}">
+
+<div class="grid-container">
+  <div class="grid-item">
+    <img src="{{ url_for('static', filename=image_path) }}" alt="Product Image">
+  <div class="overlay">
+    <div class="product-card--name">{{ product_Name }}</div>
+    <div class="product-card--price">{{ product_price }}</div>
+  </div>
+</div>
+</div>
+
+
