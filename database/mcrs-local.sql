@@ -53,8 +53,8 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
-    password VARCHAR(255) NOT NULL,
-    address TEXT,
+    user_password VARCHAR(255) NOT NULL,
+    shipping_address TEXT,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -104,8 +104,6 @@ CREATE TABLE invoice(
 );
 
 
-
-
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
 INSERT INTO users (user_id, role_id, first_name, last_name, username, email, password, status) 
@@ -122,7 +120,7 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.', 'images/category_image/niuniu.jpg'),
 ('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
 ('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
-('Water', NULL, 'Water management supplies.', 'images/category_image/images/water.jpg'),
+('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
 ('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
 ('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
 ('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
@@ -135,14 +133,16 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
-INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
-('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
-('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
+
+-- INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
+-- ('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
+-- ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
 
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
 (8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
 (8, 'hat', 'hat', 22.00, 'product2.webp', 1);
+
 
 
 
