@@ -38,8 +38,8 @@
   {% include "components/section-header.html" %}
   <product-cards class="product-cards--container">
     <div class="product-cards">
-      {% include "components/product-card.html" %}<a href="{{ url_for('show_product', product_id=1 )}}"><p>Link</p></a>
-      {% include "components/product-card.html" %}<a href="{{ url_for('show_product', product_id=2 )}}"><p>Link</p></a>
+      {% include "components/product-card.html" %}<a href="{{ url_for('product_page.show_product', product_id=1 )}}"><p>Link</p></a>
+      {% include "components/product-card.html" %}<a href="{{ url_for('product_page.show_product', product_id=2 )}}"><p>Link</p></a>
       {% include "components/product-card.html" %}
       {% include "components/product-card.html" %}
       {% include "components/product-card.html" %}
