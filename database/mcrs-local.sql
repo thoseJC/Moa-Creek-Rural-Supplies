@@ -11,11 +11,6 @@ DROP TABLE IF EXISTS user_roles;
 
 
 
-DROP TABLE IF EXISTS address;
-DROP TABLE IF EXISTS shipping_address;
-
-
-
 CREATE TABLE categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT NULL,
@@ -68,11 +63,12 @@ CREATE TABLE users (
 
 
 CREATE TABLE payment (
-    payment_id VARCHAR(36) primary KEY,
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL ,
     total decimal(10,2) NOT NULL,
     payment_type VARCHAR(20),
     GST decimal(10,2) NOT NULL,
+    freight DECIMAL(10,2),
     paid_date timestamp DEFAULT  CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -81,11 +77,12 @@ CREATE TABLE payment (
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY key,
     user_id VARCHAR(36) not null,
-    payment_id VARCHAR(36), -- use to define whether an order has been paid or not
+    payment_id INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
     GST decimal(10,2) NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending', -- Example statuses: pending, completed, cancelled
+    freight DECIMAL(10,2),
+    status VARCHAR(50) DEFAULT 'Pending', -- Example statuses: Pending, Prepared, Ready for Delivery, Delivered, Cancelled
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (payment_id) REFERENCES payment (payment_id)
 );
@@ -101,9 +98,10 @@ CREATE TABLE order_items (
 );
 
 CREATE TABLE invoice(
-    invoice_id VARCHAR(36) primary KEY,
+    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id varchar(36) not NULL,
     GST DECIMAL(10,2) not NULL,
+    freight DECIMAL(10,2),
     total DECIMAL(10,2) NOT NULL,
     invoice_date timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
