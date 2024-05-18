@@ -3,6 +3,8 @@ from cursor import getCursor
 from flask import session
 from flask import render_template
 
+from customer_query import category_list_query
+
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
 
 @customer_page.route("/dashboard")
@@ -20,4 +22,9 @@ def dashboard():
 
 @customer_page.route("/categories")
 def categories():
-  return "to be finishsed"
+    connection = getCursor()
+    sql_query = category_list_query()
+    connection.execute(sql_query)
+    categories_list = connection.fetchall()
+
+    return render_template("global/categories.html", categories_list=categories_list)
