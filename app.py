@@ -15,7 +15,7 @@ from register import register_page
 from user_profile import profile_page
 
 # import query function 
-from app_query import query_product_by_id,register_new_user,update_user_profile_query, get_user_profile_query
+from app_query import register_new_user,update_user_profile_query, get_user_profile_query
 
 
 app.register_blueprint(manager_page, url_prefix="/manager")

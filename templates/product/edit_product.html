@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+    <form method="post">
+        <!-- Name -->
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ product.name }} "required>
+        </div>
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" required>{{ product.description }}</textarea>
+        </div>
+        <!-- Price -->
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required>
+        </div>
+        <!-- Image Path -->
+        <div class="form-group">
+            <label for="image_path">Image Path:</label>
+            <input type="text" class="form-control" id="image_path" name="image_path" value="{{ product.image }}" required>
+        </div>
+        <!-- Category -->
+        <div class="form-group">
+            <label for="category_id">Category:</label>
+            <select class="form-control" id="category_id" name="category_id" required>
+                {% for category in categories %}
+                    <option value="{{ category[0] }}" {% if category[0] == product.category_id %} selected {% endif %}>{{ category[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+    <form action="{{ url_for('product_page.delete_product', product_id=product.id) }}" method="post">
+        <button type="submit" class="btn btn-danger">Delete Product</button>
+    </form>
+    <div class="form-error">{{ err_msg }}</div>
+</div>
+</div>
+</div>
+{% endblock %}
