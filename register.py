@@ -32,7 +32,7 @@ def register():
 				, (first_name, last_name, username, email, phone_number, password, address))
 
 				flash('Registration successful!')
-				return redirect(url_for('login'))
+				return redirect(url_for('login_page.login'))
 			except Exception as e:
 				flash(f'Registration failed: {str(e)}', 'error')
 				return render_template('register.html', error=str(e))

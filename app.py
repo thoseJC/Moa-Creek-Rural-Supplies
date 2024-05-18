@@ -30,17 +30,19 @@ app.register_blueprint(register_page, url_prefix="/register")
 app.register_blueprint(profile_page, url_prefix="/profile")
 
 
+
 @app.route("/")
 def home():
 	return render_template('global/index.html')
 
 @app.route('/logout')
 def logout():
-	session.pop('user_id', None)
-	session.pop('logged_in', None)
-	session.pop('user_name', None)
-	session.pop('user_role', None)
-	return redirect(url_for('home'))
+    session.pop('user_id', None)
+    session.pop('logged_in', None)
+    session.pop('user_name', None)
+    session.pop('user_role', None)
+    return redirect(url_for('home'))
+
 
 
 
