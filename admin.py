@@ -3,7 +3,6 @@ from cursor import getCursor
 from flask import session
 from flask import render_template
 
-# from app import app
 admin_page = Blueprint("admin", __name__, static_folder="static", template_folder="templates/admin")
 
 @admin_page.route("/dashboard", methods=['GET', 'POST'])
@@ -14,5 +13,5 @@ def dashboard():
       "first_name": session.get("first_name")
    }
    if session.get('logged_in') != True or user["user_role"] != 'admin':
-      return redirect(url_for('login'))
+      return redirect(url_for('login_page.login'))
    return render_template("global/account_dashboard.html", user=user)
