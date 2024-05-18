@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/order_management.css') }}"/>
+
+{% extends "base.html" %} 
+{% block content %}
+<h1>Order Management</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Total</th>
+            <th>GST</th>
+            <th>Order Date</th>
+            <th>Order Status</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for ords in orders_list %}
+        <tr>
+            <td>{{ ords[0] }}</td>
+            <td>{{ ords[1] }}</td>
+            <td>{{ ords[7] }}</td>
+            <td>{{ ords[8] }}</td>
+            <td>{{ ords[4] }}</td>
+            <td>{{ ords[5] }}</td>
+            <td>{{ ords[3] }}</td>
+            <td>{{ ords[6] }}</td>
+            <td>
+                <form action="{{ url_for('staff.update_order_status') }}">
+
+                    <input type="hidden" name="order_id" value="{{ ords[0] }}">
+                    <select name="order_status">
+                        <option value="Pending" {% if ords[6] == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Prepared" {% if ords[6] == 'Prepared' %}selected{% endif %}>Prepared</option>
+                        <option value="Ready for Delivery" {% if ords[6] == 'Ready for Delivery' %}selected{% endif %}>Ready for Delivery</option>
+                        <option value="Delivered" {% if ords[6] == 'Delivered' %}selected{% endif %}>Delivered</option>
+                        <option value="Cancelled" {% if ords[6] =='Cancelled' %}selected{% endif %}>Cancelled</option>
+                    </select>
+
+                    <button type="submit"> Update Status </button>
+
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{% endblock %}

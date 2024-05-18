@@ -1,4 +1,5 @@
-from flask import Flask,session,request,redirect,url_for,flash,render_template
+from flask import Flask, session, request, redirect, url_for, flash, render_template
+
 app = Flask(__name__)
 from auth import hashPassword, getSalt, checkHashingValue
 from cursor import getCursor
@@ -15,8 +16,7 @@ from register import register_page
 from user_profile import profile_page
 
 # import query function 
-from app_query import register_new_user,update_user_profile_query, get_user_profile_query
-
+from app_query import register_new_user, update_user_profile_query, get_user_profile_query
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
@@ -30,10 +30,10 @@ app.register_blueprint(register_page, url_prefix="/register")
 app.register_blueprint(profile_page, url_prefix="/profile")
 
 
-
 @app.route("/")
 def home():
-	return render_template('global/index.html')
+    return render_template('global/index.html')
+
 
 @app.route('/logout')
 def logout():
@@ -42,8 +42,3 @@ def logout():
     session.pop('user_name', None)
     session.pop('user_role', None)
     return redirect(url_for('home'))
-
-
-
-
- 
