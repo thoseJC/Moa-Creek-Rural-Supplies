@@ -1,13 +1,19 @@
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS payment;
-DROP TABLE IF EXISTS orders;
+
 DROP TABLE IF EXISTS order_items;
-DROP TABLE IF EXISTS address;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS inventory;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS invoice;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_roles;
+
+
+
+DROP TABLE IF EXISTS address;
+DROP TABLE IF EXISTS shipping_address;
+
 
 
 CREATE TABLE categories (
@@ -106,7 +112,7 @@ CREATE TABLE invoice(
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
-INSERT INTO users (user_id, role_id, first_name, last_name, username, email, password, status) 
+INSERT INTO users (user_id, role_id, first_name, last_name, username, email, user_password, status) 
 VALUES 
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'customer@customer.com', '123456', TRUE),
@@ -133,7 +139,16 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
+
 -- INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 -- ('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
 -- ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
+
+
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
+(8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
+(8, 'hat', 'hat', 22.00, 'product2.webp', 1);
+
+
+
 

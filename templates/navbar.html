@@ -1,17 +1,27 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/navbar.css') }}"
+/>
 
 <nav class="navbar">
   <div class="wrapper">
-    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+    <label for="menu-btn" class="btn menu-btn"
+      ><i class="fas fa-bars"></i
+    ></label>
     <div class="logo">
       <a href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="Logo" width="30" height="30">
+        <img
+          src="{{ url_for('static', filename='images/icon-logo.png') }}"
+          alt="Logo"
+          width="30"
+          height="30"
+        />
         <span class="logo-content--desktop">Moa Creek Rural Supplies</span>
         <span class="logo-content--mobile">MCRS</span>
       </a>
     </div>
-    <input type="radio" name="slider" id="menu-btn">
-    <input type="radio" name="slider" id="close-btn">
+    <input type="radio" name="slider" id="menu-btn" />
+    <input type="radio" name="slider" id="close-btn" />
     <ul class="nav-links">
       <label for="close-btn" class="btn close-btn">
         <i class="fas fa-times"></i>
@@ -21,7 +31,7 @@
       </li>
       <li>
         <a href="#" class="desktop-item">Dropdown Menu</a>
-        <input type="checkbox" id="showDrop">
+        <input type="checkbox" id="showDrop" />
         <label for="showDrop" class="mobile-item">Dropdown Menu</label>
         <ul class="drop-menu">
           <li><a href="#">Drop menu 1</a></li>
@@ -31,13 +41,18 @@
         </ul>
       </li>
       <li>
-        <a href="{{ url_for('categories') }}" class="desktop-item">Categories</a>
-        <input type="checkbox" id="showMega">
+        <a href="{{ url_for('customer.categories') }}" class="desktop-item"
+          >Categories</a
+        >
+        <input type="checkbox" id="showMega" />
         <label for="showMega" class="mobile-item">Categories</label>
         <div class="mega-box">
           <div class="content">
             <div class="row">
-              <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg" alt="">
+              <img
+                src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg"
+                alt=""
+              />
             </div>
             <div class="row">
               <header>Header</header>
@@ -74,8 +89,10 @@
       </li>
     </ul>
     <div class="nav-side--links">
-      <a class="nav-side--link" href="{{ url_for('login') }}">
-        <img src="{{ url_for('static', filename='images/icon-account.svg') }}" />
+      <a class="nav-side--link" href="{{ url_for('login_page.login') }}">
+        <img
+          src="{{ url_for('static', filename='images/icon-account.svg') }}"
+        />
       </a>
       <a class="nav-side--link" href="#">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
