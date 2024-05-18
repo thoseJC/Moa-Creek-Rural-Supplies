@@ -244,6 +244,7 @@
     const confirmPassword = second_password_ele.value;
 
     const passwordValid =
+      !password ||
       password.trim() === "" ||
       (validatePassword(password) && password === confirmPassword);
     submitProfileButton.disabled = !(
