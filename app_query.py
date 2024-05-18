@@ -4,7 +4,7 @@ def query_user_when_login():
 				u.user_id,
 				u.role_id, 
 				u.username, 
-				u.password, 
+				u.user_password, 
 				u.status, 
 				ur.role_name,
 				u.first_name,
@@ -39,7 +39,7 @@ def query_product_by_id():
 
 def register_new_user():
 	return """
-				INSERT INTO users (user_id, role_id, first_name, last_name, username, email, phone_number, loyalty_points, password, address, status)
+				INSERT INTO users (user_id, role_id, first_name, last_name, username, email, phone_number, loyalty_points, user_password, shipping_address, status)
 				VALUES (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), %s, %s, %s, %s, %s, 0, %s, %s, TRUE)"""
 
 def update_user_profile_query():
