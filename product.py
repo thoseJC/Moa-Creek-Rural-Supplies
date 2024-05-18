@@ -1,4 +1,5 @@
 from flask import Blueprint, flash,request, redirect, url_for, jsonify,render_template,session
+from app_query import query_product_by_id
 from cursor import getCursor
 from product_query import query_product_by_id, insert_product, get_all_categories, sql_update_product
 
@@ -123,3 +124,4 @@ def delete_product(product_id):
 	except Exception as e:
 		print("@app.route('/product/delete'): %s",e)
 		return render_template('edit_product.html', error_msg = e)
+

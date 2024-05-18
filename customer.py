@@ -17,3 +17,7 @@ def dashboard():
   if session.get('logged_in') != True or user["user_role"] != 'customer':
     return redirect(url_for('login_page.login'))
   return render_template("global/account_dashboard.html", user=user)
+
+@customer_page.route("/categories")
+def categories():
+  return "to be finishsed"

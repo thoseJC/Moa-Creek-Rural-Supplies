@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/categories_page.css') }}">
+
+
+{% block content %}
+<div class="banner">
+    <a>
+        <img src="static/images/category_image/image_banner_niuniu.jpg" alt="clearance poster">
+    </a>
+</div>
+
+<header>
+<div class="flex-container">
+<h1>Shop By category</h1>
+<p>From Pasture to Pantry: Everything for Healthy Farms and Homes.</p></div>
+</header>
+<main class="list-group">
+% for ctl in categories_list %}
+{% set image_path = ctl[4]%}
+{% set product_Name = ctl[2]%}
+{% include "components/ct_product_card.html" %}
+{% endfor %}
+</main>
+{% endblock %}
