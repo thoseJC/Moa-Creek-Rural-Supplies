@@ -14,7 +14,7 @@
 <p>From Pasture to Pantry: Everything for Healthy Farms and Homes.</p></div>
 </header>
 <main class="list-group">
-% for ctl in categories_list %}
+{% for ctl in categories_list %}
 {% set image_path = ctl[4]%}
 {% set product_Name = ctl[2]%}
 {% include "components/ct_product_card.html" %}
