@@ -46,7 +46,11 @@ const cartIconQuantity = () => {
   const navCartQuantity = document.querySelector('.nav-side--link-quantity');
   if (navCartQuantity) {
     const totalQuantity = getLocalStorageCartQuantity();
-    if (totalQuantity != 0) navCartQuantity.textContent = totalQuantity;
+    if (totalQuantity != 0) {
+      navCartQuantity.textContent = totalQuantity;
+    } else {
+      navCartQuantity.textContent = '';
+    }
   }
 }
 
@@ -110,28 +114,35 @@ class CartTable extends HTMLElement {
     const cartTableWithoutProducts = document.querySelector('.cart--details.without-products');
     if (totalQuantity > 0) {
       if (cartTableWithProducts) cartTableWithProducts.classList.remove('displayNone');
+      if (cartTableWithoutProducts) cartTableWithoutProducts.classList.add('displayNone');
     } else {
+      if (cartTableWithProducts) cartTableWithProducts.classList.add('displayNone');
       if (cartTableWithoutProducts) cartTableWithoutProducts.classList.remove('displayNone');
     }
   }
   fetchProductsDetails() {
     const allProductIds = getAllProductIds();
     if (allProductIds) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/get_products");
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          var productsData = JSON.parse(xhr.responseText);
-          this.renderCartProducts(productsData);
-          this.updateOrderSummary(productsData)
-        } else {
-          console.error("Error getting products:", xhr.statusText);
+      fetch('/product/get_products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "product_ids": allProductIds })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-      };
-
-      xhr.send(JSON.stringify({ "product_ids": allProductIds }));
+        return response.json();
+      })
+      .then(data => {
+        this.renderCartProducts(data);
+        this.updateOrderSummary(data)
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
     }
   }
   renderCartProducts(products) {
@@ -178,11 +189,14 @@ class CartTable extends HTMLElement {
     if (cartContainer) {
       cartContainer.innerHTML = '';
       cartContainer.innerHTML = productHTML;
+      this.checkCartQuantity();
       this.bindQuantityChange();
     }
   }
   updateCartQuantity(productId, change) {
-    const cartItems = getCartItems();
+    const userId = getUserId();
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartItems = cart[userId] || [];
     const productIndex = cartItems.findIndex(item => item.id == productId);
     
     if (productIndex !== -1) {
@@ -199,13 +213,15 @@ class CartTable extends HTMLElement {
     }
   }
   removeProductFromCart(productId) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const productIndex = cart.findIndex(item => item.id == productId);
-    
+    const userId = getUserId();
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartItems = cart[userId] || [];
+    const productIndex = cartItems.findIndex(item => item.id == productId);
+
     if (productIndex !== -1) {
-      cart.splice(productIndex, 1);
+      cartItems.splice(productIndex, 1);
       localStorage.setItem('cart', JSON.stringify(cart));
-      
+      cartIconQuantity();
       this.fetchProductsDetails();
       this.toggleLoading(false);
     }
