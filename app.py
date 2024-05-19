@@ -1,9 +1,5 @@
-from flask import Flask, session, request, redirect, url_for, flash, render_template
-
+from flask import Flask,session,redirect,url_for,render_template
 app = Flask(__name__)
-from auth import hashPassword, getSalt, checkHashingValue
-from cursor import getCursor
-from validation import is_valid_email, is_valid_phone_number
 from manager import manager_page
 from customer import customer_page
 from admin import admin_page
@@ -14,9 +10,6 @@ from message import message_page
 from login import login_page
 from register import register_page
 from user_profile import profile_page
-
-# import query function 
-from app_query import register_new_user, update_user_profile_query, get_user_profile_query
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
