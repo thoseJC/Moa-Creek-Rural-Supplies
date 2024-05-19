@@ -16,7 +16,7 @@
             <p class="card-text">price: {{ product.price }}</p>
             <p class="card-text">category: {{ product.category }}</p>
             <p class="card-text">Status: {% if product.active %} In Stock {% else %} Out of Stock {% endif %}</p>
-            <a href="#" class="btn btn-primary">Add to Cart</a>
+            <a href="#" class="btn btn-primary cta-add-to-cart" data-product-id="{{ product.id }}">Add to Cart</a>
         </div>
     </div>
     <div class="col-md-6">
@@ -28,7 +28,7 @@
         Status: {% if product.active %} In Stock {% else %} Out of Stock {%
         endif %}
       </p>
-      <a href="#" class="btn btn-primary">Add to Cart</a>
+      <a href="#" class="btn btn-primary cta-add-to-cart" data-product-id="{{ product.id }}">Add to Cart</a>
     </div>
   </div>
 </div>
