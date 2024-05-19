@@ -47,9 +47,9 @@
               </div>
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="is_primary" name="is_primary" {{ 'checked' if address.is_primary else '' }}>
-              <label class="form-check-label" for="is_primary">Set as primary address</label>
-            </div>
+				<input type="checkbox" class="form-check-input" id="is_primary" name="is_primary" value="true" {{ 'checked' if address.is_primary else '' }}>
+				<label class="form-check-label" for="is_primary">Set as primary address</label>
+			  </div>			  
             <button type="submit" class="btn btn-primary">Update Address</button>
           </form>
         </div>

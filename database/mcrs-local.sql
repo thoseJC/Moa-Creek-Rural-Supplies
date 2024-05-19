@@ -55,7 +55,6 @@ CREATE TABLE users (
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
     user_password VARCHAR(255) NOT NULL,
-    shipping_address TEXT,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -1,52 +1,88 @@
+from sqlite3 import connect
 from flask import Blueprint, request, render_template, flash, redirect, session, url_for
-from cursor import getCursor
+from cursor import getCursor, connection  
+import mysql.connector
+import connect
 
 shipping_address = Blueprint('shipping_address', __name__)
 
+def getDictCursor():
+    connection = mysql.connector.connect(
+        user=connect.dbuser,
+        password=connect.dbpass,
+        host=connect.dbhost,
+        database=connect.dbname,
+        autocommit=False 
+    )
+    return connection, connection.cursor(dictionary=True)
+
 @shipping_address.route('/add_address', methods=['GET', 'POST'])
 def add_address():
-    if request.method == 'POST':
-        user_id = request.form.get('user_id')
-        street_address = request.form.get('street_address')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        postal_code = request.form.get('postal_code')
-        country = request.form.get('country')
-        is_primary = request.form.get('is_primary', type=bool)
+    if not session.get('user_id'):
+        flash('You need to login to add an address.', 'warning')
+        return redirect(url_for('login_page'))
 
-        cursor = getCursor()
+    user_id = session['user_id']
+
+    if request.method == 'POST':
+        connection, cursor = getDictCursor()
         try:
+            street_address = request.form.get('street_address')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            postal_code = request.form.get('postal_code')
+            country = request.form.get('country')
+            is_primary = request.form.get('is_primary', 'false') == 'true'
+
             cursor.execute("""
                 INSERT INTO address (user_id, street_address, city, state, postal_code, country, is_primary)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (user_id, street_address, city, state, postal_code, country, is_primary))
+            connection.commit()
             flash('Address added successfully!')
             return redirect(url_for('shipping_address.manage_addresses', user_id=user_id))
         except Exception as e:
+            if connection:
+                connection.rollback()
             flash(f'Failed to add address: {str(e)}')
             return render_template('shipping/add_address.html', error=str(e))
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
 
     return render_template('shipping/add_address.html')
 
 @shipping_address.route('/manage_addresses/<user_id>', methods=['GET'])
 def manage_addresses(user_id):
-    cursor = getCursor()
-    cursor.execute("SELECT * FROM address WHERE user_id = %s", (user_id,))
-    addresses = cursor.fetchall()
-    return render_template('shipping/manage_addresses.html', addresses=addresses, user_id=user_id)
+    connection, cursor = getDictCursor()
+    try:
+        cursor.execute("SELECT * FROM address WHERE user_id = %s", (user_id,))
+        addresses = cursor.fetchall()
+        return render_template('shipping/manage_addresses.html', addresses=addresses, user_id=user_id)
+    finally:
+        cursor.close()
+        connection.close()
 
 @shipping_address.route('/update_address/<int:address_id>', methods=['GET', 'POST'])
 def update_address(address_id):
-    cursor = getCursor()
-    if request.method == 'POST':
-        street_address = request.form.get('street_address')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        postal_code = request.form.get('postal_code')
-        country = request.form.get('country')
-        is_primary = request.form.get('is_primary', type=bool)
+    connection, cursor = getDictCursor()
+    try:
+        if request.method == 'POST':
+            street_address = request.form.get('street_address')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            postal_code = request.form.get('postal_code')
+            country = request.form.get('country')
+            is_primary = request.form.get('is_primary', 'false') == 'true'
 
-        try:
+            if is_primary:
+                cursor.execute("""
+                    UPDATE address SET is_primary = %s
+                    WHERE user_id = %s AND is_primary = %s
+                """, (False, session['user_id'], True))
+
             cursor.execute("""
                 UPDATE address SET
                 street_address = %s,
@@ -57,46 +93,60 @@ def update_address(address_id):
                 is_primary = %s
                 WHERE address_id = %s
             """, (street_address, city, state, postal_code, country, is_primary, address_id))
+            connection.commit()
             flash('Address updated successfully!')
-            return redirect(url_for('shipping_address.manage_addresses', user_id=request.form.get('user_id')))
-        except Exception as e:
-            flash(f'Failed to update address: {str(e)}')
-            return render_template('shipping/update_address.html', error=str(e), address_id=address_id)
+            return redirect(url_for('shipping_address.manage_addresses', user_id=session.get('user_id')))
+        else:
+            cursor.execute("SELECT * FROM address WHERE address_id = %s", (address_id,))
+            address = cursor.fetchone()
+            if address:
+                return render_template('shipping/update_address.html', address=address)
+            else:
+                flash('No address found.')
+                return redirect(url_for('shipping_address.manage_addresses', user_id=session.get('user_id')))
+    except Exception as e:
+        connection.rollback()
+        flash(f'Failed to update address: {str(e)}')
+        return render_template('shipping/update_address.html', error=str(e), address_id=address_id)
+    finally:
+        cursor.close()
+        connection.close()
 
-    cursor.execute("SELECT * FROM address WHERE address_id = %s", (address_id,))
-    address = cursor.fetchone()
-    return render_template('shipping/update_address.html', address=address)
 
 @shipping_address.route('/delete_address/<int:address_id>', methods=['POST'])
 def delete_address(address_id):
-    cursor = getCursor()
+    connection, cursor = getDictCursor()
     try:
         cursor.execute("DELETE FROM address WHERE address_id = %s", (address_id,))
+        connection.commit()
         flash('Address deleted successfully!')
     except Exception as e:
+        connection.rollback()
         flash(f'Failed to delete address: {str(e)}')
-
-    return redirect(url_for('shipping_address.manage_addresses', user_id=request.form.get('user_id')))
+    finally:
+        cursor.close()
+        connection.close()
+    return redirect(url_for('shipping_address.manage_addresses', user_id=session.get('user_id')))
 
 @shipping_address.route('/customer/dashboard', methods=['GET'])
 def customer_dashboard():
     user_id = session.get('user_id')
     if not user_id:
+        flash("Please log in to view this page.", "warning")
         return redirect(url_for('login'))
 
-    cursor = getCursor()
-    cursor.execute("""
-        SELECT first_name, last_name, user_role,
-               (SELECT COUNT(*) FROM orders WHERE user_id = %s) as order_count
-        FROM users WHERE user_id = %s
-    """, (user_id, user_id))
-    user = cursor.fetchone()
+    connection, cursor = getDictCursor()
+    try:
+        cursor.execute("SELECT first_name, last_name, user_role, (SELECT COUNT(*) FROM orders WHERE user_id = %s) as order_count FROM users WHERE user_id = %s", (user_id, user_id))
+        user = cursor.fetchone()
 
-    # Fetch primary address
-    cursor.execute("""
-        SELECT street_address, city, state, postal_code, country
-        FROM address WHERE user_id = %s AND is_primary = TRUE
-    """, (user_id,))
-    primary_address = cursor.fetchone()
+        cursor.execute("SELECT street_address, city, state, postal_code, country FROM address WHERE user_id = %s AND is_primary = TRUE", (user_id,))
+        primary_address = cursor.fetchone()
 
-    return render_template('customer/dashboard.html', user=user, primary_address=primary_address)
+        return render_template('customer/dashboard.html', user=user, primary_address=primary_address)
+    except Exception as e:
+        flash(f"Error fetching data: {str(e)}", "error")
+        return redirect(url_for('home'))
+    finally:
+        cursor.close()
+        connection.close()
