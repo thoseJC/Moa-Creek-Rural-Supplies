@@ -25,8 +25,14 @@
     <div class="account-content--item">
       <div class="account-content--title">SHIPPING ADDRESS</div>
       <div class="account-content--des">
-        <span>Display customer's default shipping address.</span>
-      </div>
+		{% if primary_address %}
+		<span>{{ primary_address.street_address }}, {{ primary_address.city }},
+			  {{ primary_address.state }}, {{ primary_address.postal_code }},
+			  {{ primary_address.country }}</span>
+		{% else %}
+		<span>No primary shipping address set.</span>
+		{% endif %}
+	  </div>
     </div>
   </div>
   {% endif %}
