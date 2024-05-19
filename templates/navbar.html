@@ -96,7 +96,7 @@
       </a>
       <a class="nav-side--link" href="{{ url_for('cart') }}">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
-        <span class="nav-side--link-quantity"></span>
+        <span data-user-id="{{ session['user_id'] }}" class="nav-side--link-quantity"></span>
       </a>
     </div>
   </div>

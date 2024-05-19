@@ -1,25 +1,44 @@
+const getUserId = () => {
+  let userId = 0;
+  const navCartQuantity = document.querySelector('.nav-side--link-quantity');
+  if (navCartQuantity.dataset.userId) userId = navCartQuantity.dataset.userId;
+  return userId;
+}
 
-const updateLocalStorageForCart = productId => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const productIndex = cart.findIndex(item => item.id === productId);
+const getCartItems = () => {
+  const userId = getUserId();
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  const cartItems = cart[userId] || [];
+  return cartItems;
+}
+
+const updateLocalStorageForCart = (productId) => {
+  const userId = getUserId();
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  const userCart = cart[userId] || [];
+  const productIndex = userCart.findIndex(item => item.id === productId);
   if (productIndex !== -1) {
-    cart[productIndex].quantity += 1;
+    userCart[productIndex].quantity += 1;
   } else {
-    cart.push({ id: productId, quantity: 1 });
+    userCart.push({ id: productId, quantity: 1 });
   }
-
+  cart[userId] = userCart;
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
 const getLocalStorageCartQuantity = () => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const userId = getUserId();
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  const userCart = cart[userId] || [];
+  const totalQuantity = userCart.reduce((sum, item) => sum + item.quantity, 0);
   return totalQuantity;
 }
 
 const getAllProductIds = () => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const productIds = cart.map(item => parseInt(item.id));
+  const userId = getUserId();
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+  const userCart = cart[userId] || [];
+  const productIds = userCart.map(item => parseInt(item.id));
   return productIds;
 }
 
@@ -116,7 +135,7 @@ class CartTable extends HTMLElement {
     }
   }
   renderCartProducts(products) {
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItems = getCartItems();
 
     let productHTML = '';
     products.forEach(product => {
@@ -163,14 +182,14 @@ class CartTable extends HTMLElement {
     }
   }
   updateCartQuantity(productId, change) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const productIndex = cart.findIndex(item => item.id == productId);
+    const cartItems = getCartItems();
+    const productIndex = cartItems.findIndex(item => item.id == productId);
     
     if (productIndex !== -1) {
-      cart[productIndex].quantity += change;
+      cartItems[productIndex].quantity += change;
       
-      if (cart[productIndex].quantity <= 0) {
-        cart.splice(productIndex, 1);
+      if (cartItems[productIndex].quantity <= 0) {
+        cartItems.splice(productIndex, 1);
       }
       
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -224,7 +243,8 @@ class CartTable extends HTMLElement {
     }
   }
   updateOrderSummary(products) {
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItems = getCartItems();
+
     let totalPrice = 0;
 
     products.forEach(product => {

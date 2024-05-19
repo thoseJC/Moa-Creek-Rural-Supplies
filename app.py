@@ -33,7 +33,10 @@ def home():
 
 @app.route("/cart")
 def cart():
-    return render_template('global/cart.html')
+    user_id = 0
+    if session.get("user_id"):
+        user_id = session.get("user_id")
+    return render_template('global/cart.html', user_id = user_id)
 
 
 @app.route("/get_products", methods=["POST"])

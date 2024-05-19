@@ -3,7 +3,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<cart-table class="cart--container">
+<cart-table class="cart--container" data-user-id="{{ user_id }}">
   <div class="cart--header">My Bag</div>
   <div class="cart--details with-products displayNone">
     <div class="cart-left--container"></div>
