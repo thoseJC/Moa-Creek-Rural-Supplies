@@ -148,5 +148,20 @@ INSERT INTO products (category_id, name, description, price, pd_image_path, is_a
 (8, 'hat', 'hat', 22.00, 'product2.webp', 1);
 
 
+INSERT INTO inventory (product_id, quantity) VALUES
+    ((SELECT product_id FROM products WHERE name = 'shirt'), 100),
+    ((SELECT product_id FROM products WHERE name = 'hat'), 50);
+
+
+INSERT INTO payment (user_id, total, payment_type, GST, freight) VALUES
+((SELECT user_id FROM users WHERE username = 'johndoe'), 138.00, 'Credit Card', 18.00, 0.00);
+
+
+INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
+    ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending');
+
+
+INSERT INTO invoice (user_id, GST, freight, total) VALUES
+    ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 
