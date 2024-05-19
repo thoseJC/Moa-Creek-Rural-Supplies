@@ -94,7 +94,7 @@
           src="{{ url_for('static', filename='images/icon-account.svg') }}"
         />
       </a>
-      <a class="nav-side--link" href="{{ url_for('cart') }}">
+      <a class="nav-side--link" href="{{ url_for('cart.cart') }}">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
         <span data-user-id="{{ session['user_id'] }}" class="nav-side--link-quantity"></span>
       </a>
