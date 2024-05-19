@@ -11,7 +11,6 @@ from login import login_page
 from register import register_page
 from user_profile import profile_page
 
-
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
 app.register_blueprint(admin_page, url_prefix="/admin")
