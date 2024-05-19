@@ -1,4 +1,4 @@
-from flask import Flask,session,redirect,url_for,render_template
+from flask import Flask,session,redirect,url_for,render_template,request
 app = Flask(__name__)
 from manager import manager_page
 from customer import customer_page
@@ -10,6 +10,9 @@ from message import message_page
 from login import login_page
 from register import register_page
 from user_profile import profile_page
+
+from cursor import getCursor
+from app_query import get_products_by_ids
 
 
 app.register_blueprint(manager_page, url_prefix="/manager")
@@ -27,6 +30,35 @@ app.register_blueprint(profile_page, url_prefix="/profile")
 @app.route("/")
 def home():
     return render_template('global/index.html')
+
+@app.route("/cart")
+def cart():
+    return render_template('global/cart.html')
+
+
+@app.route("/get_products", methods=["POST"])
+def get_products():
+    products = []
+    try:
+        product_ids = request.json.get("product_ids", [])
+        cursor = getCursor()
+        sql_query = get_products_by_ids(product_ids)
+        cursor.execute(sql_query)
+        for product in cursor:
+            products.append({
+                "product_id": product[0],
+                "category_id": product[1],
+                "name": product[2],
+                "description": product[3],
+                "price": product[4],
+                "pd_image_path": product[5],
+                "is_active": product[6]
+            })
+        cursor.close()
+        return products
+    except Exception as e:
+        print("@app.route(/get_products): %s", e)
+        return products
 
 
 @app.route('/logout')

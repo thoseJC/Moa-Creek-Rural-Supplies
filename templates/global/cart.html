@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/cart.css') }}">
+
+{% extends 'base.html' %}
+
+{% block content %}
+<cart-table class="cart--container">
+  <div class="cart--header">My Bag</div>
+  <div class="cart--details with-products displayNone">
+    <div class="cart-left--container"></div>
+    <div class="cart-right--container">
+      <div class="cart-right--header">Order Summary</div>
+      <div class="cart-right--content">
+        <div class="cart-right--line">
+          <div class="cart-line--label">Total</div>
+          <div class="cart-line--value" id="order-summary-total"></div>
+        </div>
+      </div>
+      <div class="cart-button">
+        <a href="#" class="common-btn--border">Checkout</a>
+      </div>
+    </div>
+  </div>
+  <div class="cart--details without-products displayNone">
+    <div class="cart-empty-header">
+      Your bag is empty!!
+    </div>
+  </div>
+  <div class="loading-container displayNone">
+    <div class="loading-wrapper">
+      <div class="common-loading"></div>
+    </div>
+  </div>
+</cart-table>
+{% endblock %}
+
