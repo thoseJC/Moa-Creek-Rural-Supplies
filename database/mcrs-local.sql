@@ -113,7 +113,7 @@ INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), 
 INSERT INTO users (user_id, role_id, first_name, last_name, username, email, user_password, status) 
 VALUES 
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'customer@customer.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'kevin.li@lincolnuni.ac.nz', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE);
 
@@ -154,7 +154,7 @@ INSERT INTO inventory (product_id, quantity) VALUES
 
 
 INSERT INTO payment (user_id, total, payment_type, GST, freight) VALUES
-((SELECT user_id FROM users WHERE username = 'johndoe'), 138.00, 'Credit Card', 18.00, 0.00);
+((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00);
 
 
 INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
