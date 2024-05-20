@@ -25,12 +25,17 @@ def send_status_update_notifications(user_id):
         first_name = user_info[1]
         order_id = user_info[2]
         status = user_info[3]
-         # Define the subject of the email
+
         subject = 'Order Status Update'
         # Compose the body of the email with personalized information
-        body = f'Dear {first_name}, your order:{order_id} has moved to stage of:{status}'
+        body = (f'Dear {first_name},\n\nWe are pleased to inform you that your order (Order ID: {order_id}) has '
+                f'advanced to the following status: {status}.\n\nThank you for choosing our service. If you have any '
+                f'questions or require further assistance, please do not hesitate to contact us.\n\nBest regards,'
+                f'\n[Moe Creek Rural Supplies][(https://haoboli.pythonanywhere.com/]')
+
         # Send the email 
         send_email(recipient, subject, body)
+
         return jsonify({'message': 'notification sent successfully!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
