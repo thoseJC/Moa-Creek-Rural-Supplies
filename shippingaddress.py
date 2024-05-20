@@ -150,3 +150,5 @@ def customer_dashboard():
     finally:
         cursor.close()
         connection.close()
+
+    

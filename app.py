@@ -39,3 +39,7 @@ def logout():
     session.pop('user_name', None)
     session.pop('user_role', None)
     return redirect(url_for('home'))
+
+@app.route("/shipping_info")
+def shipping_info():
+    return render_template('global/shipping_information.html')
