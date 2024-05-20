@@ -16,6 +16,10 @@ def getDictCursor():
     )
     return connection, connection.cursor(dictionary=True)
 
+@shipping_address.route("/shipping_info")
+def shipping_info():
+    return render_template('shipping/shipping_information.html')
+
 @shipping_address.route('/add_address', methods=['GET', 'POST'])
 def add_address():
     if not session.get('user_id'):
@@ -150,3 +154,5 @@ def customer_dashboard():
     finally:
         cursor.close()
         connection.close()
+
+    

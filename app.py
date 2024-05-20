@@ -39,3 +39,4 @@ def logout():
     session.pop('user_name', None)
     session.pop('user_role', None)
     return redirect(url_for('home'))
+
