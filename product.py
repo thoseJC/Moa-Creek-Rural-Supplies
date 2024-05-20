@@ -1,14 +1,35 @@
 from flask import Blueprint, flash,request, redirect, url_for, jsonify,render_template,session
 from app_query import query_product_by_id, get_products_by_ids
 from cursor import getCursor
-from product_query import query_product_by_id, insert_product, get_all_categories, sql_update_product
+from product_query import query_product_by_id, insert_product, get_all_categories, sql_update_product,query_product_list
 
 product_page = Blueprint("product_page", __name__, static_folder="static", template_folder="templates/product")
 
 
 @product_page.route("/product-management")
 def get_list_of_product():
-	return render_template("product-management.html")
+	try:
+		products = []
+		cursor = getCursor()
+		sql_query = query_product_list()
+		cursor.execute(sql_query)
+		for product in cursor:
+			products.append({
+                "id": product[0],
+                "name": product[1],
+                "description": product[2],
+                "price": product[3],
+                "pd_image_path": product[4],
+                "category_name": product[5],
+                "is_active": product[6]
+            })
+		cursor.close()
+        
+		return render_template('product_management.html', products=products)	
+	except Exception as e:
+		print("Error in product_management:", e)
+        # Handle error appropriately, like rendering an error template
+		return render_template('product_management.html', error_msg="An error occurred while fetching products.")
 
 @product_page.route('/<int:product_id>')
 def show_product(product_id):
@@ -52,7 +73,7 @@ def add_product():
 			cursor.execute(sql_query, (name, description, price, image_path, category_id, 1))
 
 			# Redirect to the product info page of the newly added product
-			return redirect(url_for('product_page.show_product', product_id=cursor.lastrowid))
+			return redirect(url_for('product_page.get_list_of_product'))
 		else:
 			# If it's a GET request, render the form to add a new product
 			# Retrieve category options from the database
@@ -84,7 +105,7 @@ def edit_product(product_id):
 			cursor.execute(sql_query, (name, description, price, image_path, category_id, product_id))
 
 			# Redirect to the product info page of the updated product
-			return redirect(url_for('show_product', product_id=product_id))
+			return redirect(url_for('product_page.get_list_of_product'))
 		else:
 			# Fetch the product details from the database
 			cursor = getCursor()
@@ -120,10 +141,11 @@ def delete_product(product_id):
 		cursor.execute(sql_query, (product_id,))
 
 		# Redirect to a page after deletion (e.g., product listing page)
-		return redirect(url_for('show_product', product_id=1))
+		return redirect(url_for('product_page.get_list_of_product'))
 	except Exception as e:
 		print("@app.route('/product/delete'): %s",e)
-		return render_template('edit_product.html', error_msg = e)
+		#return render_template('product_management.html', error_msg = e)
+		return redirect(url_for('product_page.get_list_of_product', error_msg = e) )
 
 
 @product_page.route("/get_products", methods=["POST"])
