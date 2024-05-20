@@ -20,13 +20,13 @@
       </div>
     </div>
     
-    <!-- 'Address' display section is not completed yet -->
-    <!-- Pending on address table -->
     <div class="account-content--item">
       <div class="account-content--title">SHIPPING ADDRESS</div>
       <div class="account-content--des">
-        <span>Display customer's default shipping address.</span>
-      </div>
+			<div class="mt-3">
+			<a href="{{ url_for('shipping_address.manage_addresses', user_id=user['user_id']) }}" class="btn btn-primary">Manage Shipping Addresses</a>
+		</div>
+	  </div>
     </div>
   </div>
   {% endif %}
