@@ -1,0 +1,317 @@
+{% extends "base.html" %} 
+{% block title %}MCRS - Register{% endblock %} 
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+  <div class="card shadow p-4 w-100" style="max-width: 400px">
+    <div class="card-header text-center bg-transparent border-0">
+      <h3>Create Account</h3>
+      <p class="text-muted">
+        Sign up today to enjoy exclusive offers, save your personal details, and manage your orders.
+      </p>
+    </div>
+    <div class="card-body">
+      <form action="{{ url_for('register_page.register') }}" method="POST" autocomplete="off" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" name="username" id="username" class="form-control" required>
+          <div id="username_validation_message" class="invalid-feedback">Please choose a username.</div>
+        </div>
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input type="text" name="firstName" id="firstName" class="form-control" required>
+          <div id="firstName_validation_message" class="invalid-feedback">Please enter your first name.</div>
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input type="text" name="lastName" id="lastName" class="form-control" required>
+          <div id="lastName_validation_message" class="invalid-feedback">Please enter your last name.</div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="email" id="email" class="form-control" required>
+          <div id="email_validation_message" id="phone_number_validation_message"
+          class="validation-message"
+          style="color: red">Please enter a valid email.</div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" name="password" id="password" class="form-control" required>
+          <div id="password_validation_message" class="validation-message" style="color: red">Please enter a valid password.</div>
+        </div>
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label">Phone Number (Optional)</label>
+          <input type="text" name="phoneNumber" id="phoneNumber" class="form-control">
+          <div id="phone_number_validation_message" class="validation-message"
+          style="color: red">Please enter a valid phone number.</div>
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address (Optional)</label>
+          <textarea name="address" id="address" class="form-control" rows="3"></textarea>
+          <div id="address_validation_message" class="invalid-feedback">Please enter a valid address.</div>
+        </div>
+        <div class="form-error text-danger">{{ error }}</div>
+        <button type="submit" class="btn btn-primary w-100 mt-3">REGISTER</button>
+      </form>
+    </div>
+    <div class="card-footer text-center bg-transparent border-0 mt-3">
+      <p>
+        Already have an account?
+        <a href="{{ url_for('login_page.login') }}">Sign In</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	  const debounce = (func, delay) => {
+		let timer;
+		return function() {
+		  const context = this;
+		  const args = arguments;
+		  clearTimeout(timer);
+		  timer = setTimeout(() => {
+			func.apply(context, args);
+		  }, delay);
+		};
+	  };
+  
+	  const validatePassword = (password) => {
+		const passwordRegex =
+		  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+		return passwordRegex.test(password);
+	  };
+  
+	  const firstPasswordEle = document.getElementById("password");
+	  const emailEle = document.getElementById("email");
+	  const phoneNumberEle = document.getElementById("phoneNumber");
+	  const submitProfileButton = document.getElementById("submitProfileButton");
+  
+	  const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	  };
+  
+	  const validatePhoneNumber = (phoneNumber) => {
+		const phoneNumberRegex = /^[0-9+]+$/;
+		return phoneNumberRegex.test(phoneNumber);
+	  };
+  
+	  const processPasswordInput = () => {
+		const isValid = validatePassword(firstPasswordEle.value);
+		const feedback = document.getElementById("password_validation_message");
+		if (!isValid) {
+		  feedback.textContent = "Password must contain at least one Uppercase letter, one lowercase letter, one number, one special character(@$!%*?&), and have a minimum length of 8 characters.";
+		  feedback.style.color = "red";
+		  firstPasswordEle.style.borderColor = "red";
+		} else {
+		  feedback.textContent = "Password is valid";
+		  feedback.style.color = "green";
+		  firstPasswordEle.style.borderColor = "green";
+		}
+		toggleSubmitButton();
+	  };
+  
+	  const processEmailInput = () => {
+		const isValid = validateEmail(emailEle.value);
+		const feedback = document.getElementById("email_validation_message");
+		if (!isValid) {
+		  feedback.textContent = "Email Address Not Valid";
+		  feedback.style.color = "red";
+		  emailEle.style.borderColor = "red";
+		} else {
+		  feedback.textContent = "";
+		  emailEle.style.borderColor = "green";
+		}
+		toggleSubmitButton();
+	  };
+  
+	  const processPhoneNumberInput = () => {
+		const isValid = validatePhoneNumber(phoneNumberEle.value);
+		const feedback = document.getElementById("phone_number_validation_message");
+		if (!isValid) {
+		  feedback.textContent = "Phone Number can only contains numbers and +";
+		  feedback.style.color = "red";
+		  phoneNumberEle.style.borderColor = "red";
+		} else {
+		  feedback.textContent = "";
+		  phoneNumberEle.style.borderColor = "green";
+		}
+		toggleSubmitButton();
+	  };
+  
+	  const toggleSubmitButton = () => {
+		const emailIsValid = validateEmail(emailEle.value);
+		const phoneIsValid = phoneNumberEle.value === "" || validatePhoneNumber(phoneNumberEle.value);
+		const passwordIsValid = validatePassword(firstPasswordEle.value);
+  
+		submitProfileButton.disabled = !(emailIsValid && phoneIsValid && passwordIsValid);
+	  };
+  
+	  firstPasswordEle.addEventListener("input", debounce(processPasswordInput, 200));
+	  emailEle.addEventListener("input", debounce(processEmailInput, 200));
+	  phoneNumberEle.addEventListener("input", debounce(processPhoneNumberInput, 200));
+	});
+  </script>
+  
+	const debounce = (func, delay) => {
+	  let timer;
+	  return function () {
+		const context = this;
+		const args = arguments;
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+		  func.apply(context, args);
+		}, delay);
+	  };
+	};
+  
+	const validatePassword = (password) => {
+	  const passwordRegex =
+		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	  return passwordRegex.test(password);
+	};
+  
+	const resetSecondPasswordField = () => {
+	  second_password_ele.value = "";
+	  second_password_ele.disabled = true;
+	  second_password_ele.style.borderColor = "";
+	};
+  
+	const resetFirstPassordField = () => {
+	  const password_validation_message = document.getElementById(
+		"password_validation_message"
+	  );
+	  password_validation_message.textContent = "";
+	  first_password_ele.style.borderColor = "";
+	};
+  
+	const processValue = () => {
+	  const first_password_ele = document.getElementById("first_password");
+	  const password_validation_message = document.getElementById(
+		"password_validation_message"
+	  );
+	  const first_password = first_password_ele.value;
+	  const second_password = second_password_ele.value;
+	  if (!first_password || first_password.trim() === "") {
+		resetFirstPassordField();
+		resetSecondPasswordField();
+	  } else {
+		const isValid = validatePassword(first_password);
+		if (isValid) {
+		  second_password_ele.disabled = false;
+		  password_validation_message.textContent = "Password is valid";
+		  first_password_ele.style.borderColor = "green";
+		  password_validation_message.style.color = "green";
+		  if (second_password.trim() === "") {
+			second_password_ele.style.borderColor = "";
+		  }
+		} else {
+		  password_validation_message.textContent =
+			"Password must contain at least one Uppercase letter, one lowercase letter, one number, one special character(@$!%*?&), and have a minimum length of 8 characters.";
+		  first_password_ele.style.borderColor = "red";
+		  password_validation_message.style.color = "red";
+		  resetSecondPasswordField();
+		}
+	  }
+  
+	  if (second_password && second_password.trim() !== "") {
+		if (second_password === first_password) {
+		  password_validation_message.textContent = "Passwords match";
+		  password_validation_message.style.color = "green";
+		  second_password_ele.style.borderColor = "green";
+		} else {
+		  password_validation_message.textContent = "Passwords does not match";
+		  password_validation_message.style.color = "red";
+		  second_password_ele.style.borderColor = "red";
+		}
+	  }
+	};
+  
+	const validatePhoneNumber = (phoneNumber) => {
+	  const phoneNumberRegex = /^[0-9+]+$/;
+	  return phoneNumberRegex.test(phoneNumber);
+	};
+  
+	const checkPhoneNumber = () => {
+	  const phone_number_ele = document.getElementById("phone_number");
+	  const phone_number_validation_message_ele = document.getElementById(
+		"phone_number_validation_message"
+	  );
+	  const phoneNumber = phone_number_ele.value;
+	  const isvalid = validatePhoneNumber(phoneNumber);
+	  if (isvalid || !phoneNumber || phoneNumber.trim() === "") {
+		phone_number_ele.style.borderColor = "";
+		phone_number_validation_message_ele.textContent = "";
+	  } else {
+		phone_number_ele.style.borderColor = "red";
+		phone_number_validation_message_ele.textContent =
+		  "Phone Number can only contains number and  + ";
+	  }
+	};
+  
+	const checkEmail = () => {
+	  const email = email_ele.value;
+	  const isValid = validateEmail(email);
+	  const email_validation_message = document.getElementById(
+		"email_validation_message"
+	  );
+	  if (!email || email.trim() === "") {
+		email_validation_message.textContent = "";
+	  } else {
+		if (isValid) {
+		  email_validation_message.textContent = "";
+		} else {
+		  email_validation_message.textContent = "Email Address Not Valid";
+		  email_validation_message.style.color = "red";
+		}
+	  }
+	};
+  
+	const validateEmail = (email) => {
+	  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	  return emailRegex.test(email);
+	};
+  
+	const toggleSubmitButton = () => {
+	  const email = email_ele.value;
+	  const phoneNumber = phone_number_ele.value;
+	  const password = first_password_ele.value;
+	  const confirmPassword = second_password_ele.value;
+  
+	  const passwordValid =
+		!password ||
+		password.trim() === "" ||
+		(validatePassword(password) && password === confirmPassword);
+	  submitProfileButton.disabled = !(
+		passwordValid &&
+		validatePhoneNumber(phoneNumber) &&
+		validateEmail(email)
+	  );
+	};
+  
+	const handleFirstPasswordInputChange = debounce(processValue, 200);
+	const handlePhoneNumberInput = debounce(checkPhoneNumber, 200);
+	const handleEmailInput = debounce(checkEmail, 200);
+  
+	const first_password_ele = document.getElementById("first_password");
+	const second_password_ele = document.getElementById("second_password");
+	const phone_number_ele = document.getElementById("phone_number");
+	const email_ele = document.getElementById("email");
+	const submitProfileButton = document.getElementById("submitProfileButton");
+	first_password_ele.addEventListener("input", handleFirstPasswordInputChange);
+	first_password_ele.addEventListener("blur", handleFirstPasswordInputChange);
+	second_password_ele.addEventListener("input", handleFirstPasswordInputChange);
+	phone_number_ele.addEventListener("input", handlePhoneNumberInput);
+	phone_number_ele.addEventListener("blur", handlePhoneNumberInput);
+	email_ele.addEventListener("input", handleEmailInput);
+	email_ele.addEventListener("blur", handleEmailInput);
+	first_password_ele.addEventListener("input", toggleSubmitButton);
+	second_password_ele.addEventListener("input", toggleSubmitButton);
+	phone_number_ele.addEventListener("input", toggleSubmitButton);
+	email_ele.addEventListener("input", toggleSubmitButton);
+  </script>
+
+{% endblock %}
+

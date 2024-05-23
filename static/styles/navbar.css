@@ -165,12 +165,22 @@
 }
 
 .nav-side--links .nav-side--link {
+  position: relative;
+  display: flex;
   transition: all 0.5s ease;
 }
 
 .nav-side--links .nav-side--link:hover {
   transform: scale(1.1);
   transition: all 0.5s ease;
+}
+
+.nav-side--links .nav-side--link-quantity {
+  position: absolute;
+  color: var(--black);
+  font-size: 12px;
+  bottom: -15px;
+  right: -3px;
 }
 
 @media (max-width: 1024px) {

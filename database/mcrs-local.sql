@@ -58,8 +58,7 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
-    password VARCHAR(255) NOT NULL,
-    address TEXT,
+    user_password VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -80,11 +79,12 @@ CREATE TABLE address (
 
 
 CREATE TABLE payment (
-    payment_id VARCHAR(36) primary KEY,
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL ,
     total decimal(10,2) NOT NULL,
     payment_type VARCHAR(20),
     GST decimal(10,2) NOT NULL,
+    freight DECIMAL(10,2),
     paid_date timestamp DEFAULT  CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -93,7 +93,7 @@ CREATE TABLE payment (
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY key,
     user_id VARCHAR(36) not null,
-    payment_id VARCHAR(36), -- use to define whether an order has been paid or not
+    payment_id INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
     GST decimal(10,2) NOT NULL,
@@ -118,6 +118,7 @@ CREATE TABLE receipt(
     rcpt_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id varchar(36) not NULL,
     GST DECIMAL(10,2) not NULL,
+    freight DECIMAL(10,2),
     total DECIMAL(10,2) NOT NULL,
     rcpt_date timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -162,14 +163,27 @@ CREATE TABLE shipments (
 
 
 
+CREATE TABLE address (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    street_address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    is_primary BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
-INSERT INTO users (user_id, role_id, first_name, last_name, username, email, password, status) 
+INSERT INTO users (user_id, role_id, first_name, last_name, username, email, user_password, status) 
 VALUES 
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'customer@customer.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'kevin.li@lincolnuni.ac.nz', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE);
 
@@ -180,7 +194,7 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.', 'images/category_image/niuniu.jpg'),
 ('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
 ('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
-('Water', NULL, 'Water management supplies.', 'images/category_image/images/water.jpg'),
+('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
 ('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
 ('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
 ('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
@@ -193,11 +207,31 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
-INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
-('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
-('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
+
+-- INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
+-- ('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
+-- ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
 
 
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
+(8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
+(8, 'hat', 'hat', 22.00, 'product2.webp', 1);
 
+
+INSERT INTO inventory (product_id, quantity) VALUES
+    ((SELECT product_id FROM products WHERE name = 'shirt'), 100),
+    ((SELECT product_id FROM products WHERE name = 'hat'), 50);
+
+
+INSERT INTO payment (user_id, total, payment_type, GST, freight) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00);
+
+
+INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
+    ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending');
+
+
+INSERT INTO invoice (user_id, GST, freight, total) VALUES
+    ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 

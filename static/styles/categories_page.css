@@ -1,0 +1,81 @@
+body {
+  background-image: url('/static/images/category_image/bgimage2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.banner {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+header div {
+    width: 60%;
+    margin:0 auto;
+}
+
+.flex-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    flex-direction: column;
+}
+
+.list-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap:10px;
+    margin-top: 0;
+}
+
+
+.product-card--name {
+    font-size: 2rem;
+    color: white;
+}
+
+main {
+    overflow: hidden;
+    width: 70%;
+    margin: 5vh auto;
+}
+
+.grid-container {
+    float: left;
+    position: relative;
+    gap: 10px;
+    margin: 0 auto;
+    width: 20%;
+}
+
+.grid-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.grid-item:hover img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+}
+
+h2, p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}

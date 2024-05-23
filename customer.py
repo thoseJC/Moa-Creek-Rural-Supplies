@@ -3,7 +3,8 @@ from cursor import getCursor
 from flask import session
 from flask import render_template
 
-# from app import app
+from customer_query import category_list_query
+
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
 
 @customer_page.route("/dashboard")
@@ -16,5 +17,14 @@ def dashboard():
     "order_count": session.get("order_count")
   }
   if session.get('logged_in') != True or user["user_role"] != 'customer':
-    return redirect(url_for('login'))
+    return redirect(url_for('login_page.login'))
   return render_template("global/account_dashboard.html", user=user)
+
+@customer_page.route("/categories")
+def categories():
+    connection = getCursor()
+    sql_query = category_list_query()
+    connection.execute(sql_query)
+    categories_list = connection.fetchall()
+
+    return render_template("global/categories.html", categories_list=categories_list)

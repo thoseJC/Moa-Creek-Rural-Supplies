@@ -1,28 +1,31 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/home.css') }}"
+/>
 
-{% extends "base.html" %}
-{% block title %}MCRS - Home{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}MCRS - Home{% endblock %} {% block
+content %}
 
 <div class="home-container">
-
   <!-- 'Hero Section' - Begin -->
   {% include "components/hero-section.html" %}
   <!-- 'Hero Section' - End -->
 
   <!-- 'Most Popular Collections Section' - Begin -->
   <div class="container">
-    {% set section_header = 'Shop most popular collections' %}
-    {% set section_description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." %}
-    {% include "components/section-header.html" %}
+    {% set section_header = 'Shop most popular collections' %} {% set
+    section_description = "Lorem Ipsum is simply dummy text of the printing and
+    typesetting industry. Lorem Ipsum has been the industry's standard dummy
+    text ever since the 1500s, when an unknown printer took a galley of type and
+    scrambled it to make a type specimen book." %} {% include
+    "components/section-header.html" %}
 
     <category-cards>
       <div class="category-cards" id="home-category-cards">
-        {% include "components/category-card.html" %}
-        {% include "components/category-card.html" %}
-        {% include "components/category-card.html" %}
-        {% include "components/category-card.html" %}
+        {% include "components/category-card.html" %} {% include
+        "components/category-card.html" %} {% include
+        "components/category-card.html" %} {% include
+        "components/category-card.html" %}
       </div>
     </category-cards>
   </div>
@@ -33,15 +36,19 @@
   <!-- 'Two Big Collection Cards' Section - End -->
 
   <!-- 'Product Cards' Section - Begin -->
-  {% set section_header = 'Most Shopped' %}
-  {% set section_description = "" %}
+  {% set section_header = 'Most Shopped' %} {% set section_description = "" %}
   {% include "components/section-header.html" %}
   <product-cards class="product-cards--container">
     <div class="product-cards">
+      {% set image_path = "images/products/product1.webp"%}
+      {% set product_Name = "pending"%}
       {% include "components/product-card.html" %}
       {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %} 
+      {% include "components/product-card.html" %}       
       {% include "components/product-card.html" %}
       {% include "components/product-card.html" %}
+      {% include "components/product-card.html" %} 
       {% include "components/product-card.html" %}
     </div>
   </product-cards>
