@@ -176,6 +176,16 @@ CREATE TABLE address (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE news {
+    news_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL,
+    created_by VARCHAR(36) NOT NULL,
+    is_published BOOLEAN DEFAULT FALSE,
+    published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
+}
+
 
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
