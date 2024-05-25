@@ -71,9 +71,11 @@ def add_news():
             cursor = getCursor()
             sql_query = insert_news()
             cursor.execute(sql_query,(title, content, created_by, is_published, published_date))
+            flash('news has been added successfully')
             return redirect(url_for('news_page.get_news'))
         except Exception as e:
             print("Error in add_news:", e)
+            flash('failed to add news','error')
             return render_template('news/add_news.html', error=str(e))
     return render_template('add_news.html')
 
