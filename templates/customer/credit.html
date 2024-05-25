@@ -4,14 +4,47 @@
 />
 
 {% extends "base.html" %} 
-{% block title %}MCRS - {{ user["user_role"] | capitalize }} Dashboard {% endblock %} 
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Credit {% endblock %} 
 
 {% block content %}
 <div class="account-dashboard--container">
   {% set current_page = 'credit' %} 
   {% include 'global/account_navbar.html' %}
   
-  <div>credit content</div>
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Credit Overview / {{ user["first_name"] }} {{ user["last_name"] }}
+    </div>
+  
+    <div class="account-content--wrapper">
+      <div class="account-content--item">
+        <div class="account-content--title">Notification/Reminder</div>
+        <div class="account-content--des">
+          {% if credit_obj["limit_alert"] %}
+          <span>You are currently reaching the credit limit soon, please be aware of your next purchase.</span>
+          {% else %}
+          <span>You don't have any notification/reminder yet.</span>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="account-content--item">
+        <div class="account-content--title">Credit Details</div>
+        <div class="account-content--des">
+          <div class="account-content--item-wrapper">
+            <div class="account-content--item-label">Credit Limit:</div>
+            <div class="account-content--item-value">${{ credit_obj["credit_limit"] }}</div>
+          </div>
+          <div class="account-content--item-wrapper">
+            <div class="account-content--item-label">Credit Remaining:</div>
+            <div class="account-content--item-value">${{ credit_obj["credit_remaining"] }}</div>
+          </div>
+            
+          <!-- <div>credit_apply: ${{ credit_obj["credit_apply"] }}</div> -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

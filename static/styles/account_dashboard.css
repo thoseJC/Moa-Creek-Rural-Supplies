@@ -112,3 +112,14 @@
   flex-direction: column;
   font-size: 0.85rem;
 }
+
+.account-content--item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 200px;
+}
+
+.account-content--item-label {}
+
+.account-content--item-value {}
