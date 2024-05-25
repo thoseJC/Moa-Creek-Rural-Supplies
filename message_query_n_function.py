@@ -26,5 +26,7 @@ def send_email(recipient, subject, body):
     server.sendmail(sender, [recipient], msg.as_string())
     server.quit()
 
+def get_user_account_info_sql():
+    return '''select * from user_account_management where user_id != %s;'''
 
  
