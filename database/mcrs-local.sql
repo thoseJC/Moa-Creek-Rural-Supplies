@@ -242,3 +242,8 @@ INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 
+INSERT INTO news (title,content,created_by,is_published,published_date) VALUES 
+('Company Expansion','We are expanding our operations to new regions, bringing our products and services closer to you. \r\n\r\nStay tuned for updates!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:40'),
+('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa','6f04f03c-1a31-11ef-8962-0f1231bf2b99',0,NULL),
+('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:29:00'),
+('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:15');
