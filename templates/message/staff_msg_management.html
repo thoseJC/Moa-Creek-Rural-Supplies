@@ -1,0 +1,46 @@
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles/categories_page.css') }}"> -->
+
+{% extends "base.html" %} 
+{% block content %}
+
+<header>
+<div class="flex-container">
+<h1>Customer List</h1>
+</header>
+
+<main class="list-group">
+<table>
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Userame</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for cusl in customer_list %}
+        <tr>
+            <td>{{ cusl[0] }}</td>
+            <td>{{ cusl[1] }}</td>
+            <td>{{ cusl[2] }}</td>
+            <td>{{ cusl[3] }}</td>
+            <td>{{ cusl[4] }}</td>
+            <td>{{ cusl[5] }}</td>
+            <td>
+                <form action="{{ url_for('message_page.inbox') }}" method="POST">
+                    <input type="hidden" name="receive_user_id" value="{{cusl[0]}}">
+                    <button type="submit">
+                        Message
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</main>
+{% endblock %}
