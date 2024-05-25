@@ -1,6 +1,10 @@
-from flask import Blueprint, flash, redirect, url_for, jsonify, render_template, session
+from datetime import datetime
+from urllib import request
+
+from flask import Blueprint, flash, redirect, url_for, jsonify, render_template, session, request
 from cursor import getCursor
-from message_query_n_function import query_update_order_status, send_email
+from message_query import query_update_order_status, send_email, query_inbox, query_conversation, query_check_receiver, query_insert_message, query_select_conversation, query_update_conversation, query_insert_conversation
+
 
 message_page = Blueprint("message_page", __name__, static_folder="static", template_folder="templates/message")
 
@@ -33,9 +37,72 @@ def send_status_update_notifications(user_id):
                 f'questions or require further assistance, please do not hesitate to contact us.\n\nBest regards,'
                 f'\n[Moe Creek Rural Supplies][(https://haoboli.pythonanywhere.com/]')
 
-        # Send the email 
+        # Send the email
         send_email(recipient, subject, body)
 
         return jsonify({'message': 'notification sent successfully!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+@message_page.route('/inbox')
+def inbox():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    user_id = session['user_id']
+    connection = getCursor()
+    connection.execute(query_inbox(), (user_id, user_id))
+    conversations = connection.fetchall()
+ 
+    return render_template('inbox.html', conversations=conversations)
+
+
+@message_page.route('/conversation', methods=['GET','POST'])
+def conversation():
+    conversation_id = request.args.get('conversation_id')
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    connection= getCursor()
+    connection.execute(query_conversation(), (conversation_id,))
+    messages = connection.fetchall()
+    print(messages)
+
+    return render_template('conversation.html', messages=messages)
+
+
+@message_page.route('/send_message', methods=['POST','GET'])
+def send_message():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    sender_id = session['user_id']
+    receiver_id = request.form.get('receiver_id')
+    content = request.form.get('content')
+    print(f"Sender ID: {sender_id}, Receiver ID: {receiver_id}")
+
+    connection= getCursor()
+
+    # Check if receiver exists
+    connection.execute(query_check_receiver(), (receiver_id,))
+    receiver = connection.fetchone()
+    
+    if not receiver:
+        return jsonify({"error": "Receiver does not exist"}), 400
+    else:
+        connection.execute(query_insert_message(), (sender_id, receiver_id, content, datetime.utcnow(), 'sent'))
+        new_message_id = connection.lastrowid
+
+        # Update or create conversation
+        connection.execute(query_select_conversation(), (sender_id, receiver_id, receiver_id, sender_id))
+        conversation = connection.fetchone()
+        if conversation:
+            connection.execute(query_update_conversation(), (new_message_id, datetime.utcnow(), conversation[0]))
+            print(conversation[0])
+        else:
+            connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
+
+        response = {
+            'sender_id': sender_id,
+            'content': content
+        }
+        return jsonify(response)        
+    
