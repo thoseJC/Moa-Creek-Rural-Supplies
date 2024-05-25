@@ -7,7 +7,6 @@ checkout_page = Blueprint("checkout", __name__, static_folder="static", template
 @checkout_page.route("/proceed_payment", methods=["POST"])
 def proceed_payment():
     try:
-        print("request.json", request.json)
         user_id = request.json.get("userId")
         total = request.json.get('total', 0)
         payment_type = request.json.get('paymentType', "Credit Card")
