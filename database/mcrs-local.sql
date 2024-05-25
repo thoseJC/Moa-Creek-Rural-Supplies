@@ -60,6 +60,9 @@ CREATE TABLE users (
     phone_number VARCHAR (20),
     loyalty_points int DEFAULT 0,
     user_password VARCHAR(255) NOT NULL,
+    credit_limit decimal(10,2),
+    credit_remaining decimal(10,2),
+    credit_apply decimal(10,2),
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
