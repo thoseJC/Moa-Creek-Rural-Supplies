@@ -1,0 +1,17 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} 
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Dashboard {% endblock %} 
+
+{% block content %}
+<div class="account-dashboard--container">
+  {% set current_page = 'credit' %} 
+  {% include 'global/account_navbar.html' %}
+  
+  <div>credit content</div>
+</div>
+
+{% endblock %}
