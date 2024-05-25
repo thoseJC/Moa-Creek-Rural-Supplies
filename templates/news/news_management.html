@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<div>News Management Page</div>
+
+<div class="form-error">{{ err_msg }}</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <ul>
+            {% for news in news_list %}
+                <li>
+                    <h2>{{ news.title }}</h2>
+                    <p>{{ news.content }}</p>
+                    <p><strong>Created By:</strong> {{ news.created_by }}</p>
+                    <p><strong>Published:</strong> {{ 'Yes' if news.is_published else 'No' }}</p>
+                    <p><strong>Published Date:</strong> {{ news.published_date }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

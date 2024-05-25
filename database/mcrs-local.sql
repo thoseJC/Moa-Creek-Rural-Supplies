@@ -176,7 +176,7 @@ CREATE TABLE address (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE news {
+CREATE TABLE news (
     news_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(500) NOT NULL,
     content TEXT NOT NULL,
@@ -184,7 +184,7 @@ CREATE TABLE news {
     is_published BOOLEAN DEFAULT FALSE,
     published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(user_id)
-}
+)
 
 
 
