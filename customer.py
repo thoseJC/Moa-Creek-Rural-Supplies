@@ -19,7 +19,7 @@ def dashboard():
   if session.get('logged_in') != True or user["user_role"] != 'customer':
     return redirect(url_for('login_page.login'))
   
-  connection = getCursor()  # Assuming getCursor() returns a database connection
+  connection = getCursor()  
   sql_query = "SELECT * FROM news WHERE is_published = true ORDER BY published_date DESC LIMIT 5"  # SQL query to get latest published news
   connection.execute(sql_query)
   news_list = []

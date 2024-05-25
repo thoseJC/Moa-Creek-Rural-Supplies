@@ -1,7 +1,7 @@
 from flask import Blueprint, flash,request, redirect, url_for, jsonify, render_template, session
 from datetime import datetime
 from cursor import getCursor
-from cursor import getCursor
+
 
 news_page = Blueprint("news_page", __name__, static_folder="static", template_folder="templates/news")
 
