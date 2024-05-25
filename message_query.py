@@ -74,6 +74,9 @@ def query_insert_conversation():
             INSERT INTO conversations (user_one_id, user_two_id, last_message_id, updated_at) 
             VALUES (%s, %s, %s, %s)
     """
-
+def query_fetch_sender_username():
+    return """
+            SELECT username FROM users WHERE users.user_id = %s
+    """
 
  
