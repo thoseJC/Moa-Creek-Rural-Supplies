@@ -1,13 +1,14 @@
 DROP TABLE IF EXISTS line_item;
 DROP TABLE IF EXISTS order_items;
-DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS conversations;
+DROP TABLE IF EXISTS messages; 
+DROP TABLE IF EXISTS shipments;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS receipt;
 DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS shipments;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS user_roles;
@@ -134,17 +135,26 @@ CREATE TABLE line_item(
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-CREATE TABLE message (
+CREATE TABLE messages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
-    send_user_id VARCHAR(36) NOT NULL,
-    receive_user_id VARCHAR(36),
+    sender_id varchar(36) NOT NULL,
+    receiver_id varchar(36) NOT NULL,
     content TEXT NOT NULL,
-    send_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status INT DEFAULT 0, -- 0: Unread; 1: Read
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('sent', 'read') DEFAULT 'sent',
+    FOREIGN KEY (sender_id) REFERENCES Users(user_id),
+    FOREIGN KEY (receiver_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE conversations (
+    conversation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_one_id varchar(36) NOT NULL,
+    user_two_id varchar(36) NOT NULL,
     last_message_id INT,
-    FOREIGN KEY (send_user_id) REFERENCES users(user_id),
-    FOREIGN KEY (receive_user_id) REFERENCES users(user_id),
-    FOREIGN KEY (last_message_id) REFERENCES message(message_id) ON DELETE SET NULL
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_one_id) REFERENCES Users(user_id),
+    FOREIGN KEY (user_two_id) REFERENCES Users(user_id),
+    FOREIGN KEY (last_message_id) REFERENCES Messages(message_id)
 );
 
 CREATE TABLE shipments (
@@ -152,28 +162,12 @@ CREATE TABLE shipments (
     order_id INT NOT NULL,
     shipping_type ENUM('standard', 'oversized', 'pickup', 'quote') DEFAULT 'standard',
     status ENUM('pending', 'shipped', 'delivered', 'cancelled', 'ready_for_pickup') DEFAULT 'pending',
-    tracking_number VARCHAR(255),
     freight DECIMAL(10, 2),
     expected_delivery_date DATE,
     actual_delivery_date DATE,
     carrier_name VARCHAR(255),
     additional_info TEXT,  -- For any additional details like pickup instructions or freight forwarding info
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
-);
-
-
-
-CREATE TABLE address (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(36) NOT NULL,
-    street_address VARCHAR(255) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    state VARCHAR(100) NOT NULL,
-    postal_code VARCHAR(20) NOT NULL,
-    country VARCHAR(100) NOT NULL,
-    is_primary BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 
@@ -231,7 +225,7 @@ INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending');
 
 
-INSERT INTO invoice (user_id, GST, freight, total) VALUES
+INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 
