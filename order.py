@@ -1,8 +1,11 @@
 from datetime import datetime
+import smtplib
 
 from flask import Blueprint, flash, redirect, url_for, jsonify, render_template, session, request
 from cursor import getCursor
+from message import send_email, send_status_update_notifications
 from staff_query import order_list_query, order_list_without_date_query, update_order_status_query
+from message import send_status_update_notifications
 
 order_page = Blueprint("order_page", __name__, static_folder="static", template_folder="templates/order")
 
@@ -25,27 +28,39 @@ def orders_list():
             connection.execute(sql_query)
 
         orders_list = connection.fetchall()
-        return render_template("order/order_management.html", orders_list=orders_list)
+        return render_template("/order_management.html", orders_list=orders_list)
     except Exception as e:
         print(f"Error fetching order list: {e}")
-        return render_template("order/order_management.html", error=str(e))
+        return render_template("/order_management.html", error=str(e))
 
 
-@order_page.route("update_order_status", methods=['GET', 'POST'])
+@order_page.route("/update_order_status", methods=['GET', 'POST'])
 def update_order_status():
     try:
         order_id = request.form.get('order_id')
-        order_status = request.form.get('order_status')
+        status = request.form.get('order_status')
         connection = getCursor()
 
-        if order_status not in ['pending''Prepared', 'Ready for Delivery', 'Delivered']:
-            return "Invalid status"
+        sql_query = update_order_status_query()
+        connection.execute(sql_query, (status, order_id))
 
-        else:
-            sql_query = update_order_status_query()
-            connection.execute(sql_query, order_id)
-            # return "Order status updated successfully"
-            return render_template("order/order_management.html")
+        flash('Order status updated successfully')
+        return redirect(url_for('order_page.orders_list'))
     except Exception as e:
         print(f"Error fetching order: {e}")
-        return render_template("order/order_management.html", error=str(e))
+        flash('Failed to update order status.', 'error')  # Flash an error message
+        return redirect(url_for('order_page.orders_list'))
+
+
+@order_page.route("/send_message_order_status", methods=['POST'])
+def send_message_order_status():
+    user_id = request.form.get('user_id')
+
+    try:
+        send_status_update_notifications(user_id)
+        flash('Notification sent successfully!', 'success')
+        return redirect(url_for('order_page.orders_list'))
+    
+    except Exception as e:
+        flash(f'Failed to send notification: {str(e)}', 'error')
+        return redirect(url_for('order_page.orders_list'))
