@@ -11,7 +11,7 @@ from login import login_page
 from register import register_page
 from user_profile import profile_page
 from cart import cart_page
-from news import news_page
+from news import news_page, get_news_list
 from cursor import getCursor
 
 from shippingaddress import shipping_address
@@ -33,21 +33,7 @@ app.register_blueprint(news_page, url_prefix="/news")
 
 @app.route("/")
 def home():
-    connection = getCursor()  
-    sql_query = "SELECT * FROM news WHERE is_published = true ORDER BY published_date DESC LIMIT 5"  # SQL query to get latest published news
-    connection.execute(sql_query)
-    news_list = []
-
-    for news in connection:
-        news_list.append({
-            "news_id": news[0],
-            "title": news[1],
-            "content": news[2],
-            "created_by": news[3],
-            "is_published": news[4],
-            "published_date": news[5]
-        })
-    connection.close()
+    news_list = get_news_list()
     return render_template('global/index.html', latest_news=news_list)
 
 @app.route('/logout')

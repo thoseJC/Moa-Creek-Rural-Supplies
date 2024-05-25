@@ -28,24 +28,28 @@ def get_logged_user():
         return redirect(url_for('login_page.login'))
     else:
         return session['user_id']
+    
+def get_news_list():
+    news_list = []
+    cursor = getCursor()
+    sql_query = query_news_list()
+    cursor.execute(sql_query)
+    for news in cursor:
+        news_list.append({
+            "news_id": news[0],
+            "title": news[1],
+            "content": news[2],
+            "created_by": news[3],
+            "is_published": news[4],
+            "published_date": news[5]
+        })
+    cursor.close()
+    return news_list
 
 @news_page.route('/news-management')
 def get_news():
     try:
-        news_list = []
-        cursor = getCursor()
-        sql_query = query_news_list()
-        cursor.execute(sql_query)
-        for news in cursor:
-            news_list.append({
-                "news_id": news[0],
-                "title": news[1],
-                "content": news[2],
-                "created_by": news[3],
-                "is_published": news[4],
-                "published_date": news[5]
-            })
-        cursor.close()
+        news_list = get_news_list()
         
         return render_template('news_management.html', news_list=news_list)
     except Exception as e:
