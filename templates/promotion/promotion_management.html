@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Promotions{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header">
+          <h4>Promotions</h4>
+          <a href="{{ url_for('promotion_page.add_promotion') }}" class="btn btn-primary">Add New Promotion</a>
+        </div>
+        <div class="card-body">
+          {% if promotions_list %}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Promotion Type</th>
+                  <th>Threshold Value</th>
+                  <th>Discount Value</th>
+                  <th>Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for promotion in promotions_list %}
+                  <tr>
+                    <td>{{ promotion.description }}</td>
+                    <td>{{ promotion.promotion_type }}</td>
+                    <td>{{ promotion.threshold_value if promotion.threshold_value is not none else 'N/A' }}</td>
+                    <td>{{ promotion.discount_value if promotion.discount_value is not none else 'N/A' }}</td>
+                    <td>
+                      {% if promotion.category_name %}
+                        Category: {{ promotion.category_name }}
+                      {% elif promotion.product_name %}
+                        Product: {{ promotion.product_name }}
+                      {% else %}
+                        All Products
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{{ url_for('promotion_page.edit_promotion', promotion_id=promotion.promotion_id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                  </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No promotions available at the moment.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
