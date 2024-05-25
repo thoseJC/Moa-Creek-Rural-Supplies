@@ -229,3 +229,14 @@ INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
+
+
+SELECT LAST_INSERT_ID() INTO @last_message_id;
+
+
+INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
+
+
