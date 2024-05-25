@@ -142,8 +142,8 @@ CREATE TABLE messages (
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('sent', 'read') DEFAULT 'sent',
-    FOREIGN KEY (sender_id) REFERENCES Users(user_id),
-    FOREIGN KEY (receiver_id) REFERENCES Users(user_id)
+    FOREIGN KEY (sender_id) REFERENCES users(user_id),
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE conversations (
@@ -152,9 +152,9 @@ CREATE TABLE conversations (
     user_two_id varchar(36) NOT NULL,
     last_message_id INT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_one_id) REFERENCES Users(user_id),
-    FOREIGN KEY (user_two_id) REFERENCES Users(user_id),
-    FOREIGN KEY (last_message_id) REFERENCES Messages(message_id)
+    FOREIGN KEY (user_one_id) REFERENCES users(user_id),
+    FOREIGN KEY (user_two_id) REFERENCES users(user_id),
+    FOREIGN KEY (last_message_id) REFERENCES messages(message_id)
 );
 
 CREATE TABLE shipments (
