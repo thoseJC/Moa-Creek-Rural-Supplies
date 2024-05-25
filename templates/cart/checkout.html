@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/checkout.css') }}">
+
+
+<checkout-pop class="checkout--container">
+  <div class="checkout--wrapper">
+    <div class="checkout--overlay"></div>
+    <div class="checkout--popup">
+      <div class="checkout-popup--header">Placing your order..</div>
+      <div class="checkout-popup--section">
+        <div class="form-container">
+          <div class="form-header">Address</div>
+          Address selection is pending...
+        </div>
+      </div>
+      <div class="checkout-popup--section">
+        <div class="form-container">
+          <div class="form-header">Payment</div>
+          <form id="payment-form">
+            <div class="form-group">
+              <label for="name">Name on Card</label>
+              <input type="text" id="name" required>
+              <div id="nameError" class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" required>
+              <div id="cardNumberError" class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="expiryDate">Expiry Date</label>
+              <input type="text" id="expiryDate" placeholder="MM/YY" required>
+              <div id="expiryDateError" class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" required>
+              <div id="cvvError" class="form-error"></div>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="payButton" class="common-btn--border">Pay Now</button>
+            </div>
+          </form>
+          <div id="message" class="form-msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</checkout-pop>
+
+

@@ -1,0 +1,107 @@
+.checkout--container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: none;
+}
+
+.checkout--container.active {
+  display: block;
+}
+
+.checkout--wrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.checkout--overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.checkout--popup {
+  z-index: 101;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  padding: 20px;
+  width: calc(100% - 80px);
+  max-width: 600px;
+  min-height: 500px;
+  max-height: 100vh;
+  overflow: scroll;
+  background-color: var(--light-white);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.checkout--container.active .checkout--wrapper .checkout--popup {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.checkout-popup--header {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.form-container {
+  width: 100%;
+  /* max-width: 400px; */
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-header {
+  font-size: 1.825rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.form-group button {
+  width: 100%;
+}
+
+.form-group button:disabled {
+  background-color: #ccc;
+}
+
+.form-error {
+  color: var(--red);
+}
+
+.form-msg {
+  text-align: center;
+  color: var(--green);
+}
