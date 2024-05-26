@@ -32,8 +32,6 @@ def manage_user_account():
       users_data = get_users_data()
       users = process_users_data(users_data)
       if request.method == 'POST':
-         print("request")
-         print(request.json)
          data = request.json;
          account_status =  updateAccountStatus(data)
          status = True if account_status == 1 else False
