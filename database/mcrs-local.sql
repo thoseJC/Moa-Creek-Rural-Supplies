@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS inventory;
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS promotions;
@@ -197,6 +198,16 @@ CREATE TABLE promotions (
     foreign key (target_category_id) references categories (category_id),
     foreign key (target_product_id) references products (product_id)
 );
+
+CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
