@@ -87,6 +87,33 @@ const addToCart = e => {
 
 cartIconQuantity();
 
+const proceedCheckout = flag => {
+  const checkoutPopup = document.querySelector('.checkout--container');
+  if (checkoutPopup) {
+    if (flag) {
+      checkoutPopup.classList.add('active');
+    } else {
+      checkoutPopup.classList.remove('active');
+    }
+  }
+}
+
+const btnCartCheckout = document.querySelector('#cart-checkout-btn');
+if (btnCartCheckout) {
+  btnCartCheckout.addEventListener('click', e => {
+    e.preventDefault();
+    proceedCheckout(true);
+  })
+}
+
+const checkoutPopupOverlay = document.querySelector('.checkout--overlay');
+if (checkoutPopupOverlay) {
+  checkoutPopupOverlay.addEventListener('click', e => {
+    e.preventDefault();
+    proceedCheckout(false);
+  })
+}
+
 const ctaAddToCart_btns = document.querySelectorAll('.cta-add-to-cart');
 ctaAddToCart_btns.forEach(btn => {
   btn.addEventListener('click', event => addToCart(event));
@@ -137,6 +164,7 @@ class CartTable extends HTMLElement {
         return response.json();
       })
       .then(data => {
+        this.updateLocalStorageProductPrices(data);
         this.renderCartProducts(data);
         this.updateOrderSummary(data)
       })
@@ -144,6 +172,21 @@ class CartTable extends HTMLElement {
         console.error('There has been a problem with your fetch operation:', error);
       });
     }
+  }
+  updateLocalStorageProductPrices(products) {
+    const userId = getUserId();
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const userCart = cart[userId] || [];
+
+    products.forEach(product => {
+      const cartItem = userCart.find(item => item.id == product.product_id);
+      if (cartItem) {
+        cartItem.price = parseFloat(product.price);
+      }
+    });
+
+    cart[userId] = userCart;
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
   renderCartProducts(products) {
     const cartItems = getCartItems();
@@ -269,11 +312,217 @@ class CartTable extends HTMLElement {
       totalPrice += product.price * quantity;
     });
 
+    const cart_table = document.querySelector('#cart-table');
+
     const orderSummaryTotal = document.querySelector('#order-summary-total');
     if (orderSummaryTotal) {
       orderSummaryTotal.textContent = `$${totalPrice.toFixed(2)}`;
+      cart_table.setAttribute("data-total", totalPrice);
+    }
+
+    const orderSummaryGST = document.querySelector('#order-summary-gst');
+    if (orderSummaryTotal) {
+      const totalGST = totalPrice * 0.15;
+      orderSummaryGST.textContent = `$${totalGST.toFixed(2)}`;
+      cart_table.setAttribute("data-gst", totalGST);
+    }
+
+    const orderSummaryShipping = document.querySelector('#order-summary-shipping');
+    if (orderSummaryShipping) {
+      if (totalPrice > 100) {
+        orderSummaryShipping.textContent = 'FREE';
+        cart_table.setAttribute("data-freight", 0);
+      } else {
+        orderSummaryShipping.textContent = `$10.00`;
+        cart_table.setAttribute("data-freight", 10);
+      }
     }
   }
 }
 
 customElements.define('cart-table', CartTable);
+
+
+
+class CheckoutPop extends HTMLElement {
+  constructor() {
+    super();
+    this.limitExpireDateInput();
+    this.limitCardNumber();
+    this.limitCVV();
+    this.paymentSubmit();
+  }
+  limitExpireDateInput() {
+    const expiryInput = document.getElementById('expiryDate');
+
+    expiryInput.addEventListener('input', (event) => {
+      const currentTarget = event.target;
+      let value = currentTarget.value;
+      let formatExpireValue = value.replace(/\D/g, '');
+      if (formatExpireValue.length > 4) {
+        formatExpireValue = formatExpireValue.slice(0, 4);
+      }
+      formatExpireValue = formatExpireValue.replace(/(\d{2})(?=\d{2})/g, '$1/');
+      currentTarget.value = formatExpireValue.trim();
+    });
+  }
+  limitCardNumber() {
+    const cardNumberInput = document.getElementById('cardNumber');
+
+    cardNumberInput.addEventListener('input', (event) => {
+      const currentTarget = event.target;
+      let value = currentTarget.value;
+      let formatCardNumber = value.replace(/\D/g, '');
+      if (formatCardNumber.length > 16) {
+        formatCardNumber = formatCardNumber.slice(0, 16);
+      }
+      currentTarget.value = formatCardNumber.trim();
+    });
+  }
+  limitCVV() {
+    const cvvInput = document.getElementById('cvv');
+
+    cvvInput.addEventListener('input', (event) => {
+      const currentTarget = event.target;
+      let value = currentTarget.value;
+      let formatCVVValue = value.replace(/\D/g, '');
+      if (formatCVVValue.length > 3) {
+        formatCVVValue = formatCVVValue.slice(0, 3);
+      }
+      currentTarget.value = formatCVVValue.trim();
+    });
+  }
+  validateName(name) {
+    return name.trim() !== '';
+  }
+  validateCardNumber(cardNumber) {
+    const regex = /^\d{16}$/;
+    return regex.test(cardNumber);
+  }
+  validateExpiryDate(expiryDate) {
+    const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!regex.test(expiryDate)) {
+      return false;
+    }
+  
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear().toString().slice(-2);
+  
+    const [expMonth, expYear] = expiryDate.split('/');
+    if (parseInt(expYear) < parseInt(currentYear)) {
+      return false;
+    }
+    if (parseInt(expYear) === parseInt(currentYear) && parseInt(expMonth) < currentMonth) {
+      return false; 
+    }
+  
+    return true;
+  }
+  validateCVV(cvv) {
+    const regex = /^\d{3,4}$/;
+    return regex.test(cvv);
+  }
+  paymentSubmit() {
+    document.getElementById('payment-form').addEventListener('submit', event => {
+      event.preventDefault();
+    
+      const name = document.getElementById('name').value;
+      const cardNumber = document.getElementById('cardNumber').value;
+      const expiryDate = document.getElementById('expiryDate').value;
+      const cvv = document.getElementById('cvv').value;
+    
+      document.getElementById('nameError').textContent = '';
+      document.getElementById('cardNumberError').textContent = '';
+      document.getElementById('expiryDateError').textContent = '';
+      document.getElementById('cvvError').textContent = '';
+    
+      let isValid = true;
+    
+      if (!this.validateName(name)) {
+        document.getElementById('nameError').textContent = '* Please enter your name on the card.';
+        isValid = false;
+      }
+    
+      if (!this.validateCardNumber(cardNumber)) {
+        document.getElementById('cardNumberError').textContent = '* Please enter a valid 16-digit card number.';
+        isValid = false;
+      }
+    
+      if (!this.validateExpiryDate(expiryDate)) {
+        document.getElementById('expiryDateError').textContent = '* Please enter a valid expiry date (MM/YY).';
+        isValid = false;
+      }
+    
+      if (!this.validateCVV(cvv)) {
+        document.getElementById('cvvError').textContent = '* Please enter a valid 3 or 4-digit CVV.';
+        isValid = false;
+      }
+    
+      if (isValid) {
+        document.getElementById('payButton').disabled = true;
+        document.getElementById('message').textContent = 'Processing your payment...';
+
+        const cart_table = document.querySelector('#cart-table');
+        const {
+          userId,
+          total,
+          gst,
+          freight
+        } = cart_table.dataset;
+        this.proceedPayment(userId, total, 'Credit Card', gst, freight);
+      }
+    });
+  }
+  proceedPayment(userId, total, paymentType, gst, freight) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const cartItems = cart[userId] || [];
+    const data = {
+      userId,
+      total,
+      paymentType,
+      gst,
+      freight,
+      cartItems
+    }
+
+    fetch('/checkout/proceed_payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const checkoutPopup = document.querySelector('.checkout--container');
+      checkoutPopup.classList.remove('active');
+      Swal.fire({
+        icon: "success",
+        title: "Payment made successfully!",
+        html: `Now, you can check your order from your <a href="/login">dashboard</a>!`,
+        showConfirmButton: true
+      });
+      delete cart[userId];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const cartTableWithProducts = document.querySelector('.cart--details.with-products');
+      const cartTableWithoutProducts = document.querySelector('.cart--details.without-products');
+      if (cartTableWithProducts) cartTableWithProducts.classList.add('displayNone');
+      if (cartTableWithoutProducts) cartTableWithoutProducts.classList.remove('displayNone');
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+}
+
+customElements.define('checkout-pop', CheckoutPop);
+
+
+
+

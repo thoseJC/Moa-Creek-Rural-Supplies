@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS promotions;
 
 
 
@@ -173,6 +175,17 @@ CREATE TABLE shipments (
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
 
+CREATE TABLE news (
+    news_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL,
+    created_by VARCHAR(36) NOT NULL,
+    is_published BOOLEAN DEFAULT FALSE,
+    published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
+);
+
+
 CREATE TABLE promotions (
     promotion_id INT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(500) NOT NULL,
@@ -240,6 +253,24 @@ INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
 
 INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
+
+
+INSERT INTO news (title,content,created_by,is_published,published_date) VALUES 
+('Company Expansion','We are expanding our operations to new regions, bringing our products and services closer to you. \r\n\r\nStay tuned for updates!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:40'),
+('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa','6f04f03c-1a31-11ef-8962-0f1231bf2b99',0,NULL),
+('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:29:00'),
+('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:15');
+
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
+
+
+SELECT LAST_INSERT_ID() INTO @last_message_id;
+
+
+INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
+
 
 
 INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES

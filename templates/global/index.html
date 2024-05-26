@@ -52,6 +52,25 @@ content %}
       {% include "components/product-card.html" %}
     </div>
   </product-cards>
+  {% set section_header = 'Latest News' %} {% set section_description = "" %}
+  {% include "components/section-header.html" %}
+  <product-cards class="product-cards--container">
+  <div class="product-cards">
+
+
+    <div class="card-body news-container" style="height: 300px; overflow-y: auto;">
+      {% for news in latest_news %}
+      <div>
+        <p><h5>{{ news.title }} </h5></p>
+        <p style="white-space: pre-line;">{{ news.content }}</p>
+        <p><strong>Published Date: {{ news.published_date }}</strong></p>
+        <hr> <!-- Horizontal line after each news item -->
+      </div>
+      {% endfor %}
+    </div>
+
+  </product-cards>
+  </div>
   <!-- 'Product Cards' Section - End -->
 </div>
 {% endblock %}

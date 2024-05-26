@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Conversation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/conversation_page.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Conversation</h1>
+        <div id="messages">
+            {% for msgs in messages %}
+            <p>{{ msgs[6] }}: {{ msgs[3] }}</p>
+            {% endfor %}
+        </div>
+        <form id="sendMessageForm" method="POST" action="{{ url_for('message_page.send_message') }}">
+            <input type="hidden" name="receiver_id" value="{{ messages[0][1] if messages else '' }}">
+            <textarea name="content" required></textarea><br>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/message.js') }}"></script>
+</body>
+{% endblock %}
