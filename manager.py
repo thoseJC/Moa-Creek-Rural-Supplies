@@ -3,7 +3,10 @@ from cursor import getConection, getCursor
 from flask import session
 from flask import render_template
 
-from message_query_n_function import get_user_account_info_sql
+from manager_query import get_user_account_info_sql
+
+
+
 
 
 manager_page = Blueprint("manager", __name__, static_folder="static", template_folder="templates/manager")
