@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const notifications = await response.json();
             return notifications;
+
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
         }
@@ -22,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const notificationElement = document.createElement('div');
             notificationElement.className = 'notifications';
             notificationElement.innerHTML = `
-                <div>Message: ${notifications.message}</div>
-                <div>Time: ${notifications.created_at}</div>
+                <div>Message: ${notifications[1]}</div>
+                <div>Time: ${notifications[3]}</div>
             `;
             notificationsContainer.appendChild(notificationElement);
         });
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     notificationIcon.addEventListener('click', async () => {
         const notifications = await fetchNotifications();
         if (notifications) {
-            const unreadCount = notifications.filter(notification => !notification.is_read).length;
+            const unreadCount = notifications.filter(notification => !notification[2]).length;
             showNotifications(notifications);
             updateNotificationIcon(unreadCount);
         }
@@ -52,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     (async () => {
         const notifications = await fetchNotifications();
         if (notifications) {
-            const unreadCount = notifications.filter(notification => !notification.is_read).length;
+
+            const unreadCount = notifications.filter(notification => !notification[2]).length;
             updateNotificationIcon(unreadCount);
         }
     })();

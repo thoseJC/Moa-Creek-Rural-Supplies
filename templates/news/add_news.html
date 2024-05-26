@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Add News{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header">
+          <h4>Add News</h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="title" class="form-label">Title:</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+              <div class="invalid-feedback">
+                Please enter a title.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Content:</label>
+              <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+              <div class="invalid-feedback">
+                Please enter the content.
+              </div>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="is_published" name="is_published">
+              <label class="form-check-label" for="is_published">Published</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Add News</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
