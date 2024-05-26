@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Add Promotion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h4>Add Promotion</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="promotion_type" class="form-label">Promotion Type</label>
+                            <select class="form-control" id="promotion_type" name="promotion_type" required>
+                                <option value="get_1_free">Buy and Get One Free</option>
+                                <option value="special_price">Special Price</option>
+                                <option value="free_delivery">Free Delivery</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="threshold_value" class="form-label">Threshold Value</label>
+                            <input type="number" step="0.01" class="form-control" id="threshold_value" name="threshold_value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="discount_value" class="form-label">Discount Value</label>
+                            <input type="number" step="0.01" class="form-control" id="discount_value" name="discount_value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="target_category_id" class="form-label">Target Category</label>
+                            <select class="form-control" id="target_category_id" name="target_category_id">
+                                <option value="">Select Category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category[0] }}">{{ category[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="target_product_id" class="form-label">Target Product</label>
+                            <select class="form-control" id="target_product_id" name="target_product_id">
+                                <option value="">Select Product</option>
+                                {% for product in products %}
+                                    <option value="{{ product[0] }}">{{ product[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="all_products" name="all_products">
+                            <label class="form-check-label" for="all_products">Apply to all products</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Promotion</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

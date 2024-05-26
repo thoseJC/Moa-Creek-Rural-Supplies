@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS promotions;
 
 
 
@@ -182,9 +183,20 @@ CREATE TABLE news (
     is_published BOOLEAN DEFAULT FALSE,
     published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(user_id)
-)
+);
 
 
+CREATE TABLE promotions (
+    promotion_id INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(500) NOT NULL,
+    promotion_type VARCHAR(125) NOT NULL,
+    threshold_value decimal (10, 2) NULL,
+    discount_value decimal (10, 2) NULL,
+    target_category_id INT NULL, 
+    target_product_id INT NULL,
+    foreign key (target_category_id) references categories (category_id),
+    foreign key (target_product_id) references products (product_id)
+);
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
@@ -259,3 +271,9 @@ SELECT LAST_INSERT_ID() INTO @last_message_id;
 INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
 ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
+
+
+INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES
+('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
+('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
+('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
