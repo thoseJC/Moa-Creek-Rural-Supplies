@@ -28,3 +28,18 @@ def categories():
     categories_list = connection.fetchall()
 
     return render_template("global/categories.html", categories_list=categories_list)
+
+
+@customer_page.route("/notifications/", methods=['GET'])
+def notifications():
+    user_id = session.get("user_id")
+    print(user_id)
+    try:
+        connection= getCursor()
+        sql_query = "SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s ORDER BY created_at DESC"
+        connection.execute(sql_query, (user_id,))
+        notifications = connection.fetchall()
+        return jsonify(notifications)
+    except Exception as e:
+        print(f"Error fetching notifications: {e}")
+        return jsonify({"error": str(e)}), 500
