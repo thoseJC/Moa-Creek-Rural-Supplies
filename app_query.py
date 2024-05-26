@@ -50,10 +50,26 @@ def update_user_profile_query():
 					first_name = %s,
 					last_name = %s,
 					email = %s,
-					phone_number = %s
+					phone_number = %s,
+					user_password = %s
 				WHERE
 					user_id = %s;
 			"""
+
+def update_user_profile_by_manager():
+	return '''
+				UPDATE 
+					users
+				SET 
+					first_name = %s,
+					last_name = %s,
+					email = %s,
+					phone_number = %s,
+					user_password = %s
+				WHERE
+					user_id = %s;
+'''
+
 
 def get_user_profile_query():
 	return """

@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS user_account_management;
 DROP TABLE IF EXISTS line_item;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS conversations;
@@ -14,6 +15,7 @@ DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS promotions;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
+
 
 
 CREATE TABLE categories (
@@ -258,7 +260,6 @@ INSERT INTO messages (sender_id, receiver_id, content) VALUES
 
 SELECT LAST_INSERT_ID() INTO @last_message_id;
 
-
 INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
 ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
@@ -268,6 +269,7 @@ INSERT INTO promotions ( description, promotion_type, threshold_value, discount_
 ('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
 ('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
 ('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
+
 
 
 INSERT INTO messages (sender_id, receiver_id, content) VALUES
@@ -280,6 +282,9 @@ SELECT LAST_INSERT_ID() INTO @last_message_id;
 INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
 ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
+CREATE VIEW user_account_management  AS (
+SELECT us.user_id, us.first_name, us.last_name, us.username, us.email, ur.role_name, IF(us.status = 1, 'Active', 'Inactive') as account_status FROM users us LEFT JOIN user_roles ur ON us.role_id = ur.role_id
+)
 
 
 -- To be fixed : the foreign key constraints being violated
