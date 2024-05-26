@@ -248,3 +248,14 @@ INSERT INTO news (title,content,created_by,is_published,published_date) VALUES
 ('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa','6f04f03c-1a31-11ef-8962-0f1231bf2b99',0,NULL),
 ('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:29:00'),
 ('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:15');
+
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
+
+
+SELECT LAST_INSERT_ID() INTO @last_message_id;
+
+
+INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
+
