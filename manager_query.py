@@ -32,3 +32,5 @@ def update_customer_credit_apply():
     SET credit_apply=%s, credit_remaining=%s, credit_limit=%s
     WHERE user_id=%s;
   """
+def get_user_account_info_sql():
+    return '''select * from user_account_management where user_id != %s;'''

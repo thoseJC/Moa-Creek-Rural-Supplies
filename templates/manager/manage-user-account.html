@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/manager_accounts_management.css') }}"
+/>
+
+<div>
+  <h3>User Accounts Management</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Full name</th>
+        <th>User name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Active Status</th>
+        <th>Change Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.full_name }}</td>
+        <td>
+          <a
+            href="{{url_for('manager.manage_user_account_by_id', user_id = user.user_id)}}"
+          >
+            {{ user.username }}
+          </a>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td id="status-{{user.user_id}}">{{ user.is_active}}</td>
+        <td>
+          <button
+            id="toggle-button-{{user.user_id}}"
+            onclick="toggleStatus(
+            `{{user.user_id}}`
+            
+            )"
+          >
+            {% if user.is_active == 'Active' %} Deactivate {%else%} Activate
+            {%endif%}
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const toggleStatus = (userId) => {
+    let currentStatue = document.getElementById(`status-${userId}`).innerText;
+    action = currentStatue === "Active" ? "Deactivate" : "Activate";
+    fetch(`/manager/user-account`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        operation: action,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          console.log(data);
+          document.getElementById(`status-${userId}`).innerText =
+            data.new_status ? "Active" : "Inactive";
+          document.getElementById(`toggle-button-${userId}`).innerText =
+            data.new_status ? "Deactivate" : "Activate";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+</script>
+
+{% endblock %}

@@ -21,9 +21,9 @@ def manage_own_profile():
 			last_name = request.form.get('last_name')
 			email = request.form.get('email')
 			phone_number = request.form.get('phone_number')
-			user_password = request.form.get("first_password")
+			user_password = request.form.get("first_password") if request.form.get("first_password") else session.get("password")
 			print("password : %s", user_password)
-			user = (first_name, last_name, email, phone_number)
+			user = (first_name, last_name, email, phone_number,user_password)
 			check_status = True
 			if email and is_valid_email(email) != True:
 				check_status = False
@@ -33,7 +33,7 @@ def manage_own_profile():
 				msg_obj["phone_number"] = "Please enter a correct phone number!"
 			if check_status:
 				sql_query = update_user_profile_query()
-				cursor.execute(sql_query, (first_name, last_name, email, phone_number, user_id,))
+				cursor.execute(sql_query, (first_name, last_name, email, phone_number,user_password, user_id,))
 				msg_obj["success"] = "Your profile has been updated successfully!"
 
 		else:

@@ -1,0 +1,275 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} {% block title %}MCRS - Manage User Profile {%
+endblock %} {% block content %}
+
+<div class="account-dashboard--container">
+  <!-- {% set current_page = 'profile' %} -->
+  <!--  -->
+  {% include 'global/account_navbar.html' %}
+
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Profile / {{ user.first_name }} {{ user.lastn_ame }}
+    </div>
+
+    <form
+      action="{{url_for('manager.manage_user_account_by_id', user_id=user['user_id'])}}"
+      class="global-form"
+      method="POST"
+    >
+      <div class="form-field">
+        <label for="">First Name</label>
+        <input
+          type="text"
+          name="first_name"
+          value="{% if user.first_name %}{{ user.first_name }}{% endif %}"
+          placeholder="First Name"
+        />
+      </div>
+      <div
+        class="form-field{% if msg_obj['email'] != '' %} with-error{% endif %}"
+      >
+        <label for="">Last Name</label>
+        <input
+          type="text"
+          name="last_name"
+          value="{% if user.last_name %}{{ user.last_name }}{% endif %}"
+          placeholder="Last Name"
+        />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="text"
+          name="email"
+          value="{% if user.email %}{{ user.email }}{% endif %}"
+          placeholder="Email"
+          required
+        />
+        <span id="email_validation_message" class="validation-message"></span>
+        <div>{{ msg_obj["email"] }}</div>
+      </div>
+      <div
+        class="form-field{% if msg_obj['phone_number'] != '' %} with-error{% endif %}"
+      >
+        <label for="">Phone Number</label>
+        <input
+          type="text"
+          id="phone_number"
+          name="phone_number"
+          value="{% if user.phone %}{{ user.phone }}{% endif %}"
+          placeholder="Phone Number"
+          required
+        />
+        <span
+          id="phone_number_validation_message"
+          class="validation-message"
+          style="color: red"
+        ></span>
+      </div>
+      <!-- update password -->
+      <div class="form-field">
+        <label for="">Password</label>
+        <input
+          id="first_password"
+          type="password"
+          name="first_password"
+          placeholder="New Password"
+        />
+        <span
+          id="password_validation_message"
+          class="validation-message"
+        ></span>
+      </div>
+
+      <div class="form-field">
+        <label for="">Confirm Password</label>
+        <input
+          id="second_password"
+          type="password"
+          name="second_password"
+          placeholder="Confirm password"
+          disabled
+        />
+      </div>
+
+      <!-- reponse message -->
+      <div class="submmit-button">
+        <button
+          type="submit"
+          class="common-btn--border"
+          id="submitProfileButton"
+          disabled
+        >
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const debounce = (func, delay) => {
+    let timer;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(context, args);
+      }, delay);
+    };
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const resetSecondPasswordField = () => {
+    second_password_ele.value = "";
+    second_password_ele.disabled = true;
+    second_password_ele.style.borderColor = "";
+  };
+
+  const resetFirstPassordField = () => {
+    const password_validation_message = document.getElementById(
+      "password_validation_message"
+    );
+    password_validation_message.textContent = "";
+    first_password_ele.style.borderColor = "";
+  };
+
+  const processValue = () => {
+    const first_password_ele = document.getElementById("first_password");
+    const password_validation_message = document.getElementById(
+      "password_validation_message"
+    );
+    const first_password = first_password_ele.value;
+    const second_password = second_password_ele.value;
+    if (!first_password || first_password.trim() === "") {
+      resetFirstPassordField();
+      resetSecondPasswordField();
+    } else {
+      const isValid = validatePassword(first_password);
+      if (isValid) {
+        second_password_ele.disabled = false;
+        password_validation_message.textContent = "Password is valid";
+        first_password_ele.style.borderColor = "green";
+        password_validation_message.style.color = "green";
+        if (second_password.trim() === "") {
+          second_password_ele.style.borderColor = "";
+        }
+      } else {
+        password_validation_message.textContent =
+          "Password must contain at least one Uppercase letter, one lowercase letter, one number, one special character(@$!%*?&), and have a minimum length of 8 characters.";
+        first_password_ele.style.borderColor = "red";
+        password_validation_message.style.color = "red";
+        resetSecondPasswordField();
+      }
+    }
+
+    if (second_password && second_password.trim() !== "") {
+      if (second_password === first_password) {
+        password_validation_message.textContent = "Passwords match";
+        password_validation_message.style.color = "green";
+        second_password_ele.style.borderColor = "green";
+      } else {
+        password_validation_message.textContent = "Passwords does not match";
+        password_validation_message.style.color = "red";
+        second_password_ele.style.borderColor = "red";
+      }
+    }
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberRegex = /^[0-9+]+$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  const checkPhoneNumber = () => {
+    const phone_number_ele = document.getElementById("phone_number");
+    const phone_number_validation_message_ele = document.getElementById(
+      "phone_number_validation_message"
+    );
+    const phoneNumber = phone_number_ele.value;
+    const isvalid = validatePhoneNumber(phoneNumber);
+    if (isvalid || !phoneNumber || phoneNumber.trim() === "") {
+      phone_number_ele.style.borderColor = "";
+      phone_number_validation_message_ele.textContent = "";
+    } else {
+      phone_number_ele.style.borderColor = "red";
+      phone_number_validation_message_ele.textContent =
+        "Phone Number can only contains number and  + ";
+    }
+  };
+
+  const checkEmail = () => {
+    const email = email_ele.value;
+    const isValid = validateEmail(email);
+    const email_validation_message = document.getElementById(
+      "email_validation_message"
+    );
+    if (!email || email.trim() === "") {
+      email_validation_message.textContent = "";
+    } else {
+      if (isValid) {
+        email_validation_message.textContent = "";
+      } else {
+        email_validation_message.textContent = "Email Address Not Valid";
+        email_validation_message.style.color = "red";
+      }
+    }
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const toggleSubmitButton = () => {
+    const email = email_ele.value;
+    const phoneNumber = phone_number_ele.value;
+    const password = first_password_ele.value;
+    const confirmPassword = second_password_ele.value;
+
+    const passwordValid =
+      !password ||
+      password.trim() === "" ||
+      (validatePassword(password) && password === confirmPassword);
+    submitProfileButton.disabled = !(
+      passwordValid &&
+      validatePhoneNumber(phoneNumber) &&
+      validateEmail(email)
+    );
+  };
+
+  const handleFirstPasswordInputChange = debounce(processValue, 200);
+  const handlePhoneNumberInput = debounce(checkPhoneNumber, 200);
+  const handleEmailInput = debounce(checkEmail, 200);
+
+  const first_password_ele = document.getElementById("first_password");
+  const second_password_ele = document.getElementById("second_password");
+  const phone_number_ele = document.getElementById("phone_number");
+  const email_ele = document.getElementById("email");
+  const submitProfileButton = document.getElementById("submitProfileButton");
+  first_password_ele.addEventListener("input", handleFirstPasswordInputChange);
+  first_password_ele.addEventListener("blur", handleFirstPasswordInputChange);
+  second_password_ele.addEventListener("input", handleFirstPasswordInputChange);
+  phone_number_ele.addEventListener("input", handlePhoneNumberInput);
+  phone_number_ele.addEventListener("blur", handlePhoneNumberInput);
+  email_ele.addEventListener("input", handleEmailInput);
+  email_ele.addEventListener("blur", handleEmailInput);
+  first_password_ele.addEventListener("input", toggleSubmitButton);
+  second_password_ele.addEventListener("input", toggleSubmitButton);
+  phone_number_ele.addEventListener("input", toggleSubmitButton);
+  email_ele.addEventListener("input", toggleSubmitButton);
+</script>
+
+{% endblock %}

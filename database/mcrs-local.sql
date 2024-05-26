@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS user_account_management;
 DROP TABLE IF EXISTS line_item;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS conversations;
@@ -8,10 +9,13 @@ DROP TABLE IF EXISTS receipt;
 DROP TABLE IF EXISTS inventory;
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS address;
-DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS promotions;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
 
 
 
@@ -173,6 +177,37 @@ CREATE TABLE shipments (
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
 
+CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+
+CREATE TABLE promotions (
+    promotion_id INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(500) NOT NULL,
+    promotion_type VARCHAR(125) NOT NULL,
+    threshold_value decimal (10, 2) NULL,
+    discount_value decimal (10, 2) NULL,
+    target_category_id INT NULL, 
+    target_product_id INT NULL,
+    foreign key (target_category_id) references categories (category_id),
+    foreign key (target_product_id) references products (product_id)
+);
+
+CREATE TABLE news (
+    news_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL,
+    created_by VARCHAR(36) NOT NULL,
+    is_published BOOLEAN DEFAULT FALSE,
+    published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
+);
 
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
@@ -231,4 +266,41 @@ INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
 INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
+
+
+SELECT LAST_INSERT_ID() INTO @last_message_id;
+
+INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
+
+
+
+INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES
+('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
+('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
+('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
+
+
+
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
+
+
+SELECT LAST_INSERT_ID() INTO @last_message_id;
+
+
+INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
+
+CREATE VIEW user_account_management  AS (
+SELECT us.user_id, us.first_name, us.last_name, us.username, us.email, ur.role_name, IF(us.status = 1, 'Active', 'Inactive') as account_status FROM users us LEFT JOIN user_roles ur ON us.role_id = ur.role_id
+);
+
+INSERT INTO news (title,content,created_by,is_published,published_date) VALUES 
+('Company Expansion','We are expanding our operations to new regions, bringing our products and services closer to you. \r\n\r\nStay tuned for updates!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:40'),
+('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa',(SELECT user_id FROM users WHERE username = 'manager'),0,NULL),
+('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:29:00'),
+('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:15');
 

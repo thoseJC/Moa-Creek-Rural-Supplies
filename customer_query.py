@@ -25,3 +25,7 @@ def update_credit_apply():
     SET credit_apply = %s
     WHERE user_id = %s
 	"""
+def query_notifications():
+    return """
+    		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC
+    	"""
