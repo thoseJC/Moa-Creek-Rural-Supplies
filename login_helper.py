@@ -18,3 +18,4 @@ def setUp_session(user):
 	session["first_name"] = user[6]
 	session["last_name"] = user[7]
 	session["order_count"] = user[8]
+	session["password"] = user[3]
