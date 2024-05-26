@@ -8,9 +8,6 @@ connection = None
 def getCursor(): 
   try:
     connection =  getConection()
-    # connection = mysql.connector.connect(user=connect.dbuser, \
-    # password=connect.dbpass, host=connect.dbhost, \
-    # database=connect.dbname, autocommit=True)
     dbconn = connection.cursor()
     return dbconn
   except Exception as e:
