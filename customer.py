@@ -3,6 +3,7 @@ from cursor import getCursor
 from flask import session
 from flask import render_template
 
+from login_helper import getUserInfo
 from customer_query import category_list_query, query_notifications
 
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
@@ -10,14 +11,7 @@ customer_page = Blueprint("customer", __name__, static_folder="static", template
 
 @customer_page.route("/dashboard")
 def dashboard():
-
-  user = {
-    "user_id": session.get("user_id"),
-    "user_role": session.get("user_role"),
-    "first_name": session.get("first_name"),
-    "last_name": session.get("last_name"),
-    "order_count": session.get("order_count")
-  }
+  user = getUserInfo()
   if session.get('logged_in') != True or user["user_role"] != 'customer':
     return redirect(url_for('login_page.login'))
   

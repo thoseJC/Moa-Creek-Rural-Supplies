@@ -19,3 +19,14 @@ def setUp_session(user):
 	session["last_name"] = user[7]
 	session["order_count"] = user[8]
 	session["password"] = user[3]
+
+def getUserInfo():
+	user = {
+    	"user_id": session.get("user_id"),
+    	"user_role": session.get("user_role"),
+    	"first_name": session.get("first_name"),
+    	"last_name": session.get("last_name"),
+    	"order_count": session.get("order_count")
+	}
+	return user;
+	
