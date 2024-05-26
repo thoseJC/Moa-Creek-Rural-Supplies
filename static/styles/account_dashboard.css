@@ -127,3 +127,19 @@
 .account-content--btn {
   margin: 20px 0 0 0;
 }
+
+.account-content--tip-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.account-content--tip {
+  position: absolute;
+  right: -80px;
+  border: 1px solid var(--red);
+  font-size: 0.75rem;
+  color: var(--red);
+  border-radius: 5px;
+  background-color: rgba(210, 45, 30, 0.3);
+  padding: 2px 5px;
+}

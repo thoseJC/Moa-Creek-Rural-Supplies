@@ -20,6 +20,10 @@
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('customer.credit')}}">Credit</a>
     </li>
+    {% elif session["user_role"] == 'manager' %}
+    <li class="{% if current_page == 'credit' %}active{% endif %}">
+      <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
+    </li>
     {% endif %}
 
     <!-- 'Addresses' feature is currently pending -->
