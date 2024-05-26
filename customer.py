@@ -35,6 +35,10 @@ def categories():
 
 @customer_page.route("/credit")
 def credit():
+  msg_obj = {
+    "type": "",
+    "msg": ""
+  }
   user = get_user_info()
   credit_obj = {
     "credit_limit": 0,
@@ -51,7 +55,7 @@ def credit():
     result = cursor.fetchone()
     if result:
       limit_alert = False
-      if float(result[1]) <= 50:
+      if float(result[1]) < 50:
         limit_alert = True
       credit_obj = {
         "credit_limit": result[0],
@@ -59,10 +63,19 @@ def credit():
         "credit_apply": result[2],
         "limit_alert": limit_alert
       }
+      if result[2] == -1:
+        msg_obj['type'] = 'success'
+        msg_obj['msj'] = 'Congratulations!! Your credit limit has been increased!!'
+        sql_query = update_credit_apply()
+        cursor = getCursor()
+        cursor.execute(sql_query, (0, user['user_id']))
+      elif result[2] > 0:
+        msg_obj['type'] = 'notification'
+        msg_obj['msj'] = 'Your credit limit increasement application is currently pending on review, you should hear back within 3 business days.'
   except Exception as e:
     print(f"Database query failed: {e}")
     return "An error occurred", 500
-  return render_template("credit.html", user=user, credit_obj=credit_obj)
+  return render_template("credit.html", user=user, credit_obj=credit_obj, msg_obj=msg_obj)
 
 
 @customer_page.route("/credit_apply", methods=["POST"])

@@ -26,9 +26,7 @@
           <span class="notification-text">You don't have any notification/reminder yet.</span>
           {% endif %}
 
-          {% if credit_obj["credit_apply"] %}
-          <span class="notification-text">Your credit limit increasement application is currently pending on review, you should hear back within 3 business days.</span>
-          {% endif %}
+          <span class="{{ msg_obj['type'] }}-text">{{ msg_obj['msj'] }}</span>
         </div>
       </div>
       
@@ -43,7 +41,7 @@
             <div class="account-content--item-label">Credit Remaining:</div>
             <div class="account-content--item-value">${{ credit_obj["credit_remaining"] }}</div>
           </div>
-          {% if credit_obj["credit_apply"] == False %}
+          {% if credit_obj["credit_apply"] == 0 %}
           <div class="account-content--btn">
             <a href="#" class="common-btn--text" id="cta-credit-pop">I would like to apply for increasing my credit limit</a>
           </div>

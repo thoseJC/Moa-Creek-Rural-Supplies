@@ -7,7 +7,7 @@
 {% block title %}MCRS - {{ user["user_role"] | capitalize }} Credit Management {% endblock %} 
 
 {% block content %}
-<div class="account-dashboard--container">
+<credit-management class="account-dashboard--container">
   {% set current_page = 'credit' %} 
   {% include 'global/account_navbar.html' %}
   
@@ -33,7 +33,7 @@
                 <td>
                   <div class="account-content--tip-wrapper">
                     {{ user["first_name"] }} {{ user["last_name"] }}
-                    {% if user["credit_apply"]  %}
+                    {% if user["credit_apply"] != -1 and user["credit_apply"] != 0 %}
                     <span class="account-content--tip">
                       <svg width="12px" height="12px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 10.5V12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2H13.5" stroke="#d22d1e" stroke-width="1.5" stroke-linecap="round"/>
@@ -47,7 +47,17 @@
                   </div>
                 </td>
                 <td>
-                  <a href="#" class="common-btn--text" id="cta-credit-pop" data-user-id="{{ user["user_id"] }}">Manage</a>
+                  <a 
+                    href="#" 
+                    class="common-btn--text cta-manage-customer-credit" 
+                    data-user-id="{{ user["user_id"] }}"
+                    data-user-name="{{ user["first_name"] }} {{ user["last_name"] }}"
+                    data-credit-limit="{{ user["credit_limit"] }}"
+                    data-credit-remaining="{{ user["credit_remaining"] }}"
+                    data-credit-apply="{{ user["credit_apply"] }}"
+                  >
+                    Manage
+                  </a>
                 </td>
               </tr>
               {% endfor %}
@@ -57,7 +67,7 @@
       </div>
     </div>
   </div>
-</div>
-
+  {% include "components/manage-customer-credit.html" %}
+</credit-management>
 
 {% endblock %}
