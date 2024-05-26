@@ -173,7 +173,17 @@ CREATE TABLE shipments (
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
 );
 
-
+CREATE TABLE promotions (
+    promotion_id INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(500) NOT NULL,
+    promotion_type VARCHAR(125) NOT NULL,
+    threshold_value decimal (10, 2) NULL,
+    discount_value decimal (10, 2) NULL,
+    target_category_id INT NULL, 
+    target_product_id INT NULL,
+    foreign key (target_category_id) references categories (category_id),
+    foreign key (target_product_id) references products (product_id)
+);
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
@@ -232,3 +242,7 @@ INSERT INTO receipt (user_id, GST, freight, total) VALUES
     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
 
 
+INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES
+('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
+('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
+('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
