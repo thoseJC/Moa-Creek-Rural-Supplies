@@ -199,13 +199,14 @@ CREATE TABLE promotions (
     foreign key (target_product_id) references products (product_id)
 );
 
-CREATE TABLE notifications (
-    notification_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(36) NOT NULL,
-    message TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+CREATE TABLE news (
+    news_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    content TEXT NOT NULL,
+    created_by VARCHAR(36) NOT NULL,
+    is_published BOOLEAN DEFAULT FALSE,
+    published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
 
@@ -295,13 +296,11 @@ INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
 
 CREATE VIEW user_account_management  AS (
 SELECT us.user_id, us.first_name, us.last_name, us.username, us.email, ur.role_name, IF(us.status = 1, 'Active', 'Inactive') as account_status FROM users us LEFT JOIN user_roles ur ON us.role_id = ur.role_id
-)
+);
 
-
--- To be fixed : the foreign key constraints being violated
--- INSERT INTO news (title,content,created_by,is_published,published_date) VALUES 
--- ('Company Expansion','We are expanding our operations to new regions, bringing our products and services closer to you. \r\n\r\nStay tuned for updates!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:40'),
--- ('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa','6f04f03c-1a31-11ef-8962-0f1231bf2b99',0,NULL),
--- ('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:29:00'),
--- ('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!','6f04f03c-1a31-11ef-8962-0f1231bf2b99',1,'2024-05-25 14:28:15');
+INSERT INTO news (title,content,created_by,is_published,published_date) VALUES 
+('Company Expansion','We are expanding our operations to new regions, bringing our products and services closer to you. \r\n\r\nStay tuned for updates!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:40'),
+('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa',(SELECT user_id FROM users WHERE username = 'manager'),0,NULL),
+('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:29:00'),
+('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:15');
 
