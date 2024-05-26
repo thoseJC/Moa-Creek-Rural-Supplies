@@ -11,6 +11,7 @@ from login import login_page
 from register import register_page
 from user_profile import profile_page
 from cart import cart_page
+from checkout import checkout_page
 
 from shippingaddress import shipping_address
 
@@ -25,6 +26,7 @@ app.register_blueprint(login_page, url_prefix="/login")
 app.register_blueprint(register_page, url_prefix="/register")
 app.register_blueprint(profile_page, url_prefix="/profile")
 app.register_blueprint(cart_page, url_prefix="/cart")
+app.register_blueprint(checkout_page, url_prefix="/checkout")
 app.register_blueprint(shipping_address, url_prefix="/shipping")
 
 
