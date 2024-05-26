@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+</head>
+<body>
+    <h1>Inbox</h1>
+    <ul>
+        {% for convsn in conversations %}
+        <li><a href="{{ url_for('message_page.conversation', conversation_id = convsn[0]) }}">Conversation with {{convsn[2] if convsn[] != session['user_id'] else convsn[1] }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+
+{% endblock %}
+

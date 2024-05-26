@@ -3,7 +3,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<cart-table class="cart--container" data-user-id="{{ user_id }}">
+<cart-table class="cart--container" id="cart-table" data-user-id="{{ user_id }}">
   <div class="cart--header">My Bag</div>
   <div class="cart--details with-products displayNone">
     <div class="cart-left--container"></div>
@@ -11,12 +11,20 @@
       <div class="cart-right--header">Order Summary</div>
       <div class="cart-right--content">
         <div class="cart-right--line">
+          <div class="cart-line--label">Shipping</div>
+          <div class="cart-line--value" id="order-summary-shipping"></div>
+        </div>
+        <div class="cart-right--line">
           <div class="cart-line--label">Total</div>
           <div class="cart-line--value" id="order-summary-total"></div>
         </div>
+        <div class="cart-right--line">
+          <div class="cart-line--label">GST</div>
+          <div class="cart-line--value" id="order-summary-gst"></div>
+        </div>
       </div>
       <div class="cart-button">
-        <a href="#" class="common-btn--border">Checkout</a>
+        <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
       </div>
     </div>
   </div>
@@ -31,5 +39,8 @@
     </div>
   </div>
 </cart-table>
+
+
+{% include "cart/checkout.html" %}
 {% endblock %}
 
