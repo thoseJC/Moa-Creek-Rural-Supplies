@@ -123,3 +123,7 @@
 .account-content--item-label {}
 
 .account-content--item-value {}
+
+.account-content--btn {
+  margin: 20px 0 0 0;
+}

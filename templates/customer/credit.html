@@ -21,9 +21,13 @@
         <div class="account-content--title">Notification/Reminder</div>
         <div class="account-content--des">
           {% if credit_obj["limit_alert"] %}
-          <span>You are currently reaching the credit limit soon, please be aware of your next purchase.</span>
+          <span class="reminder-text">You are currently reaching the credit limit soon, please be aware of your next purchase.</span>
           {% else %}
-          <span>You don't have any notification/reminder yet.</span>
+          <span class="notification-text">You don't have any notification/reminder yet.</span>
+          {% endif %}
+
+          {% if credit_obj["credit_apply"] %}
+          <span class="notification-text">Your credit limit increasement application is currently pending on review, you should hear back within 3 business days.</span>
           {% endif %}
         </div>
       </div>
@@ -39,12 +43,18 @@
             <div class="account-content--item-label">Credit Remaining:</div>
             <div class="account-content--item-value">${{ credit_obj["credit_remaining"] }}</div>
           </div>
-            
+          {% if credit_obj["credit_apply"] == False %}
+          <div class="account-content--btn">
+            <a href="#" class="common-btn--text" id="cta-credit-pop">I would like to apply for increasing my credit limit</a>
+          </div>
           <!-- <div>credit_apply: ${{ credit_obj["credit_apply"] }}</div> -->
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 </div>
 
+{% set current_limit = credit_obj["credit_limit"] %}
+{% include "components/credit-pop.html" %}
 {% endblock %}

@@ -1,8 +1,8 @@
-from flask import Blueprint, flash, redirect, url_for, jsonify
+from flask import Blueprint, flash, redirect, url_for, jsonify, request
 from cursor import getCursor
 from flask import session
 from flask import render_template
-from customer_query import get_credit_fields
+from customer_query import get_credit_fields, update_credit_apply
 
 from customer_query import category_list_query
 
@@ -63,3 +63,20 @@ def credit():
     print(f"Database query failed: {e}")
     return "An error occurred", 500
   return render_template("credit.html", user=user, credit_obj=credit_obj)
+
+
+@customer_page.route("/credit_apply", methods=["POST"])
+def credit_apply():
+  user = get_user_info()
+  try:
+    new_limit = request.json.get("new_limit", 0)
+    user_id = user["user_id"]
+    sql_query = update_credit_apply()
+    cursor = getCursor()
+    cursor.execute(sql_query, (new_limit, user_id))
+    return jsonify({'message': 'Application Submitted'}), 200
+  except Exception as e:
+    print("@customer_page.route(/credit_apply): %s", e)
+    return jsonify({'message': 'Application Error'}), 400
+  finally:
+    cursor.close()
