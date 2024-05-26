@@ -162,3 +162,18 @@ def edit_promotion(promotion_id):
     except Exception as e:
         print("Error in edit_promotion:", e)
         return render_template("edit_promotion.html", error_msg="An error occurred while editing promotion.")
+
+@promotion_page.route("/delete/<int:promotion_id>", methods=["POST"])
+def delete_promotion(promotion_id):
+    try:
+        connection = getCursor()
+        sql_query = "DELETE FROM promotions WHERE promotion_id = %s"
+        connection.execute(sql_query, (promotion_id,))
+        connection.commit()
+        connection.close()
+
+        flash("Promotion deleted successfully", "success")
+    except Exception as e:
+        print("Error in delete_promotion:", e)
+        flash("An error occurred while deleting promotion.", "danger")
+    return redirect(url_for("promotion_page.get_promotions"))
