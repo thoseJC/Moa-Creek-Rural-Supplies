@@ -10,6 +10,13 @@ from message import send_status_update_notifications
 order_page = Blueprint("order_page", __name__, static_folder="static", template_folder="templates/order")
 
 
+def create_notification(user_id, message):
+    connection = getCursor()
+    sql_query = "INSERT INTO notifications (user_id, message) VALUES (%s, %s)"
+    connection.execute(sql_query, (user_id, message))
+    connection.commit()
+
+
 @order_page.route("/orders_list", methods=['GET', 'POST'])
 def orders_list():
     try:
@@ -60,7 +67,7 @@ def send_message_order_status():
         send_status_update_notifications(user_id)
         flash('Notification sent successfully!', 'success')
         return redirect(url_for('order_page.orders_list'))
-    
+
     except Exception as e:
         flash(f'Failed to send notification: {str(e)}', 'error')
         return redirect(url_for('order_page.orders_list'))
