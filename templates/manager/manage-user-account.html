@@ -21,7 +21,13 @@
       {% for user in users %}
       <tr>
         <td>{{ user.full_name }}</td>
-        <td>{{ user.username }}</td>
+        <td>
+          <a
+            href="{{url_for('manager.manage_user_account_by_id', user_id = user.user_id)}}"
+          >
+            {{ user.username }}
+          </a>
+        </td>
         <td>{{ user.email }}</td>
         <td>{{ user.role }}</td>
         <td id="status-{{user.user_id}}">{{ user.is_active}}</td>
