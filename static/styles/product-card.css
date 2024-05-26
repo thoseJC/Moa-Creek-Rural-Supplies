@@ -14,9 +14,17 @@
   flex-wrap: wrap;
 }
 
-.product-card {
+.product-card-link {
   display: inline-block;
   width: 25%;
+  padding: 5px;
+  text-decoration: none; /* Removes underline from link */
+  color: inherit; /* Ensures text color is inherited */
+}
+
+.product-card {
+  display: inline-block;
+  width: 100%;
   padding: 5px;
 }
 

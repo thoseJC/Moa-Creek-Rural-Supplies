@@ -1,1 +1,31 @@
-<div class="account-content--container">manager dashboard content - pending</div>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
+/>
+
+<div>
+  <div class="dashboard-header">manager dashboard</div>
+  <div class="account-content--container">
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Product Management" %}
+      <!--  -->
+      {% set entry_url = "product_page.get_list_of_product" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Promotion Management" %}
+      <!--  -->
+      {% set entry_url = "promotion_page.get_promotions" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+    <div class="staff-dashboard-card">
+      {% set entry_name = "News Management" %}
+      <!--  -->
+      {% set entry_url = "news_page.get_news" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+  </div>
+</div>
