@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return await response.json();
+            const notifications = await response.json();
+            return notifications;
+
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
         }
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (async () => {
         const notifications = await fetchNotifications();
         if (notifications) {
+
             const unreadCount = notifications.filter(notification => !notification[2]).length;
             updateNotificationIcon(unreadCount);
         }

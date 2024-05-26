@@ -41,21 +41,31 @@ def orders_list():
         return render_template("/order_management.html", error=str(e))
 
 
-@order_page.route("/update_order_status", methods=['GET', 'POST'])
+@order_page.route("/update_order_status", methods=['POST'])
 def update_order_status():
     try:
         order_id = request.form.get('order_id')
         status = request.form.get('order_status')
         connection = getCursor()
 
+        # Update order status
         sql_query = update_order_status_query()
         connection.execute(sql_query, (status, order_id))
 
+        # Fetch user_id associated with the order
+        sql_user_query = "SELECT user_id FROM orders WHERE order_id = %s"
+        connection.execute(sql_user_query, (order_id,))
+        user_id = connection.fetchone()[0]
+
+        # Create a notification
+        message = f"Your order #{order_id} status has been updated to {status}."
+        create_notification(user_id, message)
         flash('Order status updated successfully')
         return redirect(url_for('order_page.orders_list'))
+    
     except Exception as e:
-        print(f"Error fetching order: {e}")
-        flash('Failed to update order status.', 'error')  # Flash an error message
+        print(f"Error updating order status: {e}")
+        # flash('Failed to update order status.', 'error')
         return redirect(url_for('order_page.orders_list'))
 
 
