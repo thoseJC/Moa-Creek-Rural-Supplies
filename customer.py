@@ -3,12 +3,14 @@ from cursor import getCursor
 from flask import session
 from flask import render_template
 
-from customer_query import category_list_query
+from customer_query import category_list_query, query_notifications
 
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
 
+
 @customer_page.route("/dashboard")
 def dashboard():
+
   user = {
     "user_id": session.get("user_id"),
     "user_role": session.get("user_role"),
@@ -37,6 +39,7 @@ def dashboard():
 
   return render_template("global/account_dashboard.html", user=user, latest_news = news_list)
 
+
 @customer_page.route("/categories")
 def categories():
     connection = getCursor()
@@ -45,3 +48,18 @@ def categories():
     categories_list = connection.fetchall()
 
     return render_template("global/categories.html", categories_list=categories_list)
+
+
+@customer_page.route("/notifications/", methods=['GET'])
+def notifications():
+    user_id = session.get("user_id")
+    print(user_id)
+    try:
+        connection = getCursor()
+        connection.execute(query_notifications(), (user_id,0))
+        notifications = connection.fetchall()
+        return jsonify(notifications)
+    except Exception as e:
+        print(f"Error fetching notifications: {e}")
+        return jsonify({"error": str(e)}), 500
+

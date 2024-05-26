@@ -1,3 +1,11 @@
+{% extends "base.html" %} 
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='/styles/staff-dashboard.css') }}">
+</head>
 <div class="account-content--container">
 
   <div class="account-ccount--header">
@@ -54,3 +62,12 @@
   </div>
   {% endif %}
 </div>
+
+<div class="notification-icon" id="notification-icon">
+  <span class="red-icon" id="notificationCount">0</span>
+  <img src="{{ url_for('static', filename='images/notification.png') }}" alt="Notifications" !important style="width: 20%;">
+</div>
+<div id="notifications" class="notifications">
+  <!-- Notifications will be dynamically loaded here -->
+</div>
+<script src="{{ url_for('static', filename='scripts/notification.js') }}"></script>
