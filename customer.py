@@ -64,7 +64,7 @@ def credit():
   try:
     cursor.execute(get_credit_fields(), (user['user_id'],))
     result = cursor.fetchone()
-    if result:
+    if result and result[0] and result[1] and result[2]:
       limit_alert = False
       if float(result[1]) < 50:
         limit_alert = True
