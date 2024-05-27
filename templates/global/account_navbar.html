@@ -20,6 +20,9 @@
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('customer.credit')}}">Credit</a>
     </li>
+    <li class="{% if current_page == 'inquiry' %}active{% endif %}">
+      <a href="{{url_for('customer.inquiry')}}">Inquiry</a>
+    </li>
     {% elif session["user_role"] == 'manager' %}
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
