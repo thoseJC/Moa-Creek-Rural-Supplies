@@ -307,4 +307,4 @@ INSERT INTO news (title,content,created_by,is_published,published_date) VALUES
 -- insert notification to customer 
 INSERT INTO notifications
 (user_id, message, is_read, created_at)
-VALUES((user_id FROM users WHERE username = 'customer'), 'hello world', 0, CURRENT_TIMESTAMP);
+VALUES((select user_id FROM users WHERE username = 'customer'), 'hello world', 0, CURRENT_TIMESTAMP);
