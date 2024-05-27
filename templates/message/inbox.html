@@ -1,17 +1,26 @@
-{% extends "base.html" %} 
-{% block content %}
-<head>
-    <meta charset="UTF-8">
-    <title>Inbox</title>
-</head>
-<body>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} {% block content %}
+  <div>
     <h1>Inbox</h1>
     <ul>
-        {% for convsn in conversations %}
-        <li><a href="{{ url_for('message_page.conversation', conversation_id = convsn[0]) }}">Conversation with {{convsn[2] if convsn[] != session['user_id'] else convsn[1] }}</a></li>
-        {% endfor %}
+      {% for convsn in conversations %}
+      <li>
+        <a
+          href="{{ url_for('message_page.conversation', conversation_id = convsn.conversation_id) }}"
+          >Conversation with {{convsn["cust_full_name"] }}</a
+        >
+      </li>
+      {% endfor %}
     </ul>
-</body>
+  </div>
 
-{% endblock %}
-
+  {% endblock %}
+</div>
