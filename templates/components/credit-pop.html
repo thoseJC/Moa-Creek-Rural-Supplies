@@ -1,0 +1,33 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/credit.css') }}"
+/>
+
+<credit-pop class="credit--container">
+  <div class="credit--wrapper">
+    <div class="credit--overlay"></div>
+    <div class="credit--popup">
+      <div class="checkout-popup--section">
+        <div class="credit-range--wrapper">
+          <div class="credit-range--des">
+            I would like to apply for increasing my credit limit to <span id="rangeValue" data-current-limit="{{ current_limit }}" data-new-limit="">{{ current_limit * 1 }}</span>
+          </div>
+          <input 
+            id="credit-range"
+            class="credit-range--input"
+            type="range" 
+            name="" 
+            value="0" 
+            min="{{ current_limit * 1 }}" 
+            max="{{ current_limit * 1 + 100 }}" 
+            step="10"
+          />
+          <div class="credit-range--btn">
+            <a href="#" class="common-btn--border" id="cta-apply-credit">Apply</a>
+          </div>
+        </div>
+      </div>
+      {% include "components/loading.html" %}
+    </div>
+  </div>
+</credit-pop>

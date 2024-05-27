@@ -1,0 +1,58 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} 
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Credit {% endblock %} 
+
+{% block content %}
+<div class="account-dashboard--container">
+  {% set current_page = 'credit' %} 
+  {% include 'global/account_navbar.html' %}
+  
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Credit Overview / {{ user["first_name"] }} {{ user["last_name"] }}
+    </div>
+  
+    <div class="account-content--wrapper">
+      <div class="account-content--item">
+        <div class="account-content--title">Notification/Reminder</div>
+        <div class="account-content--des">
+          {% if credit_obj["limit_alert"] %}
+          <span class="reminder-text">You are currently reaching the credit limit soon, please be aware of your next purchase.</span>
+          {% else %}
+          <span class="notification-text">You don't have any notification/reminder yet.</span>
+          {% endif %}
+
+          <span class="{{ msg_obj['type'] }}-text">{{ msg_obj['msj'] }}</span>
+        </div>
+      </div>
+      
+      <div class="account-content--item">
+        <div class="account-content--title">Credit Details</div>
+        <div class="account-content--des">
+          <div class="account-content--item-wrapper">
+            <div class="account-content--item-label">Credit Limit:</div>
+            <div class="account-content--item-value">${{ credit_obj["credit_limit"] }}</div>
+          </div>
+          <div class="account-content--item-wrapper">
+            <div class="account-content--item-label">Credit Remaining:</div>
+            <div class="account-content--item-value">${{ credit_obj["credit_remaining"] }}</div>
+          </div>
+          {% if credit_obj["credit_apply"] == 0 %}
+          <div class="account-content--btn">
+            <a href="#" class="common-btn--text" id="cta-credit-pop">I would like to apply for increasing my credit limit</a>
+          </div>
+          <!-- <div>credit_apply: ${{ credit_obj["credit_apply"] }}</div> -->
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% set current_limit = credit_obj["credit_limit"] %}
+{% include "components/credit-pop.html" %}
+{% endblock %}

@@ -1,0 +1,41 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/credit.css') }}"
+/>
+
+<div class="credit--container">
+  <div class="credit--wrapper">
+    <div class="credit--overlay"></div>
+    <div class="credit--popup">
+      <div class="checkout-popup--section">
+        <div class="credit-range--wrapper">
+          <div class="credit-content--des">
+            <div class="credit-content--item-wrapper">
+              <div class="credit-content--item-label">Customer Name:</div>
+              <div class="credit-content--item-value" id="customer-name"></div>
+            </div>
+            <div class="credit-content--item-wrapper">
+              <div class="credit-content--item-label">Customer Current Credit Limit:</div>
+              <div class="credit-content--item-value" id="customer-current-credit-limit"></div>
+            </div>
+            <div class="credit-content--item-wrapper">
+              <div class="credit-content--item-label">Customer Remaining Credit:</div>
+              <div class="credit-content--item-value" id="customer-remaining-credit"></div>
+            </div>
+            <div class="credit-content--item-wrapper apply-credit ">
+              <div class="credit-content--item-label">The total amount the customer wants to apply:</div>
+              <div class="credit-content--item-value" id="customer-apply-credit"></div>
+            </div>
+            <div class="credit-content--item-wrapper">
+              <div class="credit-content--item-paragraph">You can modify the amount of $<input type="number" value="" id="input-for-apply-credit" > for this customer.</div>
+              <div class="credit-content--btn">
+                <a href="#" class="common-btn--border" id="cta-credit-apply">Apply</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include "components/loading.html" %}
+    </div>
+  </div>
+</div>
