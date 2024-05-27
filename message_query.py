@@ -39,7 +39,7 @@ FROM messages
 LEFT JOIN users AS sender ON messages.sender_id = sender.user_id
 LEFT JOIN users AS receiver ON messages.receiver_id = receiver.user_id
 WHERE messages.message_id IN (
-    SELECT last_message_id FROM conversations WHERE conversation_id = %s
+    SELECT message_id FROM conversations WHERE conversation_id = %s
 )
 ORDER BY messages.created_at;
     """
