@@ -304,3 +304,7 @@ INSERT INTO news (title,content,created_by,is_published,published_date) VALUES
 ('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:29:00'),
 ('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:15');
 
+-- insert notification to customer 
+INSERT INTO notifications
+(user_id, message, is_read, created_at)
+VALUES((user_id FROM users WHERE username = 'customer'), 'hello world', 0, CURRENT_TIMESTAMP);
