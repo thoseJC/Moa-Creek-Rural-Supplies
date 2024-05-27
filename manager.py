@@ -1,15 +1,11 @@
-from flask import Blueprint, flash, redirect, url_for, jsonify,request
+from flask import Blueprint, flash, redirect, url_for, jsonify,request,render_template,session
 from app_query import update_user_profile_by_manager
 from cursor import getConection, getCursor
-from flask import session
+from login_helper import getUserInfo
 from flask import render_template
 from manager_query import get_all_account_holders, update_customer_credit_apply
 
 from manager_query import get_user_account_info_sql
-
-
-
-
 
 manager_page = Blueprint("manager", __name__, static_folder="static", template_folder="templates/manager")
 
@@ -22,7 +18,7 @@ def get_user_info():
 
 @manager_page.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
-   user = get_user_info()
+   user = getUserInfo()
    if session.get('logged_in') != True or user["user_role"] != 'manager':
       return redirect(url_for('login_page.login'))
    return render_template("global/account_dashboard.html", user=user)

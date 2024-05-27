@@ -4,24 +4,15 @@ from flask import session
 from flask import render_template
 from customer_query import get_credit_fields, update_credit_apply
 
+from login_helper import getUserInfo
 from customer_query import category_list_query, query_notifications
 
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
 
 
-def get_user_info():
-  return {
-    "user_id": session.get("user_id"),
-    "user_role": session.get("user_role"),
-    "first_name": session.get("first_name"),
-    "last_name": session.get("last_name"),
-    "order_count": session.get("order_count")
-  }
-
-
 @customer_page.route("/dashboard")
 def dashboard():
-  user = get_user_info()
+  user = getUserInfo()
   if session.get('logged_in') != True or user["user_role"] != 'customer':
     return redirect(url_for('login_page.login'))
   
@@ -59,7 +50,7 @@ def credit():
     "type": "",
     "msg": ""
   }
-  user = get_user_info()
+  user = getUserInfo()
   credit_obj = {
     "credit_limit": 0,
     "credit_remaining": 0,
@@ -100,7 +91,7 @@ def credit():
 
 @customer_page.route("/credit_apply", methods=["POST"])
 def credit_apply():
-  user = get_user_info()
+  user = getUserInfo()
   try:
     new_limit = request.json.get("new_limit", 0)
     user_id = user["user_id"]
