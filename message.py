@@ -99,7 +99,7 @@ def send_message():
 
         # Check if receiver exists
         connection.execute(query_check_receiver(), (receiver_id,))
-        receiver = connection.fetchone()
+        receiver = connection.fetchone(buffered=True)
         
         if not receiver:
             return jsonify({"error": "Receiver does not exist"}), 400
@@ -109,7 +109,7 @@ def send_message():
 
             # Update or create conversation
             connection.execute(query_select_conversation(), (sender_id, receiver_id, receiver_id, sender_id))
-            conversation = connection.fetchone()
+            conversation = connection.fetchone(buffered=True)
             if conversation:
                 connection.execute(query_update_conversation(), (new_message_id, datetime.utcnow(), conversation[0]))
                 print(conversation[0])
@@ -117,7 +117,7 @@ def send_message():
                 connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
 
             connection.execute(query_fetch_sender_username(), (sender_id,))
-            sender_result = connection.fetchone()
+            sender_result = connection.fetchone(buffered=True)
             sender_username = sender_result[0] if sender_result else 'Unknown'
 
             response = {
