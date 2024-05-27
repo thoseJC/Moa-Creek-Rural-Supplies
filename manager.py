@@ -114,10 +114,9 @@ def manage_user_account_by_id(user_id):
             cursor.execute(update_user_info, (first_name,last_name,email,phone_number,user_password, user_id))
             connc.commit()
             msg_obj["success"] = "Your profile has been updated successfully!"
-      else:
-         cursor.execute("select * from users where user_id = %s", (user_id,))
-         dbUser = cursor.fetchone()
-         user_data = process_user_data(dbUser)
+      cursor.execute("select * from users where user_id = %s", (user_id,))
+      dbUser = cursor.fetchone()
+      user_data = process_user_data(dbUser)
       return render_template("manage_user_by_id.html", user = user_data, msg_obj= msg_obj)
    except Exception as e:
       cursor.execute("select * from users where user_id = %s", (user_id,))
