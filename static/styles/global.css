@@ -11,6 +11,8 @@
   --black: #252526;
   --red: #d22d1e;
   --green: #127d34;
+  --yellow: #c18c00;
+  --blue: #3f77a1;
 }
 
 * {
@@ -63,7 +65,8 @@ section.content {
   transition: all 0.3s ease;
 }
 
-.common-btn--border:hover {
+.common-btn--border:not(.disabled):hover
+.common-btn--border:not([disabled]):hover {
   background-color: var(--link-hover);
   transition: all 0.3s ease;
 }
@@ -182,4 +185,14 @@ section.content {
 	100%{
 		transform: translate(-50%,-50%) rotate(-360deg);
 	}
+}
+
+.reminder-text {
+  color: var(--yellow);
+}
+.notification-text {
+  color: var(--blue);
+}
+.success-text {
+  color: var(--green);
 }
