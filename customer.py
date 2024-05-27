@@ -1,3 +1,4 @@
+import time
 from flask import Blueprint, flash, redirect, url_for, jsonify, request
 from cursor import getCursor
 from flask import session
@@ -117,4 +118,36 @@ def notifications():
     except Exception as e:
         print(f"Error fetching notifications: {e}")
         return jsonify({"error": str(e)}), 500
+    
+
+@customer_page.route("/inquiry",methods = ["GET", "POST"])
+def inquiry():
+  msg = {
+    "success" : "",
+    "message" : ""
+  }
+  try:
+    cursor = getCursor()
+    current_user = getUserInfo()
+    if request.method == 'POST':
+      context = request.form.get("inquiry")
+      sender_id = current_user.get("user_id")
+      send_time = time.time()
+      send_inquiry_sql = get_send_inquiry_sql()
+      #  store message into database
+      cursor.execute(send_inquiry_sql, (context,sender_id,send_time))
+      msg = {
+        "success" : True,
+        "message" : "You inquiry has been snet succefully"
+      }
+    return render_template("inquiry.html", msg = msg)
+  except Exception as e:
+    print(e)
+    msg = {
+      "success" : False,
+      "message" : "Error happens contact the admin"
+    }
+    return render_template("inquiry.html", msg = msg)
+
+
 

@@ -27,5 +27,11 @@ def update_credit_apply():
 	"""
 def query_notifications():
     return """
-    		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC
+    		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC;
     	"""
+
+
+def insert_inquiry():
+      return """
+		INSERT INTO general_inquiry (customer_i,inquiry_content) VALUES(%s, %s);
+      """
