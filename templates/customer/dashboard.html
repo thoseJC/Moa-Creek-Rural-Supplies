@@ -15,7 +15,7 @@
         {% else %}
         <span>You have {{ user["order_count"] }} orders.</span>
         <span>
-          <a href="#" class="common-btn--text">Check your order history.</a>
+          <a href="{{url_for('customer.orders')}}" class="common-btn--text">Check your order history.</a>
         </span>
         {% endif %}
       </div>

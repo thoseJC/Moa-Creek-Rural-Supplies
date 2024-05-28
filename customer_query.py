@@ -29,3 +29,50 @@ def query_notifications():
     return """
     		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC
     	"""
+
+def get_customer_all_orders():
+	return """
+		SELECT
+			order_id,
+			order_date,
+			total,
+			status
+		FROM
+			orders
+		WHERE
+			user_id=%s;
+	"""
+
+def get_order_all_data():
+	return """
+		SELECT 
+			o.order_id,
+			o.order_date,
+			o.total,
+			o.status,
+			u.first_name,
+			u.last_name,
+			a.street_address,
+			a.city,
+			a.state,
+			a.postal_code,
+			a.country,
+			p.name AS product_name,
+			p.pd_image_path,
+			oi.price_per_unit,
+			oi.qty,
+			o.gst,
+			o.freight
+		FROM 
+			orders o
+		INNER JOIN 
+			order_items oi ON oi.order_id = o.order_id
+		INNER JOIN 
+			products p ON oi.product_id = p.product_id
+		INNER JOIN 
+			users u ON o.user_id = u.user_id
+		INNER JOIN 
+			address a ON u.user_id = a.user_id AND a.is_primary = TRUE
+		WHERE 
+			o.order_id=%s;
+	"""

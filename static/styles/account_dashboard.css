@@ -143,3 +143,7 @@
   background-color: rgba(210, 45, 30, 0.3);
   padding: 2px 5px;
 }
+
+.orders-list .cta-view-order-details {
+  font-size: 1rem;
+}
