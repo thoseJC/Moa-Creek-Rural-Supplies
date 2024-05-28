@@ -32,16 +32,16 @@ def credit_management():
 			sql_query = get_all_account_holders()
 			cursor.execute(sql_query)
 			results = cursor.fetchall()
-			for user in results:
-				credit_apply = user[5]
+			for result in results:
+				credit_apply = result[5]
 				if credit_apply is None or credit_apply == 0 or credit_apply == 0.00:
 					credit_apply = 0
 				users.append({
-					"user_id": user[0],
-					"first_name": user[1],
-					"last_name": user[2],
-					"credit_limit": user[3],
-					"credit_remaining": user[4],
+					"user_id": result[0],
+					"first_name": result[1],
+					"last_name": result[2],
+					"credit_limit": result[3],
+					"credit_remaining": result[4],
 					"credit_apply": credit_apply
 				})
 		except Exception as e:
