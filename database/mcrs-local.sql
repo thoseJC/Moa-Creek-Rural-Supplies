@@ -155,12 +155,12 @@ CREATE TABLE messages (
 
 CREATE TABLE conversations (
     conversation_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_one_id varchar(36) NOT NULL,
-    user_two_id varchar(36) NOT NULL,
+    staff_id varchar(36) NOT NULL,
+    customer_id varchar(36) NOT NULL,
     last_message_id INT,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_one_id) REFERENCES users(user_id),
-    FOREIGN KEY (user_two_id) REFERENCES users(user_id),
+    FOREIGN KEY (customer_id) REFERENCES users(user_id),
+    FOREIGN KEY (staff_id) REFERENCES users(user_id),
     FOREIGN KEY (last_message_id) REFERENCES messages(message_id)
 );
 
@@ -272,7 +272,7 @@ INSERT INTO messages (sender_id, receiver_id, content) VALUES
 
 SELECT LAST_INSERT_ID() INTO @last_message_id;
 
-INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+INSERT INTO conversations (staff_id,customer_id, last_message_id) VALUES
 ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
 
@@ -289,9 +289,7 @@ INSERT INTO messages (sender_id, receiver_id, content) VALUES
 
 
 SELECT LAST_INSERT_ID() INTO @last_message_id;
-
-
-INSERT INTO conversations (user_one_id, user_two_id, last_message_id) VALUES
+INSERT INTO conversations (staff_id, customer_id, last_message_id) VALUES
 ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
 CREATE VIEW user_account_management  AS (
