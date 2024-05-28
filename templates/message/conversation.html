@@ -33,7 +33,7 @@
     <p
       class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
     >
-      <span class="sender"><b>{{ msgs.sender }}</b></span> : {{ msgs.content }}
+      <span class="sender"><b>{{ msgs.sender_role_name }}</b></span> : {{ msgs.content }}
       <span class="message-time">({{msgs.send_time}})</span>
     </p>
 
