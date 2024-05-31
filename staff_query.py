@@ -67,3 +67,10 @@ def get_product_with_inventory():
         WHERE 
             p.product_id=%s;
     """
+
+def update_product_inventory_query():
+    return """
+        UPDATE inventory
+        SET quantity = %s
+        WHERE inventory_id=%s;
+    """

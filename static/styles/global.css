@@ -71,6 +71,7 @@ section.content {
   transition: all 0.3s ease;
 }
 
+.common-btn--border.disabled,
 .cta-add-to-cart.disabled {
   border-color: #c0c0c0;
   background-color: #c0c0c0;

@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, jsonify, session, render_
 from cursor import getCursor
 
 from login_helper import getUserInfo
-from staff_query import get_all_products_with_inventory, get_product_with_inventory
+from staff_query import get_all_products_with_inventory, get_product_with_inventory, update_product_inventory_query
 
 staff_page = Blueprint("staff", __name__, static_folder="static", template_folder="templates/staff")
 
@@ -66,8 +66,18 @@ def product_with_inventory():
       print("staff_page/product_with_inventory : %e ",e)
       return product
 
-# @staff_page.route("/update_product_inventory", methods=["POST"])
-# def update_product_inventory():
-#    try:
-#       inventory_id = request.json.get('inventory_id')
-#       new_inventory = request.json.get('new_inventory')
+@staff_page.route("/update_product_inventory", methods=["POST"])
+def update_product_inventory():
+   try:
+      inventory_id = request.json.get('inventory_id')
+      new_inventory = request.json.get('new_inventory')
+      cursor = getCursor()
+      sql_query = update_product_inventory_query()
+      cursor.execute(sql_query, (new_inventory, inventory_id))
+      cursor.close()
+      return jsonify({'message': 'Inventory Updated successfully'}), 200
+   except Exception as e:
+      cursor.close()
+      print("@staff_page.route(/update_product_inventory): %s", e)
+      return jsonify({'message': 'Inventory Updated Error'}), 400
+
