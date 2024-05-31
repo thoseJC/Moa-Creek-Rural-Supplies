@@ -7,10 +7,13 @@ def query_product_by_id():
 			p.price,
 			p.pd_image_path,
 			c.name,
-			p.is_active
+			p.is_active,
+			i.quantity
 		FROM products p 
-		JOIN categories c
-		ON p.category_id = c.category_id
+		INNER JOIN 
+			categories c ON p.category_id = c.category_id
+		INNER JOIN 
+			inventory i ON p.product_id = i.product_id
 		WHERE p.product_id = %s;
 	"""
 
