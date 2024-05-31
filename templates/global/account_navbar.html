@@ -50,10 +50,10 @@
     <li class="{% if current_page == 'inventory' %}active{% endif %}">
       <a href="{{url_for('staff.inventory_management')}}">Inventory Management</a>
     </li>
-    <li class="{% if current_page == 'product' %}active{% endif %}">
+    <li class="{% if current_page == 'order' %}active{% endif %}">
       <a href="{{url_for('order_page.orders_list')}}">Order Management</a>
     </li>
-    <li class="{% if current_page == 'product' %}active{% endif %}">
+    <li class="{% if current_page == 'message' %}active{% endif %}">
       <a href="{{url_for('message_page.inbox')}}">Message Management</a>
     </li>
     {% endif %}
