@@ -1,44 +1,69 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
 {% extends "base.html" %}
-{% block title %}News Management{% endblock %}
+{% block title %}MCRS - News Management{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h4>News & Anouncement Management</h4>
-          <a href="{{ url_for('news_page.add_news') }}" class="btn btn-success btn-sm">Add News & Anouncement</a>
-        </div>
-        <div class="card-body">
-          {% if err_msg %}
-            <div class="alert alert-danger" role="alert">
-              {{ err_msg }}
-            </div>
-          {% endif %}
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Created By</th>
-                <th>Published</th>
-                <th>Published Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for news in news_list %}
+<div class="account-dashboard--container">
+  {% set current_page = 'news' %} 
+  {% include 'global/account_navbar.html' %}
+
+  <div class="container">
+      <div class="account-ccount--header">
+        News Management
+        {% set role = 'manager' %}
+        {% include 'components/role-badge.html' %}
+      </div>
+
+      <div class="card shadow">
+          <div class="card-body">
+            {% if err_msg %}
+              <div class="alert alert-danger" role="alert">
+                {{ err_msg }}
+              </div>
+            {% endif %}
+
+            <table class="table table-striped table-bordered">
+              <thead>
                 <tr>
-                  <td>{{ news.title }}</td>
-                  <td>{{ news.created_by }}</td>
-                  <td>{{ 'Yes' if news.is_published else 'No' }}</td>
-                  <td>{{ news.published_date }}</td>
-                  <td>
-                    <a href="{{ url_for('news_page.edit_news', news_id=news.news_id) }}" class="btn btn-primary btn-sm">Edit</a>
-                  </td>
+                  <th>Title</th>
+                  <th>Created By</th>
+                  <th>Published</th>
+                  <th>Published Date</th>
+                  <th>Actions</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-    </div>
+              </thead>
+              <tbody>
+                {% for news in news_list %}
+                  <tr>
+                    <td>{{ news.title }}</td>
+                    <td>{{ news.created_by }}</td>
+                    <td>{{ 'Yes' if news.is_published else 'No' }}</td>
+                    <td>{{ news.published_date }}</td>
+                    <td>
+                      <a 
+                        href="{{ url_for('news_page.edit_news', news_id=news.news_id) }}" 
+                        class="common-btn--text"
+                      >
+                        Edit
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <a 
+              href="{{ url_for('news_page.add_news') }}" 
+              class="common-btn--border"
+            >
+              Add News & Anouncement
+            </a>
+          </div>
+      </div>
+  </div>
 </div>
 {% endblock %}
