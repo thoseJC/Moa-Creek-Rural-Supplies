@@ -191,3 +191,12 @@
 .account-content--role.staff .b {
   stroke: var(--blue);
 }
+
+.product-management--btns {
+  display: flex;
+  gap: 10px;
+}
+
+.product-management--btns form {
+  margin: 0;
+}

@@ -30,13 +30,13 @@
     <li class="{% if current_page == 'product' %}active{% endif %}">
       <a href="{{url_for('product_page.get_list_of_product')}}">Product Management</a>
     </li>
-    <li class="{% if current_page == 'product' %}active{% endif %}">
+    <li class="{% if current_page == 'account' %}active{% endif %}">
       <a href="{{url_for('manager.manage_user_account')}}">Account Management</a>
     </li>
-    <li class="{% if current_page == 'product' %}active{% endif %}">
+    <li class="{% if current_page == 'promotion' %}active{% endif %}">
       <a href="{{url_for('promotion_page.get_promotions')}}">Promotion Management</a>
     </li>
-    <li class="{% if current_page == 'product' %}active{% endif %}">
+    <li class="{% if current_page == 'news' %}active{% endif %}">
       <a href="{{url_for('news_page.get_news')}}">News Management</a>
     </li>
     {% elif session["user_role"] == 'admin' %}
