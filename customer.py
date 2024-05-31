@@ -148,4 +148,3 @@ def order_details():
     return order_items, 400
   finally:
     cursor.close()
-    return jsonify({"error": str(e)}), 500
