@@ -82,6 +82,9 @@
 .account-ccount--header {
   font-size: 2rem;
   margin: 0 0 30px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .account-content--wrapper {
@@ -142,4 +145,45 @@
   border-radius: 5px;
   background-color: rgba(210, 45, 30, 0.3);
   padding: 2px 5px;
+}
+
+.account-content--role.customer {
+  display: none;
+}
+
+.account-content--role {
+  border: 1px solid var(--green);
+  font-size: 0.75rem;
+  color: var(--green);
+  border-radius: 5px;
+  background-color: rgba(18, 125, 52, 0.3);
+  padding: 2px 5px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  text-transform: capitalize;
+}
+.account-content--role .a,
+.account-content--role .b {
+  stroke: var(--green);
+}
+
+.account-content--role.manager {
+  border-color: var(--yellow);
+  background-color: rgba(193, 140, 0, 0.3);
+  color: var(--yellow);
+}
+.account-content--role.manager .a,
+.account-content--role.manager .b {
+  stroke: var(--yellow);
+}
+
+.account-content--role.staff {
+  border-color: var(--blue);
+  background-color: rgba(63, 119, 161, 0.3);
+  color: var(--blue);
+}
+.account-content--role.staff .a,
+.account-content--role.staff .b {
+  stroke: var(--blue);
 }

@@ -1,1 +1,10 @@
-<div class="account-content--container">admin dashboard content - pending</div>
+<div class="account-content--container">
+
+  <div class="account-ccount--header">
+    Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
+    {% set role = 'admin' %}
+    {% include 'components/role-badge.html' %}
+  </div>
+
+</div>
+
