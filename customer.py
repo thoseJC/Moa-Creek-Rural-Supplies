@@ -64,7 +64,7 @@ def credit():
   try:
     cursor.execute(get_credit_fields(), (user['user_id'],))
     result = cursor.fetchone()
-    if result and result[0] and result[1] and result[2]:
+    if result is not None and result[0] is not None and result[1] is not None and result[2] is not None:
       limit_alert = False
       if float(result[1]) < 50:
         limit_alert = True
@@ -117,4 +117,3 @@ def notifications():
     except Exception as e:
         print(f"Error fetching notifications: {e}")
         return jsonify({"error": str(e)}), 500
-

@@ -3,8 +3,13 @@
   href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
 />
 
-<div>
-  <div class="dashboard-header">manager dashboard</div>
+<div class="account-content--container">
+  <div class="account-ccount--header">
+    Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
+    {% set role = 'manager' %}
+    {% include 'components/role-badge.html' %}
+  </div>
+
   <div class="account-content--container">
     <div class="staff-dashboard-card">
       {% set entry_name = "Product Management" %}
@@ -33,5 +38,12 @@
       <!--  -->
       {% include "components/dashboard-entry-card.html" %}
     </div>
+	<div class="staff-dashboard-card">
+		<a href="{{ url_for('manage_account_apply.dashboard') }}" class="dashboard-link">
+			<div class="dashboard-entry-card">
+				<div class="dashboard-entry-name">Account Application Management</div>
+			</div>
+		</a>
+	</div>
   </div>
 </div>
