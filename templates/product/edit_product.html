@@ -27,7 +27,7 @@
         <!-- Category -->
         <div class="form-group">
             <label for="category_id">Category:</label>
-            <select class="form-control" id="category_id" name="category_id" required {% if session["user_role"] != 'manager' %} disabled {% endif %}>
+            <select class="form-control" id="category_id" name="category_id" required >
                 {% for category in categories %}
                     <option value="{{ category[0] }}" {% if category[0] == product.category_id %} selected {% endif %}>{{ category[1] }}</option>
                 {% endfor %}
