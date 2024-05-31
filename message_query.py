@@ -34,15 +34,25 @@ def query_inbox():
 
 def query_conversation():
     return """
-SELECT messages.*, sender.username AS sender_username, receiver.username AS receiver_username
+SELECT messages.*, 
+       sender.username AS sender_username, 
+       receiver.username AS receiver_username, 
+       sender_role.role_name AS sender_role_name,
+       receiver_role.role_name AS receiver_role_name
 FROM messages
 LEFT JOIN users AS sender ON messages.sender_id = sender.user_id
 LEFT JOIN users AS receiver ON messages.receiver_id = receiver.user_id
+LEFT JOIN user_roles AS sender_role ON sender.role_id = sender_role.role_id
+LEFT JOIN user_roles AS receiver_role ON receiver.role_id = receiver_role.role_id
 WHERE messages.message_id IN (
-    SELECT message_id FROM conversations WHERE conversation_id = %s
+    SELECT message_id 
+    FROM conversations 
+    WHERE conversation_id = %s
 )
 ORDER BY messages.created_at;
+
     """
+
 
 def query_check_receiver():
     return """

@@ -4,28 +4,6 @@
 />
 {% extends "base.html" %} {% block content %}
 
-<style>
-  .msg-container {
-    margin: 20px auto;
-    width: 50%;
-  }
-
-  .customer-message {
-    text-align: left;
-    clear: both;
-  }
-
-  .staff-message {
-    text-align: right;
-    clear: both;
-  }
-  .message-time {
-    font-size: 0.6em;
-    color: rgb(94, 91, 91);
-    margin-left: 10px;
-  }
-</style>
-
 <div class="msg-container">
   <h1>Conversation</h1>
   <div id="messages">
@@ -33,7 +11,7 @@
     <p
       class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
     >
-      <span class="sender"><b>{{ msgs.sender }}</b></span> : {{ msgs.content }}
+      <span class="sender"><b>{{ msgs.sender_role_name }}</b></span> : {{ msgs.content }}
       <span class="message-time">({{msgs.send_time}})</span>
     </p>
 
