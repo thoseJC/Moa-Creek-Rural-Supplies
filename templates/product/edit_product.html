@@ -7,7 +7,7 @@
         <!-- Name -->
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ product.name }} "required {% if session["user_role"] != 'manager' %} readonly {% endif %}>
+            <input type="text" class="form-control" id="name" name="name" value="{{ product.name }} "required {% if session["user_role"] == 'admin' %} readonly {% endif %}>
         </div>
         <!-- Description -->
         <div class="form-group">
@@ -17,12 +17,12 @@
         <!-- Price -->
         <div class="form-group">
             <label for="price">Price:</label>
-            <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required {% if session["user_role"] != 'manager' %} readonly {% endif %}>
+            <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required {% if session["user_role"] == 'admin' %} readonly {% endif %}>
         </div>
         <!-- Image Path -->
         <div class="form-group">
             <label for="image_path">Image Path:</label>
-            <input type="text" class="form-control" id="image_path" name="image_path" value="{{ product.image }}" required {% if session["user_role"] != 'manager' %} readonly {% endif %}>
+            <input type="text" class="form-control" id="image_path" name="image_path" value="{{ product.image }}" required {% if session["user_role"] == 'admin' %} readonly {% endif %}>
         </div>
         <!-- Category -->
         <div class="form-group">
