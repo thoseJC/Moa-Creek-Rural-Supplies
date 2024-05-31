@@ -29,7 +29,7 @@
                 class="btn btn-sm btn-primary"
                 >Edit</a
               >
-              {% if session["user_role"] == 'manager' %}
+              {% if session["user_role"] != 'admin' %}
               <form
                 action="{{ url_for('product_page.delete_product', product_id=product.id) }}"
                 method="post"
@@ -47,7 +47,7 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if session["user_role"] == 'manager' %}
+      {% if session["user_role"] != 'admin' %}
       <a
         href="{{ url_for('product_page.add_product') }}"
         class="btn btn-primary"
