@@ -35,3 +35,35 @@ def update_order_status_query():
     WHERE 
     orders.order_id = %s
     """
+
+def get_all_products_with_inventory():
+    return """
+        SELECT 
+            p.product_id,
+            p.name,
+            p.is_active,
+            i.inventory_id,
+            i.quantity
+        FROM 
+            products p
+        INNER JOIN 
+            inventory i ON p.product_id = i.product_id;
+    """
+
+def get_product_with_inventory():
+    return """
+        SELECT 
+            p.name,
+            p.description,
+            p.price,
+            p.pd_image_path,
+            p.is_active,
+            i.inventory_id,
+            i.quantity
+        FROM 
+            products p
+        INNER JOIN 
+            inventory i ON p.product_id = i.product_id
+        WHERE 
+            p.product_id=%s;
+    """

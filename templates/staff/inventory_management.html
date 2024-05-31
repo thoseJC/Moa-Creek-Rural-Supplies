@@ -1,0 +1,64 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} 
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Inventory Management {% endblock %} 
+
+{% block content %}
+<inventory-management class="account-dashboard--container">
+  {% set current_page = 'inventory' %} 
+  {% include 'global/account_navbar.html' %}
+  
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Inventory Management
+    </div>
+  
+    <div class="account-content--wrapper">
+      <div class="account-content--item">
+        <div class="account-content--des">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Current Status</th>
+                <th scope="col">Current Stocks</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %}
+              <tr>
+                <td>{{ product['product_name'] }}</td>
+                <td>
+                  {% if product['product_status'] == 1 %}
+                    Active
+                  {% else %}
+                    Inactive
+                  {% endif %}
+                </td>
+                <td>{{ product['product_inventory'] }}</td>
+                <td>
+                  <a 
+                    href="#" 
+                    class="common-btn--text cta-manage-inventory" 
+                    data-inventory-id="{{ product['product_inventory_id'] }}" 
+                    data-product-id="{{ product['product_id'] }}"
+                  >
+                    Manage
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "components/manage-inventory.html" %}
+</inventory-management>
+
+{% endblock %}
