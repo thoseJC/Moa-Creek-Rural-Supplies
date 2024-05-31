@@ -44,6 +44,9 @@
     <li class="{% if current_page == 'product' %}active{% endif %}">
       <a href="{{url_for('product_page.get_list_of_product')}}">Product Management</a>
     </li>
+    <li class="{% if current_page == 'inventory' %}active{% endif %}">
+      <a href="{{url_for('staff.inventory_management')}}">Inventory Management</a>
+    </li>
     <li class="{% if current_page == 'product' %}active{% endif %}">
       <a href="{{url_for('order_page.orders_list')}}">Order Management</a>
     </li>
