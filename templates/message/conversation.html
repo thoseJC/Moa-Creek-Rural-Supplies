@@ -1,26 +1,55 @@
-{% extends "base.html" %}
-{% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/conversation_page.css') }}"
+/>
+{% extends "base.html" %} {% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Conversation</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/conversation_page.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Conversation</h1>
-        <div id="messages">
-            {% for msgs in messages %}
-            <p>{{ msgs[6] }}: {{ msgs[3] }}</p>
-            {% endfor %}
-        </div>
-        <form id="sendMessageForm" method="POST" action="{{ url_for('message_page.send_message') }}">
-            <input type="hidden" name="receiver_id" value="{{ messages[0][1] if messages else '' }}">
-            <textarea name="content" required></textarea><br>
-            <button type="submit">Send</button>
-        </form>
-    </div>
+<style>
+  .msg-container {
+    margin: 20px auto;
+    width: 50%;
+  }
 
-    <script src="{{ url_for('static', filename='scripts/message.js') }}"></script>
-</body>
+  .customer-message {
+    text-align: left;
+    clear: both;
+  }
+
+  .staff-message {
+    text-align: right;
+    clear: both;
+  }
+  .message-time {
+    font-size: 0.6em;
+    color: rgb(94, 91, 91);
+    margin-left: 10px;
+  }
+</style>
+
+<div class="msg-container">
+  <h1>Conversation</h1>
+  <div id="messages">
+    {% for msgs in messages %}
+    <p
+      class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
+    >
+      <span class="sender"><b>{{ msgs.sender }}</b></span> : {{ msgs.content }}
+      <span class="message-time">({{msgs.send_time}})</span>
+    </p>
+
+    {% endfor %}
+  </div>
+  <form
+    id="sendMessageForm"
+    method="POST"
+    action="{{ url_for('message_page.send_message') }}"
+  >
+    <input type="hidden" name="receiver_id" value="{{msg_receiver_id_id }}" />
+    <textarea name="content" required id="send_message_field"></textarea><br />
+    <button type="submit" id="send_message_button">Send</button>
+  </form>
+</div>
+
+<script src="{{ url_for('static', filename='scripts/message.js') }}"></script>
+
 {% endblock %}
