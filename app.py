@@ -15,8 +15,9 @@ from cart import cart_page
 from promotion import promotion_page
 from news import news_page, get_news_list
 from checkout import checkout_page
-
+from account_holder import account_holder
 from shippingaddress import shipping_address
+from manage_account_apply import manage_account_apply_page
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
@@ -34,7 +35,8 @@ app.register_blueprint(checkout_page, url_prefix="/checkout")
 app.register_blueprint(shipping_address, url_prefix="/shipping")
 app.register_blueprint(promotion_page, url_prefix="/promotion")
 app.register_blueprint(news_page, url_prefix="/news")
-
+app.register_blueprint(account_holder, url_prefix='/account_holder')
+app.register_blueprint(manage_account_apply_page, url_prefix="/manage_account_apply")
 
 @app.route("/")
 def home():
@@ -49,3 +51,5 @@ def logout():
     session.pop('user_role', None)
     return redirect(url_for('home'))
 
+if __name__ == '__main__':
+    app.run(debug=True)

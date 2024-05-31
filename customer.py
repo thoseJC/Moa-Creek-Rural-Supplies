@@ -117,4 +117,3 @@ def notifications():
     except Exception as e:
         print(f"Error fetching notifications: {e}")
         return jsonify({"error": str(e)}), 500
-

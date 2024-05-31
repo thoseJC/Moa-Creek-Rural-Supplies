@@ -28,8 +28,8 @@ def send_email(recipient, subject, body):
 
 def query_inbox():
     return """
-    SELECT * FROM conversations 
-    WHERE user_one_id = %s OR user_two_id = %s
+    SELECT c.*, u.first_name, u.last_name, u.username FROM conversations c left join users u on u.user_id = c.customer_id
+    WHERE c.staff_id = %s;
     """
 
 def query_conversation():
@@ -58,8 +58,8 @@ def query_insert_message():
 def query_select_conversation():
     return """
         SELECT * FROM conversations 
-        WHERE (user_one_id = %s AND user_two_id = %s) 
-           OR (user_one_id = %s AND user_two_id = %s)
+        WHERE (customer_id = %s AND staff_id = %s) 
+           OR (customer_id = %s AND staff_id = %s)
     """
 
 def query_update_conversation():
@@ -71,7 +71,7 @@ def query_update_conversation():
 
 def query_insert_conversation():
     return """
-            INSERT INTO conversations (user_one_id, user_two_id, last_message_id, updated_at) 
+            INSERT INTO conversations (customer_id, staff_id, last_message_id, updated_at) 
             VALUES (%s, %s, %s, %s)
     """
 def query_fetch_sender_username():
