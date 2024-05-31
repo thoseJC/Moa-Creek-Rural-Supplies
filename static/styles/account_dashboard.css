@@ -147,6 +147,10 @@
   padding: 2px 5px;
 }
 
+.orders-list .cta-view-order-details {
+  font-size: 1rem;
+}
+
 .account-content--role.customer {
   display: none;
 }
