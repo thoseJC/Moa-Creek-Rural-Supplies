@@ -24,7 +24,7 @@ href="{{ url_for('static', filename='styles/manager_accounts_management.css') }}
   <div>
     <div class="account-ccount--header">
       User Accounts Management
-      {% set role = 'manager' %}
+      {% set role = session.get("user_role") %}
       {% include 'components/role-badge.html' %}
     </div>
     

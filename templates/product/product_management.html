@@ -18,7 +18,7 @@
   <div class="container account-content--container">
     <div class="account-ccount--header">
       Product Management
-      {% set role = 'manager' %}
+      {% set role = session.get("user_role") %}
       {% include 'components/role-badge.html' %}
     </div>
 
