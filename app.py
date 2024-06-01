@@ -49,7 +49,7 @@ def logout():
     session.pop('logged_in', None)
     session.pop('user_name', None)
     session.pop('user_role', None)
-    return redirect(url_for('home'))
+    return redirect(url_for('login_page.login'))
 
 if __name__ == '__main__':
     app.run(debug=True)

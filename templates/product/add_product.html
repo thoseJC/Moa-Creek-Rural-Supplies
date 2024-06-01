@@ -17,7 +17,7 @@
     <div class="container">
         <div class="account-ccount--header">
             Add Product 
-            {% set role = 'manager' %}
+            {% set role = session.get("user_role") %}
             {% include 'components/role-badge.html' %}
         </div>
 

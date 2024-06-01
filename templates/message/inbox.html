@@ -7,20 +7,36 @@
   href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
 />
 
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block title %}MCRS - Message Management {% endblock %} 
+
+{% block content %}
+<div class="account-dashboard--container">
+  {% set current_page = 'message' %} 
+  {% include 'global/account_navbar.html' %}
+  
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Message Management - Inbox
+      {% set role = session.get("user_role") %}
+      {% include 'components/role-badge.html' %}
+    </div>
+
+
   <div>
-    <h1>Inbox</h1>
     <ul>
       {% for convsn in conversations %}
       <li>
         <a
           href="{{ url_for('message_page.conversation', conversation_id = convsn.conversation_id) }}"
-          >Conversation with {{convsn["cust_full_name"] }}</a
+          class="common-btn--text"
         >
+          Conversation with {{convsn["cust_full_name"] }}
+        </a>
       </li>
       {% endfor %}
     </ul>
   </div>
-
-  {% endblock %}
 </div>
+
+{% endblock %}

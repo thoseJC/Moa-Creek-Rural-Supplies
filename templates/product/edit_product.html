@@ -20,7 +20,7 @@
 
         <div class="account-ccount--header">
             Edit Product
-            {% set role = 'manager' %}
+            {% set role = session.get("user_role") %}
             {% include 'components/role-badge.html' %}
         </div>
 

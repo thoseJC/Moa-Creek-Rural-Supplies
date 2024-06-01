@@ -70,7 +70,7 @@
 
 .account-content--container {
   display: flex;
-  width: 100%;
+  width: calc(100% - 200px);
   min-height: 500px;
 }
 
@@ -192,11 +192,13 @@
   stroke: var(--blue);
 }
 
+.addresses-btns,
 .product-management--btns {
   display: flex;
   gap: 10px;
 }
 
+.addresses-btns form,
 .product-management--btns form {
   margin: 0;
 }
