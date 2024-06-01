@@ -1,67 +1,83 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/order_management.css') }}">
 
 {% extends "base.html" %} 
+{% block title %}MCRS - Orders Management{% endblock %}
+
 {% block content %}
-<h1>Order Management</h1>
+<div class="account-dashboard--container">
+    {% set current_page = 'news' %} 
+    {% include 'global/account_navbar.html' %}
 
-<table>
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Customer ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Total</th>
-            <th>GST</th>
-            <th>Freight</th>
-            <th>Order Date</th>
-            <th>Order Status</th>
-            <th>Edit</th>
-        </tr>
-    </thead>
+    <div class="account-content--container order-management">
+        <div class="account-ccount--header">
+          Orders Management
+          {% set role = session.get("user_role") %}
+          {% include 'components/role-badge.html' %}
+        </div>
 
-    <tbody>
-        {% for ords in orders_list %}
-        <tr>
-            <td>{{ ords[0] }}</td>
-            <td>{{ ords[1] }}</td>
-            <td>{{ ords[8] }}</td>
-            <td>{{ ords[9] }}</td>
-            <td>{{ ords[4] }}</td>
-            <td>{{ ords[5] }}</td>
-            <td>{{ ords[6] }}</td>
-            <td>{{ ords[3] }}</td>
-            <td>{{ ords[7] }}</td>
-            <td class="edit_box">
-                <form action="{{ url_for('order_page.update_order_status') }}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Total</th>
+                    <th>GST</th>
+                    <th>Freight</th>
+                    <th>Order Date</th>
+                    <th>Order Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
 
-                    <!-- pass parameter 'order_id' -->
-                    <input type="hidden" name="order_id" value="{{ ords[0] }}">
+            <tbody>
+                {% for ords in orders_list %}
+                <tr>
+                    <td>{{ ords[0] }}</td>
+                    <td>{{ ords[1] }}</td>
+                    <td>{{ ords[8] }}</td>
+                    <td>{{ ords[9] }}</td>
+                    <td>{{ ords[4] }}</td>
+                    <td>{{ ords[5] }}</td>
+                    <td>{{ ords[6] }}</td>
+                    <td>{{ ords[3] }}</td>
+                    <td>{{ ords[7] }}</td>
+                    <td class="edit_box">
+                        <form action="{{ url_for('order_page.update_order_status') }}" method="post">
 
-                    <!-- pass parameter 'order_status' -->
-                        <select name="order_status">
-                            <option value="pending" {% if ords[7] == 'pending' %}selected{% endif %}>pending</option>
-                            <option value="shipped" {% if ords[7] == 'shipped' %}selected{% endif %}>shipped</option>
-                            <option value="delivered" {% if ords[7] == 'delivered' %}selected{% endif %}>delivered</option>
-                            <option value="cancelled" {% if ords[7] == 'cancelled' %}selected{% endif %}>cancelled</option>
-                            <option value="ready_for_pickup" {% if ords[7] =='ready_for_pickup' %}selected{% endif %}>ready for pickup</option>
-                        </select>
-                  
-                    <button type="submit"> Update Status </button>
+                            <!-- pass parameter 'order_id' -->
+                            <input type="hidden" name="order_id" value="{{ ords[0] }}">
 
-                </form>
+                            <!-- pass parameter 'order_status' -->
+                                <select name="order_status">
+                                    <option value="pending" {% if ords[7] == 'pending' %}selected{% endif %}>pending</option>
+                                    <option value="shipped" {% if ords[7] == 'shipped' %}selected{% endif %}>shipped</option>
+                                    <option value="delivered" {% if ords[7] == 'delivered' %}selected{% endif %}>delivered</option>
+                                    <option value="cancelled" {% if ords[7] == 'cancelled' %}selected{% endif %}>cancelled</option>
+                                    <option value="ready_for_pickup" {% if ords[7] =='ready_for_pickup' %}selected{% endif %}>ready for pickup</option>
+                                </select>
+                        
+                            <button type="submit"> Update Status </button>
 
-                <!-- send order status update message -->
-                <form action="{{ url_for('order_page.send_message_order_status') }}" method="post">
-                    <input type="hidden" name="user_id" value="{{ ords[1] }}">
-                    <button type="submit">Send Notification</button>
-                </form>
+                        </form>
 
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+                        <!-- send order status update message -->
+                        <form action="{{ url_for('order_page.send_message_order_status') }}" method="post">
+                            <input type="hidden" name="user_id" value="{{ ords[1] }}">
+                            <button type="submit">Send Notification</button>
+                        </form>
 
-</table>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+</div>
 
 {% endblock %}
