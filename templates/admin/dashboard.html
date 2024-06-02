@@ -1,10 +1,17 @@
-<div class="account-content--container">
-
-  <div class="account-ccount--header">
-    Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
-    {% set role = 'admin' %}
-    {% include 'components/role-badge.html' %}
+<div>
+  <div class="dashboard-header">Administrator dashboard</div>
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+        Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
+        {% set role = 'admin' %}
+        {% include 'components/role-badge.html' %}
+    </div>
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Product Management" %}
+      <!--  -->
+      {% set entry_url = "product_page.get_list_of_product" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
   </div>
-
 </div>
-

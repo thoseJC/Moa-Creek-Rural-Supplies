@@ -49,6 +49,7 @@
                   >
                     Edit
                   </a>
+                  {% if session["user_role"] != 'admin' %}
                   <form
                     action="{{ url_for('product_page.delete_product', product_id=product.id) }}"
                     method="post"
@@ -57,18 +58,21 @@
                       Delete
                     </button>
                   </form>
+                  {% endif %}
                 </div>
               </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+        {% if session["user_role"] != 'admin' %}
         <a
           href="{{ url_for('product_page.add_product') }}"
           class="common-btn--border"
         >
           Add New Product
         </a>
+        {% endif %}
       </div>
     </div>
   </div>
