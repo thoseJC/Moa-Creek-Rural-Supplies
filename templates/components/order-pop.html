@@ -1,0 +1,65 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/orders.css') }}"
+/>
+
+<order-pop class="order--container">
+  <div class="order--wrapper">
+    <div class="order--overlay"></div>
+    <div class="order--popup">
+      <div class="order-popup--section">
+        <div class="order-range--wrapper" id="content-to-download">
+          <div class="order--header">
+            <div class="order-overview">
+              <div class="order-overview--title">Order #<span id="order-id"></span></div>
+              <div class="order-overview--des">Order placed on <span id="order-date"></span></div>
+              <div class="order-overview--des">Order Status: <span id="order-status"></span></div>
+            </div>
+            <div class="order-shipping-address">
+              <div class="order-overview--title">Shipping Address</div>
+              <div class="order-overview--des" id="address-customer"></div>
+              <div class="order-overview--des" id="address-street"></div>
+              <div class="order-overview--des" id="address-state"></div>
+              <div class="order-overview--des" id="address-city"></div>
+              <div class="order-overview--des" id="address-postcode"></div>
+              <div class="order-overview--des" id="address-country"></div>
+            </div>
+          </div>
+          <table class="table order-list" id="order-list">
+            <thead>
+              <tr>
+                <th scope="col" class="order-product">Product</th>
+                <th scope="col" class="order-item">Unit Price</th>
+                <th scope="col" class="order-item">Quantity</th>
+                <th scope="col" class="order-item">Total</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4">
+                  <div class="order-summary--item">
+                    <div class="order-summary--item-label">GST</div>
+                    <div class="order-summary--item-value" id="order-gst"></div>
+                  </div>
+                  <div class="order-summary--item">
+                    <div class="order-summary--item-label">Shipping</div>
+                    <div class="order-summary--item-value" id="order-shipping"></div>
+                  </div>
+                  <div class="order-summary--item">
+                    <div class="order-summary--item-label">Subtotal</div>
+                    <div class="order-summary--item-value" id="order-total"></div>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="order-range--btn">
+          <a href="#" class="common-btn--border" id="cta-download-receipt"  data-order-id="">Download the receipt</a>
+        </div>
+      </div>
+      {% include "components/loading.html" %}
+    </div>
+  </div>
+</order-pop>

@@ -17,6 +17,9 @@
     </li>
 
     {% if session["user_role"] == 'customer' %}
+    <li class="{% if current_page == 'orders' %}active{% endif %}">
+      <a href="{{url_for('customer.orders')}}">Orders</a>
+    </li>
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('customer.credit')}}">Credit</a>
     </li>

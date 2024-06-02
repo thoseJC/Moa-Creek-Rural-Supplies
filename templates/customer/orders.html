@@ -1,0 +1,55 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+{% extends "base.html" %} 
+{% block title %}MCRS - {{ user["user_role"] | capitalize }} Orders {% endblock %} 
+
+{% block content %}
+<div class="account-dashboard--container">
+  {% set current_page = 'orders' %} 
+  {% include 'global/account_navbar.html' %}
+  
+  <div class="account-content--container">
+    <div class="account-ccount--header">
+      Orders Overview / {{ user["first_name"] }} {{ user["last_name"] }}
+    </div>
+  
+    <orders-list class="account-content--wrapper">
+      <table class="table orders-list">
+        <thead>
+          <tr>
+            <th scope="col">Order Id</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Order Total</th>
+            <th scope="col">Order Status</th>
+            <th scope="col">View Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[1] }}</td>
+            <td>${{ order[2] }}</td>
+            <td class="order-status">{{ order[3] }}</td>
+            <td>
+              <a 
+                href="#" 
+                class="common-btn--text cta-view-order-details" 
+                data-order-id="{{ order[0] }}"
+              >
+                View
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </orders-list>
+  </div>
+</div>
+
+{% include "components/order-pop.html" %}
+{% endblock %}
