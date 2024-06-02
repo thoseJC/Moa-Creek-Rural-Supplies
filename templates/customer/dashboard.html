@@ -15,12 +15,19 @@
         {% else %}
         <span>You have {{ user["order_count"] }} orders.</span>
         <span>
-          <a href="#" class="common-btn--text">Check your order history.</a>
+          <a href="{{url_for('customer.orders')}}" class="common-btn--text">Check your order history.</a>
         </span>
         {% endif %}
       </div>
     </div>
     
+	<div class="account-content--item">
+		<div class="account-content--title">Apply for Account Holder</div>
+		<div class="account-content--des">
+		  <a href="{{ url_for('account_holder.apply_account_holder') }}" class="common-btn--text">Apply Now</a>
+		</div>
+	</div>
+	
     <div class="account-content--item">
       <div class="account-content--title">SHIPPING ADDRESS</div>
       <div class="account-content--des">

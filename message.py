@@ -2,7 +2,9 @@ from datetime import datetime
 from urllib import request
 
 from flask import Blueprint, flash, redirect, url_for, jsonify, render_template, session, request
-from cursor import getCursor
+from cursor import getConection, getCursor
+from login_helper import getUserInfo
+from message_helper import get_receiver_id, process_conversation, process_message
 from message_query import query_fetch_sender_username, query_update_order_status, send_email, query_inbox, query_conversation, query_check_receiver, query_insert_message, query_select_conversation, query_update_conversation, query_insert_conversation
 
 
@@ -47,15 +49,26 @@ def send_status_update_notifications(user_id):
 
 @message_page.route('/inbox')
 def inbox():
+    msg = {
+        "success" : "",
+        "message" : ""
+    }
+    user = getUserInfo()
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
     try:
         user_id = session['user_id']
         connection = getCursor()
-        connection.execute(query_inbox(), (user_id, user_id))
+        connection.execute(query_inbox(), (user_id,))
         conversations = connection.fetchall()
-        return render_template('inbox.html', conversations=conversations)
+        if len(conversations) == 0:
+            msg = {
+                "success" : True,
+                "message" : "No Conversation in Inbox"
+            }
+        else:
+            processed_conversation = process_conversation(conversations)
+        return render_template('inbox.html', conversations=processed_conversation, msg = msg,user =user)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -68,6 +81,8 @@ def inbox():
 @message_page.route('/conversation', methods=['GET', 'POST'])
 def conversation():
     conversation_id = request.args.get('conversation_id')
+    user = getUserInfo()
+    current_user_id = user["user_id"]
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
@@ -75,9 +90,9 @@ def conversation():
         connection = getCursor()
         connection.execute(query_conversation(), (conversation_id,))
         messages = connection.fetchall()
-        print(messages)
-        return render_template('conversation.html', messages=messages)
-
+        processed_message = process_message(messages)
+        msg_receiver_id_id = get_receiver_id(messages, current_user_id)
+        return render_template('conversation.html', messages=processed_message, msg_receiver_id_id= msg_receiver_id_id)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:
@@ -89,47 +104,36 @@ def conversation():
 def send_message():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
     sender_id = session['user_id']
     receiver_id = request.form.get('receiver_id')
     content = request.form.get('content')
 
     try:
-        connection = getCursor()
-
-        # Check if receiver exists
-        connection.execute(query_check_receiver(), (receiver_id,))
-        receiver = connection.fetchone(buffered=True)
+        connec =  getConection()
+        connection = connec.cursor()
+        connection.execute(query_insert_message(), (sender_id, receiver_id, content, datetime.utcnow(), 'sent'))
+        new_message_id = connection.lastrowid
+        # Update or create conversation  
+        connection.execute(query_select_conversation(), (sender_id, receiver_id, receiver_id, sender_id))
+        conversation = connection.fetchall()
         
-        if not receiver:
-            return jsonify({"error": "Receiver does not exist"}), 400
+        if conversation:
+            connection.execute(query_update_conversation(), (new_message_id, datetime.utcnow(), conversation[0][0]))
         else:
-            connection.execute(query_insert_message(), (sender_id, receiver_id, content, datetime.utcnow(), 'sent'))
-            new_message_id = connection.lastrowid
-
-            # Update or create conversation
-            connection.execute(query_select_conversation(), (sender_id, receiver_id, receiver_id, sender_id))
-            conversation = connection.fetchone(buffered=True)
-            if conversation:
-                connection.execute(query_update_conversation(), (new_message_id, datetime.utcnow(), conversation[0]))
-                print(conversation[0])
-            else:
-                connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
-
-            connection.execute(query_fetch_sender_username(), (sender_id,))
-            sender_result = connection.fetchone(buffered=True)
-            sender_username = sender_result[0] if sender_result else 'Unknown'
-
-            response = {
-                'sender_username': sender_username,
-                'content': content
-            }
-            return jsonify(response)
+            connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
+        response = {
+                'sender_role_name': session["user_role"],
+                'content': content,
+                'send_time' : datetime.utcnow()
+        }
+        return jsonify(response)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     finally:
         if connection:
             connection.close()
+
+
    
     

@@ -1,0 +1,50 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/inventory.css') }}"
+/>
+
+<div class="inventory--container">
+  <div class="inventory--wrapper">
+    <div class="inventory--overlay"></div>
+    <div class="inventory--popup">
+      <div class="inventory-popup--section init">
+        <div class="inventory-content--item-wrapper">
+          <div class="inventory-content--item-img">
+            <img src="" alt="" id="inventory-product-img">
+          </div>
+          <div class="inventory-content--details">
+            <div class="inventory-content--detail">
+              <span>Name:</span>
+              <span id="inventory-product-name"></span>
+            </div>
+            <div class="inventory-content--detail">
+              <span>Description:</span>
+              <span id="inventory-product-description"></span>
+            </div>
+            <div class="inventory-content--detail">
+              <span>Price:</span>
+              <span id="inventory-unit-price"></span>
+            </div>
+            <div class="inventory-content--detail">
+              <span>Status:</span>
+              <span id="inventory-product-status"></span>
+            </div>
+          </div>
+        </div>
+        <div class="inventory-content--item-wrapper">
+          <div class="inventory-content--details action">
+            <div class="inventory-content--detail">The current inventory is <span id="inventory-product-inventory">123</span>.</div>
+            <div class="inventory-content--detail">
+              Add <input type="number" id="additional-inventory" value="0"> to the current invetory.
+            </div>
+            <div class="inventory-content--detail">
+              <a href="#" class="common-btn--border disabled" id="submit-inventory-update">Submit</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% set init_show = 'true' %}
+      {% include "components/loading.html" %}
+    </div>
+  </div>
+</div>

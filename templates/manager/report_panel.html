@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/report_panel.css') }}">
+<script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+
+{% extends 'base.html' %}
+{% block content %}
+    <title>Dashboard</title>
+
+<body>
+    <h1 class="header">MCRS Dashboard</h1>
+<main>
+    <div class="cont">
+        <ul>
+            <li class = 'invt'>
+                <div id="inventory-chart" style="width: 700px; height: 500px;"></div>
+            </li>
+            <li>
+                <div id="orders-chart" style="width: 700px; height: 500px;"></div>
+            </li>
+            <li>
+                <div id="payment-chart" style="width: 700px; height: 500px;"></div>
+            </li>
+            <li>
+                <div id="shipments-chart" style="width: 700px; height: 500px;"></div>
+            </li>
+        </ul>
+    </div>
+</main>
+</body>
+
+<script src="{{ url_for('static', filename='scripts/report_panel.js') }}"></script>
+
+
+{% endblock %}
