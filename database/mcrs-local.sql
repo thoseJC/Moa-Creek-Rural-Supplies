@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS gift_card;
 DROP VIEW IF EXISTS user_account_management;
 DROP TABLE IF EXISTS line_item;
 DROP TABLE IF EXISTS order_items;
@@ -208,6 +209,14 @@ CREATE TABLE news (
     is_published BOOLEAN DEFAULT FALSE,
     published_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE gift_card (
+    gf_card_id varchar(36),
+    amount decimal(6,00),
+    holder VARCHAR(36),
+    expried_date DATE,
+    FOREIGN KEY (holder) REFERENCES users(user_id)
 );
 
 
