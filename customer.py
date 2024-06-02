@@ -148,7 +148,7 @@ def inquiry():
       connc.commit()
       msg = {
         "success" : True,
-        "message" : "You inquiry has been snet succefully"
+        "message" : "Your inquiry has been sent successfully"
       }
     return render_template("inquiry.html", msg = msg)
   except Exception as e:
