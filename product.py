@@ -184,7 +184,8 @@ def list_product(categries):
 		cursor.execute(get_products_by_categories_sql,(categries,) )
 		products_data = cursor.fetchall()
 		products = process_product(products_data)
-		return render_template("product_list.html", products = products )
+		cursor.close()
+		return render_template("product_list.html", products = products)
 	except Exception as e:
 		print(e)	
 		return render_template("product_list.html" ,products= [] )
@@ -195,7 +196,7 @@ def process_product(products_data):
 	if len(products_data) > 0:
 		for product in products_data:
 			product_obj = {
-				"product_id" : product[0],
+				"id" : product[0],
 				"categories_id" : product[1],
 				"name" : product[2],
 				"product_description" : product[3],

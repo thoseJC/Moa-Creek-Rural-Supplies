@@ -2,13 +2,14 @@
 block content %}
 
 <div class="container">
-  {{products}} 
-  
- 
   {% for product in products %}
   <div class="product-container">
-    <span>{{prodcut}}</span>
-    <span>{{prodcut.price}}</span>
+    <a
+      href="{{url_for('product_page.show_product', product_id =product.id  )}}"
+    >
+      <span>{{product.name}}</span>
+    </a>
+    <span>{{product.price}}</span>
   </div>
 
   {%endfor%}
