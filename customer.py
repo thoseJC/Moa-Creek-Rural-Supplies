@@ -105,7 +105,7 @@ def credit_apply():
   finally:
     cursor.close()
 
-@customer_page.route("/notifications/", methods=['GET'])
+@customer_page.route("/notifications/", methods=['GET','POST'])
 def notifications():
     user_id = session.get("user_id")
     print(user_id)
@@ -113,7 +113,22 @@ def notifications():
         connection = getCursor()
         connection.execute(query_notifications(), (user_id,0))
         notifications = connection.fetchall()
+
         return jsonify(notifications)
     except Exception as e:
         print(f"Error fetching notifications: {e}")
         return jsonify({"error": str(e)}), 500
+
+def process_notification(notifications):
+    noti_list = []
+    for noti in notifications:
+       noti_obj = {
+          "id" : noti[0],
+          "message" : noti[1],
+          "readed" : noti[2],
+          "send_time" : noti[3]
+	   }
+       noti_list.append(noti_obj)
+    return noti_list;
+   
+
