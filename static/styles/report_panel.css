@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #f2e5ce;
+    color: #62615f;
+    padding: 1em;
+    text-align: center;
+}
+
+.cont {
+    width:100%;
+    margin:auto;
+}
+
+.chart {
+    margin: 2em 0;
+}
+
+main {
+    margin-top: 80px;
+}
+
+.cont ul{
+    padding-left: 20rem;
+}
+
+ul li {
+    display: inline-block;
+}

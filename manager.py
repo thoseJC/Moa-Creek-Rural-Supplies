@@ -217,5 +217,60 @@ def process_user_data(user):
          return None
 
 
+@manager_page.route('/report_panel')
+def report_panel():
+    connection = getCursor()
+  
+    # inventory data
+    connection.execute("SELECT * FROM inventory")
+    inventory_data = connection.fetchall()
+    x_invt_qty= [row[1] for row in inventory_data]
+    y_invt_id = [row[0] for row in inventory_data]
+    invt_data = {
+        'x_invt_qty': x_invt_qty,
+        'y_invt_id': y_invt_id
+    }
+    
+    # orders data
+    connection.execute("SELECT status, COUNT(order_id) as order_count FROM orders GROUP BY status;")
+    orders_data = connection.fetchall()
+    x_odrs_status = [row[0] for row in orders_data]
+    y_odrs_qty = [row[1] for row in orders_data]
+    odrs_data = {
+        'x_odrs_status': x_odrs_status,
+        'y_odrs_qty': y_odrs_qty
+    }
+    
+    # payment data
+    connection.execute("SELECT DATE_FORMAT(paid_date, '%Y-%m-%d') as month, SUM(total) as total FROM payment GROUP BY month;")
+    payment_data = connection.fetchall()
+    x_pyt_date = [row[0] for row in payment_data]
+    y_pyt_total = [row[1] for row in payment_data]
+    pyt_data = {
+        'x_pyt_date': x_pyt_date,
+        'y_pyt_total': y_pyt_total
+    }
+    
+    # shipments data
+    connection.execute("SELECT status, COUNT(shipment_id) as shipment_count FROM shipments GROUP BY status;")
+    shipments_data = connection.fetchall()
+    x_spm_status = [row[0] for row in shipments_data]
+    y_spm_qty = [row[1] for row in shipments_data]
+    spm_data = {
+        'x_spm_status': x_spm_status,
+        'y_spm_qty': y_spm_qty
+    }
+
+    return jsonify({
+        'inventory': invt_data,
+        'orders': odrs_data,
+        'payment': pyt_data,
+        'shipments': spm_data
+    })
+
+
+@manager_page.route('/web_report')
+def web_report():
+    return render_template("/report_panel.html")
 
 
