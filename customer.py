@@ -1,10 +1,7 @@
 import time
-from flask import Blueprint, flash, redirect, url_for, jsonify, request
-from cursor import getCursor
-from flask import session
-from flask import render_template
-from customer_query import get_credit_fields, update_credit_apply, get_customer_all_orders, get_order_all_data
-
+from flask import Blueprint, flash, redirect, url_for, jsonify, request,session,render_template
+from cursor import getConection, getCursor
+from customer_query import add_conversation, get_credit_fields, send_inquiry, update_credit_apply, get_customer_all_orders, get_order_all_data
 from login_helper import getUserInfo
 from customer_query import category_list_query, query_notifications
 
@@ -128,25 +125,37 @@ def inquiry():
     "message" : ""
   }
   try:
-    cursor = getCursor()
+    connc = getConection()
+    cursor = connc.cursor()
     current_user = getUserInfo()
     if request.method == 'POST':
-      context = request.form.get("inquiry")
+      content = request.form.get("inquiry")
       sender_id = current_user.get("user_id")
-      send_time = time.time()
-      send_inquiry_sql = get_send_inquiry_sql()
+      cursor.execute("select user_id from users where username = 'staff' ")
+      staff_id_result = cursor.fetchone()
+      staff_id = staff_id_result[0]
+      send_inquiry_sql = send_inquiry()
+      add_conversation_sql = add_conversation()
       #  store message into database
-      cursor.execute(send_inquiry_sql, (context,sender_id,send_time))
+      cursor.execute(send_inquiry_sql, (sender_id,staff_id,content))
+      connc.commit()
+      cursor.close()
+
+      # insert data to conversations
+      new_cursor = connc.cursor()
+      last_message_id = cursor.lastrowid
+      new_cursor.execute(add_conversation_sql,(staff_id,sender_id,last_message_id))
+      connc.commit()
       msg = {
         "success" : True,
         "message" : "You inquiry has been snet succefully"
       }
     return render_template("inquiry.html", msg = msg)
   except Exception as e:
-    print(e)
+    error_msg = "Error happens contact the admin : {0}".format(e)
     msg = {
       "success" : False,
-      "message" : "Error happens contact the admin"
+      "message" : error_msg
     }
     return render_template("inquiry.html", msg = msg)
 
