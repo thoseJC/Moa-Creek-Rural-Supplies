@@ -14,6 +14,8 @@
   <div class="account-content--container">
     <div class="account-ccount--header">
       Inventory Management
+      {% set role = session.get("user_role") %}
+      {% include 'components/role-badge.html' %}
     </div>
   
     <div class="account-content--wrapper">

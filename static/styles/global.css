@@ -25,7 +25,10 @@ section.content {
 }
 
 .common-btn--text {
-  font-size: 0.75rem;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  font-size: 1rem;
   text-decoration: none;
   color: var(--black);
   position: relative;

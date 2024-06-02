@@ -12,7 +12,7 @@
   <div class="account-content--container">
     <div class="account-ccount--header">
       Profile / {{ user[0] }} {{ user[1] }}
-      {% set role = user[4] %}
+      {% set role = session.get("user_role") %}
       {% include 'components/role-badge.html' %}
     </div>
 

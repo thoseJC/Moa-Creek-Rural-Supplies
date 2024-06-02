@@ -21,42 +21,49 @@
       </div>
     </div>
     
-	<div class="account-content--item">
-		<div class="account-content--title">Apply for Account Holder</div>
-		<div class="account-content--des">
-		  <a href="{{ url_for('account_holder.apply_account_holder') }}" class="common-btn--text">Apply Now</a>
-		</div>
-	</div>
-	
+    <div class="account-content--item">
+      <div class="account-content--title">Apply for Account Holder</div>
+      <div class="account-content--des">
+        <span>
+          <a 
+            href="{{ url_for('account_holder.apply_account_holder') }}"
+            class="common-btn--border"
+          >
+            Apply Now
+          </a>
+        </span>
+      </div>
+    </div>
+    
     <div class="account-content--item">
       <div class="account-content--title">SHIPPING ADDRESS</div>
       <div class="account-content--des">
-			<div class="mt-3">
-			<a href="{{ url_for('shipping_address.manage_addresses', user_id=user['user_id']) }}" class="btn btn-primary">Manage Shipping Addresses</a>
-		</div>
-	  </div>
+        <div class="mt-3">
+          <a 
+            href="{{ url_for('shipping_address.manage_addresses', user_id=user['user_id']) }}" 
+            class="common-btn--border"
+          >
+            Manage Shipping Addresses
+          </a>
+        </div>
+      </div>
     </div>
 
     <div class="account-content--item">
       <div class="account-content--title">LATEST NEWS</div>
       <div class="account-content--des">
-        <div class="container mt-5">
-
-
-                <div class="card-body news-container" style="height: 300px; overflow-y: auto;">
-                  {% for news in latest_news %}
-                  <div>
-                    <p><h5>{{ news.title }} </h5></p>
-                    <p style="white-space: pre-line;">{{ news.content }}</p>
-                    <p><strong>Published Date: {{ news.published_date }}</strong></p>
-                    <hr> <!-- Horizontal line after each news item -->
-                  </div>
-                  {% endfor %}
-                </div>
-            
-
+        <div>
+          <div class="card-body news-container" style="height: 300px; overflow-y: auto;">
+            {% for news in latest_news %}
+            <div>
+              <p><h5>{{ news.title }} </h5></p>
+              <p style="white-space: pre-line;">{{ news.content }}</p>
+              <p><strong>Published Date: {{ news.published_date }}</strong></p>
+              <hr> <!-- Horizontal line after each news item -->
+            </div>
+            {% endfor %}
+          </div>
         </div>
-        
       </div>
     </div>
   </div>
