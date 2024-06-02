@@ -226,63 +226,148 @@ VALUES
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Eva', 'Taylor', 'eva', 'eva@customer.com', 'password', TRUE);
 
 
-INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
-('Animal Health Care', NULL, 'Products aimed at maintaining animal health.', 'images/category_image/animal_healthcare.jpg'),
-('Animal Feed & Nutrition', NULL, 'Nutritional products for various animals.', 'images/category_image/animal_health_care.jpg'),
-('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.', 'images/category_image/niuniu.jpg'),
-('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
-('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
-('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
-('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
-('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
-('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
-('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg'),
-('Garden Supplies', NULL, 'Tools and materials for gardening.', 'images/category_image/garden_supplies.jpg'),
-('Agrichemicals', NULL, 'Chemicals used in agriculture.', 'images/category_image/Agrichemicals.jpg'),
-('Machinery & Oil', NULL, 'Machines and oils for agricultural use.', 'images/category_image/Machinery & Oil.jpg'),
-('Pasture & Cropping', NULL, 'Products for pasture management and cropping.', 'images/category_image/Pasture & Cropping.jpg'),
-('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
-('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
+INSERT INTO categories (name, parent_id, description, ct_image_path)
+VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health.',
+        'images/category_image/animal_healthcare.jpg'),
+       ('Animal Feed & Nutrition', NULL, 'Nutritional products for various animals.',
+        'images/category_image/animal_health_care.jpg'),
+       ('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.',
+        'images/category_image/niuniu.jpg'),
+       ('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
+       ('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
+       ('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
+       ('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
+       ('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
+       ('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
+       ('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg'),
+       ('Garden Supplies', NULL, 'Tools and materials for gardening.', 'images/category_image/garden_supplies.jpg'),
+       ('Agrichemicals', NULL, 'Chemicals used in agriculture.', 'images/category_image/Agrichemicals.jpg'),
+       ('Machinery & Oil', NULL, 'Machines and oils for agricultural use.',
+        'images/category_image/Machinery & Oil.jpg'),
+       ('Pasture & Cropping', NULL, 'Products for pasture management and cropping.',
+        'images/category_image/Pasture & Cropping.jpg'),
+       ('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
+       ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
+INSERT INTO categories (name, parent_id, description, ct_image_path)
+VALUES ('Vaccines', (SELECT category_id
+                     FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
+        'Vaccines to prevent diseases in animals.', '#'),
+       ('Antibiotics', (SELECT category_id
+                        FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
+        'Antibiotics to treat animal diseases.', '#'),
+       ('Supplements', (SELECT category_id
+                        FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
+        'Supplements to enhance animal health.', '#'),
+       ('Poultry Feed', (SELECT category_id
+                         FROM (SELECT category_id
+                               FROM categories
+                               WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for poultry.', '#'),
+       ('Cattle Feed', (SELECT category_id
+                        FROM (SELECT category_id
+                              FROM categories
+                              WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for cattle.', '#'),
+       ('Pet Food', (SELECT category_id
+                     FROM (SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition') AS derived_table),
+        'Food for pets.', '#'),
+       ('Feeding Equipment',
+        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
+        'Equipment used for feeding livestock.', '#'),
+       ('Milking Equipment',
+        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
+        'Equipment used for milking livestock.', '#'),
+       ('Pest Control',
+        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
+        'Products to control pests in crops.', '#'),
+       ('Herbicides',
+        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
+        'Chemical products to control unwanted plants.', '#'),
+       ('Fungicides',
+        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
+        'Chemical products to control fungi.', '#');
 
--- INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
--- ('Vaccines', 1, 'Vaccines to prevent diseases in animals.', '#'),
--- ('Antibiotics', 1, 'Antibiotics to treat animal diseases.', '#');
+
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Vitamin Supplement',
+        'A supplement to enhance animal health.', 25.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Animal Feed',
+        'High-quality feed for various animals.', 15.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Dairy Cleaner',
+        'Cleaner for dairy equipment.', 10.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Aid', 'Aid for assisting in calving.',
+        30.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle',
+        'Bottle for feeding young animals.', 5.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Clothing'), 'shirt', 't shirt', 12.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Clothing'), 'hat', 'hat', 22.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
+        'A vaccine to prevent diseases in animals.', 30.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics',
+        'Antibiotics to treat animal diseases.', 20.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Supplements'), 'Animal Supplement',
+        'A supplement to enhance animal health.', 25.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Poultry Feed'), 'Poultry Feed', 'Feed for poultry.', 15.00,
+        '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Cattle Feed'), 'Cattle Feed', 'Feed for cattle.', 18.00, '#',
+        1),
+       ((SELECT category_id FROM categories WHERE name = 'Pet Food'), 'Pet Food', 'Food for pets.', 22.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Feeding Equipment'), 'Feeder',
+        'Equipment used for feeding livestock.', 50.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Milking Equipment'), 'Milking Machine',
+        'Equipment used for milking livestock.', 120.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Pest Control'), 'Pest Control Spray',
+        'Products to control pests in crops.', 25.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
+        'Chemical products to control unwanted plants.', 15.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide',
+        'Chemical products to control fungi.', 20.00, '#', 1),
+       (8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
+       (8, 'hat', 'hat', 22.00, 'product2.webp', 1);
 
 
-INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
-(1, 'Vitamin Supplement', 'A supplement to enhance animal health.', 25.00, '#', 1),
-(2, 'Animal Feed', 'High-quality feed for various animals.', 15.00, '#', 1),
-(3, 'Dairy Cleaner', 'Cleaner for dairy equipment.', 10.00, '#', 1),
-(4, 'Calving Aid', 'Aid for assisting in calving.', 30.00, '#', 1),
-(5, 'Feeding Bottle', 'Bottle for feeding young animals.', 5.00, '#', 1),
-(8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
-(8, 'hat', 'hat', 22.00, 'product2.webp', 1);
+INSERT INTO inventory (product_id, quantity)
+VALUES ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Vitamin Supplement' LIMIT 1) AS derived_table), 30),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Animal Feed' LIMIT 1) AS derived_table),
+        56),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Aid' LIMIT 1) AS derived_table),
+        28),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Feeding Bottle' LIMIT 1) AS derived_table), 20),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'shirt' LIMIT 1) AS derived_table), 100),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'hat' LIMIT 1) AS derived_table), 50),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Animal Vaccine' LIMIT 1) AS derived_table), 40),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Animal Antibiotics' LIMIT 1) AS derived_table), 50),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Animal Supplement' LIMIT 1) AS derived_table), 30),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Poultry Feed' LIMIT 1) AS derived_table),
+        60),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Cattle Feed' LIMIT 1) AS derived_table),
+        80),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pet Food' LIMIT 1) AS derived_table),
+        70),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Feeder' LIMIT 1) AS derived_table), 20),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Milking Machine' LIMIT 1) AS derived_table), 15),
+       ((SELECT product_id
+         FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),
+        55),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),
+        35);
 
-
-INSERT INTO inventory (product_id, quantity) VALUES
-    ((SELECT product_id FROM products WHERE name = 'Vitamin Supplement'), 30),
-    ((SELECT product_id FROM products WHERE name = 'Animal Feed'), 56),
-    ((SELECT product_id FROM products WHERE name = 'Dairy Cleaner'), 10),
-    ((SELECT product_id FROM products WHERE name = 'Calving Aid'), 28),
-    ((SELECT product_id FROM products WHERE name = 'Feeding Bottle'), 20),
-    ((SELECT product_id FROM products WHERE name = 'shirt'), 100),
-    ((SELECT product_id FROM products WHERE name = 'hat'), 50),
-    ((SELECT product_id FROM products WHERE name = 'Vitamin Supplement'), 75),
-    ((SELECT product_id FROM products WHERE name = 'Animal Feed'), 120),
-    ((SELECT product_id FROM products WHERE name = 'Dairy Cleaner'), 90),
-    ((SELECT product_id FROM products WHERE name = 'Calving Aid'), 45),
-    ((SELECT product_id FROM products WHERE name = 'Feeding Bottle'), 30);
-
-
-INSERT INTO payment (user_id, total, payment_type, GST, freight) VALUES
-((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00),
-((SELECT user_id FROM users WHERE username = 'alice'), 100.00, 'Credit Card', 15.00, 5.00),
-((SELECT user_id FROM users WHERE username = 'bob'), 200.00, 'PayPal', 20.00, 10.00),
-((SELECT user_id FROM users WHERE username = 'charlie'), 150.00, 'Bank Transfer', 18.00, 7.00),
-((SELECT user_id FROM users WHERE username = 'david'), 80.00, 'Credit Card', 10.00, 3.00),
-((SELECT user_id FROM users WHERE username = 'eva'), 120.00, 'Debit Card', 16.00, 6.00);
+INSERT INTO payment (user_id, total, payment_type, GST, freight)
+VALUES ((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00),
+       ((SELECT user_id FROM users WHERE username = 'alice'), 100.00, 'Credit Card', 15.00, 5.00),
+       ((SELECT user_id FROM users WHERE username = 'bob'), 200.00, 'PayPal', 20.00, 10.00),
+       ((SELECT user_id FROM users WHERE username = 'charlie'), 150.00, 'Bank Transfer', 18.00, 7.00),
+       ((SELECT user_id FROM users WHERE username = 'david'), 80.00, 'Credit Card', 10.00, 3.00),
+       ((SELECT user_id FROM users WHERE username = 'eva'), 120.00, 'Debit Card', 16.00, 6.00);
 
 
 INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
