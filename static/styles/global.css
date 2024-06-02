@@ -25,7 +25,10 @@ section.content {
 }
 
 .common-btn--text {
-  font-size: 0.75rem;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  font-size: 1rem;
   text-decoration: none;
   color: var(--black);
   position: relative;
@@ -57,11 +60,13 @@ section.content {
   font-size: 1rem;
   border-radius: 25px;
   border: 1px solid var(--black);
+  min-width: 300px;
   height: 50px;
   line-height: 50px;
   background-color: var(--bg-header);
   text-align: center;
   text-decoration: none;
+  color: var(--black);
   transition: all 0.3s ease;
 }
 
@@ -71,6 +76,7 @@ section.content {
   transition: all 0.3s ease;
 }
 
+.common-btn--border.disabled,
 .cta-add-to-cart.disabled {
   border-color: #c0c0c0;
   background-color: #c0c0c0;

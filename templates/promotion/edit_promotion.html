@@ -1,14 +1,28 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
+
 {% extends "base.html" %}
-{% block title %}Edit Promotion{% endblock %}
+{% block title %}MCRS - Edit Promotion {% endblock %} 
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+
+<div class="account-dashboard--container">
+    {% set current_page = 'promotion' %} 
+    {% include 'global/account_navbar.html' %}
+
+
+<div class="container">
+    <div class="account-ccount--header">
+        Promotions Management
+        {% set role = 'manager' %}
+        {% include 'components/role-badge.html' %}
+    </div>
+    <div class="row">
+        <div>
             <div class="card shadow">
-                <div class="card-header">
-                    <h4>Edit Promotion</h4>
-                </div>
                 <div class="card-body">
                     <form method="POST">
                         <div class="mb-3">
@@ -53,7 +67,7 @@
                             <input type="checkbox" class="form-check-input" id="all_products" name="all_products" {% if promotion.target_category_id is none and promotion.target_product_id is none %}checked{% endif %}>
                             <label class="form-check-label" for="all_products">Apply to all products</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Promotion</button>
+                        <button type="submit" class="common-btn--border">Update Promotion</button>
                     </form>
                 </div>
             </div>

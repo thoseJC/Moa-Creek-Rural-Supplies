@@ -218,7 +218,12 @@ VALUES
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'kevin.li@lincolnuni.ac.nz', '123456', TRUE),
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '123456', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE);
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '123456', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Alice', 'Johnson', 'alice', 'alice@manager.com', 'password', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Bob', 'Smith', 'bob', 'bob@customer.com', 'password', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Charlie', 'Brown', 'charlie', 'charlie@staff.com', 'password', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'David', 'Wilson', 'david', 'david@staff.com', 'password', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Eva', 'Taylor', 'eva', 'eva@customer.com', 'password', TRUE);
 
 
 INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
@@ -247,25 +252,55 @@ INSERT INTO categories (name, parent_id, description, ct_image_path) VALUES
 
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active) VALUES
+(1, 'Vitamin Supplement', 'A supplement to enhance animal health.', 25.00, '#', 1),
+(2, 'Animal Feed', 'High-quality feed for various animals.', 15.00, '#', 1),
+(3, 'Dairy Cleaner', 'Cleaner for dairy equipment.', 10.00, '#', 1),
+(4, 'Calving Aid', 'Aid for assisting in calving.', 30.00, '#', 1),
+(5, 'Feeding Bottle', 'Bottle for feeding young animals.', 5.00, '#', 1),
 (8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
 (8, 'hat', 'hat', 22.00, 'product2.webp', 1);
 
 
 INSERT INTO inventory (product_id, quantity) VALUES
+    ((SELECT product_id FROM products WHERE name = 'Vitamin Supplement'), 30),
+    ((SELECT product_id FROM products WHERE name = 'Animal Feed'), 56),
+    ((SELECT product_id FROM products WHERE name = 'Dairy Cleaner'), 10),
+    ((SELECT product_id FROM products WHERE name = 'Calving Aid'), 28),
+    ((SELECT product_id FROM products WHERE name = 'Feeding Bottle'), 20),
     ((SELECT product_id FROM products WHERE name = 'shirt'), 100),
-    ((SELECT product_id FROM products WHERE name = 'hat'), 50);
+    ((SELECT product_id FROM products WHERE name = 'hat'), 50),
+    ((SELECT product_id FROM products WHERE name = 'Vitamin Supplement'), 75),
+    ((SELECT product_id FROM products WHERE name = 'Animal Feed'), 120),
+    ((SELECT product_id FROM products WHERE name = 'Dairy Cleaner'), 90),
+    ((SELECT product_id FROM products WHERE name = 'Calving Aid'), 45),
+    ((SELECT product_id FROM products WHERE name = 'Feeding Bottle'), 30);
 
 
 INSERT INTO payment (user_id, total, payment_type, GST, freight) VALUES
-((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00);
+((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00),
+((SELECT user_id FROM users WHERE username = 'alice'), 100.00, 'Credit Card', 15.00, 5.00),
+((SELECT user_id FROM users WHERE username = 'bob'), 200.00, 'PayPal', 20.00, 10.00),
+((SELECT user_id FROM users WHERE username = 'charlie'), 150.00, 'Bank Transfer', 18.00, 7.00),
+((SELECT user_id FROM users WHERE username = 'david'), 80.00, 'Credit Card', 10.00, 3.00),
+((SELECT user_id FROM users WHERE username = 'eva'), 120.00, 'Debit Card', 16.00, 6.00);
 
 
 INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
-    ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending');
+    ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending'),
+    ((SELECT user_id FROM users WHERE username = 'alice'), 1, 100.00, 15.00, 5.00, 'shipped'),
+    ((SELECT user_id FROM users WHERE username = 'bob'), 2, 200.00, 20.00, 10.00, 'pending'),
+    ((SELECT user_id FROM users WHERE username = 'charlie'), 3, 150.00, 18.00, 7.00, 'delivered'),
+    ((SELECT user_id FROM users WHERE username = 'david'), 4, 80.00, 10.00, 3.00, 'cancelled'),
+    ((SELECT user_id FROM users WHERE username = 'eva'), 5, 120.00, 16.00, 6.00, 'ready_for_pickup');
 
 
 INSERT INTO receipt (user_id, GST, freight, total) VALUES
-    ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00);
+    ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00),
+    ((SELECT user_id FROM users WHERE username = 'alice'), 15.00, 5.00, 100.00),
+    ((SELECT user_id FROM users WHERE username = 'bob'), 20.00, 10.00, 200.00),
+    ((SELECT user_id FROM users WHERE username = 'charlie'), 18.00, 7.00, 150.00),
+    ((SELECT user_id FROM users WHERE username = 'david'), 10.00, 3.00, 80.00),
+    ((SELECT user_id FROM users WHERE username = 'eva'), 16.00, 6.00, 120.00);
 
 INSERT INTO messages (sender_id, receiver_id, content) VALUES
 ((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
@@ -283,7 +318,12 @@ INSERT INTO promotions ( description, promotion_type, threshold_value, discount_
 ('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
 ('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
 
-
+INSERT INTO address (user_id, street_address, city, state, postal_code, country, is_primary) VALUES
+((SELECT user_id FROM users WHERE username = 'alice'), '123 Main St', 'Townsville', 'State1', '12345', 'Country1', TRUE),
+((SELECT user_id FROM users WHERE username = 'bob'), '456 Elm St', 'Village', 'State2', '67890', 'Country1', TRUE),
+((SELECT user_id FROM users WHERE username = 'charlie'), '789 Oak St', 'City', 'State3', '11223', 'Country1', TRUE),
+((SELECT user_id FROM users WHERE username = 'david'), '101 Pine St', 'Metropolis', 'State4', '44556', 'Country1', TRUE),
+((SELECT user_id FROM users WHERE username = 'eva'), '202 Maple St', 'Hamlet', 'State5', '77889', 'Country1', TRUE);
 
 INSERT INTO messages (sender_id, receiver_id, content) VALUES
 ((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
@@ -307,3 +347,10 @@ INSERT INTO news (title,content,created_by,is_published,published_date) VALUES
 INSERT INTO notifications
 (user_id, message, is_read, created_at)
 VALUES((select user_id FROM users WHERE username = 'customer'), 'hello world', 0, CURRENT_TIMESTAMP);
+
+INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delivery_date, actual_delivery_date, carrier_name, additional_info) VALUES
+(1, 'standard', 'shipped', 5.00, '2023-06-01', '2023-06-05', 'Carrier1', 'Leave at the front door.'),
+(2, 'oversized', 'pending', 10.00, '2023-06-02', NULL, 'Carrier2', 'Handle with care.'),
+(3, 'pickup', 'delivered', 0.00, '2023-06-03', '2023-06-06', 'Carrier3', 'Customer will pick up.'),
+(4, 'quote', 'cancelled', 3.00, '2023-06-04', NULL, 'Carrier4', 'Cancelled due to customer request.'),
+(5, 'standard', 'ready_for_pickup', 6.00, '2023-06-05', NULL, 'Carrier5', 'Ready for pickup at the warehouse.');

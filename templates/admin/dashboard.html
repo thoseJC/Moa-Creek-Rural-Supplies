@@ -1,11 +1,11 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
-/>
-
 <div>
   <div class="dashboard-header">Administrator dashboard</div>
   <div class="account-content--container">
+    <div class="account-ccount--header">
+        Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
+        {% set role = 'admin' %}
+        {% include 'components/role-badge.html' %}
+    </div>
     <div class="staff-dashboard-card">
       {% set entry_name = "Product Management" %}
       <!--  -->

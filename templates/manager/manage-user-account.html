@@ -1,54 +1,77 @@
-{% extends "base.html" %} {% block content %}
 <link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/manager_accounts_management.css') }}"
+rel="stylesheet"
+href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='styles/manager_accounts_management.css') }}"
 />
 
-<div>
-  <h3>User Accounts Management</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Full name</th>
-        <th>User name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Active Status</th>
-        <th>Change Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
-      <tr>
-        <td>{{ user.full_name }}</td>
-        <td>
-          <a
-            href="{{url_for('manager.manage_user_account_by_id', user_id = user.user_id)}}"
-          >
-            {{ user.username }}
-          </a>
-        </td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td id="status-{{user.user_id}}">{{ user.is_active}}</td>
-        <td>
-          <button
-            id="toggle-button-{{user.user_id}}"
-            onclick="toggleStatus(
-            `{{user.user_id}}`
-            
-            )"
-          >
-            {% if user.is_active == 'Active' %} Deactivate {%else%} Activate
-            {%endif%}
-          </button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
 
+{% extends "base.html" %}
+
+{% block title %}MCRS - Accounts Management {% endblock %} 
+
+{% block content %}
+
+
+<div class="account-dashboard--container">
+
+  {% set current_page = 'account' %} 
+  {% include 'global/account_navbar.html' %}
+
+
+  <div>
+    <div class="account-ccount--header">
+      User Accounts Management
+      {% set role = session.get("user_role") %}
+      {% include 'components/role-badge.html' %}
+    </div>
+    
+    <table class="account-management--table">
+      <thead>
+        <tr>
+          <th>Full name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Active Status</th>
+          <th>Change Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.full_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td id="status-{{user.user_id}}">{{ user.is_active}}</td>
+          <td>
+            <button
+              id="toggle-button-{{user.user_id}}"
+              onclick="toggleStatus(
+              `{{user.user_id}}`
+              
+              )"
+            >
+              {% if user.is_active == 'Active' %} Deactivate {%else%} Activate
+              {%endif%}
+            </button>
+          </td>
+          <td>
+            <a
+              class="common-btn--text"
+              href="{{url_for('manager.manage_user_account_by_id', user_id = user.user_id)}}"
+            >
+              Edit Profile
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 <script>
   const toggleStatus = (userId) => {
     let currentStatue = document.getElementById(`status-${userId}`).innerText;

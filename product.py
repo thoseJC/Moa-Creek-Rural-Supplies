@@ -45,7 +45,8 @@ def show_product(product_id):
 			"price": fetched_product[3],
 			"image": fetched_product[4],
 			"category": fetched_product[5],
-			"active": fetched_product[6]
+			"active": fetched_product[6],
+			"quantity": fetched_product[7]
 		}
 		return render_template('product_info.html',product = product)
 	except Exception as e:

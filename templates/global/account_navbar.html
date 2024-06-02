@@ -17,12 +17,44 @@
     </li>
 
     {% if session["user_role"] == 'customer' %}
+    <li class="{% if current_page == 'orders' %}active{% endif %}">
+      <a href="{{url_for('customer.orders')}}">Orders</a>
+    </li>
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('customer.credit')}}">Credit</a>
     </li>
     {% elif session["user_role"] == 'manager' %}
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
+    </li>
+    <li class="{% if current_page == 'product' %}active{% endif %}">
+      <a href="{{url_for('product_page.get_list_of_product')}}">Product Management</a>
+    </li>
+    <li class="{% if current_page == 'account' %}active{% endif %}">
+      <a href="{{url_for('manager.manage_user_account')}}">Account Management</a>
+    </li>
+    <li class="{% if current_page == 'promotion' %}active{% endif %}">
+      <a href="{{url_for('promotion_page.get_promotions')}}">Promotion Management</a>
+    </li>
+    <li class="{% if current_page == 'news' %}active{% endif %}">
+      <a href="{{url_for('news_page.get_news')}}">News Management</a>
+    </li>
+    {% elif session["user_role"] == 'admin' %}
+    <li class="{% if current_page == 'credit' %}active{% endif %}">
+      <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
+    </li>
+    {% elif session["user_role"] == 'staff' %}
+    <li class="{% if current_page == 'product' %}active{% endif %}">
+      <a href="{{url_for('product_page.get_list_of_product')}}">Product Management</a>
+    </li>
+    <li class="{% if current_page == 'inventory' %}active{% endif %}">
+      <a href="{{url_for('staff.inventory_management')}}">Inventory Management</a>
+    </li>
+    <li class="{% if current_page == 'order' %}active{% endif %}">
+      <a href="{{url_for('order_page.orders_list')}}">Order Management</a>
+    </li>
+    <li class="{% if current_page == 'message' %}active{% endif %}">
+      <a href="{{url_for('message_page.inbox')}}">Message Management</a>
     </li>
     {% endif %}
 
