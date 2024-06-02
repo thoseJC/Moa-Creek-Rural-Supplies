@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block title %}MCRS - Product List{% endblock %} {%
+block content %}
+
+<div class="container">
+  {{products}} 
+  
+ 
+  {% for product in products %}
+  <div class="product-container">
+    <span>{{prodcut}}</span>
+    <span>{{prodcut.price}}</span>
+  </div>
+
+  {%endfor%}
+</div>
+
+{% endblock %}
