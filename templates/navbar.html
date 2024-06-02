@@ -80,6 +80,7 @@
                 <li><a href="#">Pasture & Cropping</a></li>
                 <li><a href="#">Fertilizer</a></li>
                 <li><a href="#">Clearance</a></li>
+                <li><a href="#">Gift Card</a></li>
               </ul>
             </div>
           </div>
@@ -94,7 +95,10 @@
       </a>
       <a class="nav-side--link" href="{{ url_for('cart.cart') }}">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
-        <span data-user-id="{{ session['user_id'] }}" class="nav-side--link-quantity"></span>
+        <span
+          data-user-id="{{ session['user_id'] }}"
+          class="nav-side--link-quantity"
+        ></span>
       </a>
     </div>
   </div>
