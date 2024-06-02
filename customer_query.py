@@ -31,10 +31,15 @@ def query_notifications():
     	"""
 
 
-def insert_inquiry():
+def send_inquiry():
       return """
-		INSERT INTO general_inquiry (customer_i,inquiry_content) VALUES(%s, %s);
+		INSERT INTO messages (sender_id, receiver_id, content) VALUES(%s, %s,%s);
       """
+
+def add_conversation():
+	return """
+	INSERT INTO conversations (staff_id, customer_id, last_message_id) VALUES (%s, %s,%s);
+"""
 
 def get_customer_all_orders():
 	return """
