@@ -122,7 +122,6 @@ CREATE TABLE order_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
-
 CREATE TABLE receipt(
     rcpt_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id varchar(36) not NULL,
@@ -164,6 +163,7 @@ CREATE TABLE conversations (
     FOREIGN KEY (staff_id) REFERENCES users(user_id),
     FOREIGN KEY (last_message_id) REFERENCES messages(message_id)
 );
+
 
 CREATE TABLE shipments (
     shipment_id INT AUTO_INCREMENT PRIMARY KEY,
