@@ -18,6 +18,7 @@ from checkout import checkout_page
 from account_holder import account_holder
 from shippingaddress import shipping_address
 from manage_account_apply import manage_account_apply_page
+from giftcard import giftcard_page
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
@@ -37,6 +38,7 @@ app.register_blueprint(promotion_page, url_prefix="/promotion")
 app.register_blueprint(news_page, url_prefix="/news")
 app.register_blueprint(account_holder, url_prefix='/account_holder')
 app.register_blueprint(manage_account_apply_page, url_prefix="/manage_account_apply")
+app.register_blueprint(giftcard_page,url_prefix = "/giftcard" )
 
 @app.route("/")
 def home():
