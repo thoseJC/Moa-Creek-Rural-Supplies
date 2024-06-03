@@ -9,7 +9,7 @@ def proceed_payment():
     try:
         user_id = request.json.get("userId")
         total = request.json.get('total', 0)
-        payment_type = request.json.get('paymentType', "Credit Card", "gift-card")
+        payment_type = request.json.get('paymentType', "Credit Card")
         gst = request.json.get('gst', 0)
         freight = request.json.get('freight', 0)
         cart_items = request.json.get('cartItems', [])
