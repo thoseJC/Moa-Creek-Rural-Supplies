@@ -1,9 +1,14 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/cart.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/cart.css') }}"
+/>
 
-{% extends 'base.html' %}
-
-{% block content %}
-<cart-table class="cart--container" id="cart-table" data-user-id="{{ user_id }}">
+{% extends 'base.html' %} {% block content %}
+<cart-table
+  class="cart--container"
+  id="cart-table"
+  data-user-id="{{ user_id }}"
+>
   <div class="cart--header">My Bag</div>
   <div class="cart--details with-products displayNone">
     <div class="cart-left--container"></div>
@@ -22,21 +27,35 @@
           <div class="cart-line--label">GST</div>
           <div class="cart-line--value" id="order-summary-gst"></div>
         </div>
+        <div class="cart-right--line">
+          <div class="cart-line--label">Total Amount</div>
+          <div class="cart-line--value" id="total-to-pay"></div>
+        </div>
+        <div>
+          <span id="giftcard-credit"></span>
+        </div>
       </div>
       <div class="cart-button">
-        <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
+        <a href="#" class="common-btn--border" id="cart-checkout-btn"
+          >Checkout</a
+        >
+      </div>
+
+      <!-- pay be gift card -->
+      <div>
+        <label>Pay by Gift Card</label>
+        <input placeholder="type in git card code" id="giftCardCodeInput" />
+
+        <div>
+          <button id="applyGiftCardBtn">Apply</button>
+        </div>
       </div>
     </div>
   </div>
   <div class="cart--details without-products displayNone">
-    <div class="cart-empty-header">
-      Your bag is empty!!
-    </div>
+    <div class="cart-empty-header">Your bag is empty!!</div>
   </div>
- {% include "components/loading.html" %}
+  {% include "components/loading.html" %}
 </cart-table>
 
-
-{% include "cart/checkout.html" %}
-{% endblock %}
-
+{% include "cart/checkout.html" %} {% endblock %}
