@@ -204,3 +204,7 @@ def order_details():
     return order_items, 400
   finally:
     cursor.close()
+
+@customer_page.route("/faq")
+def faq():
+    return render_template('customer/faq.html')
