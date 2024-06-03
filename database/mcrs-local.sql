@@ -212,7 +212,7 @@ CREATE TABLE news (
 );
 
 CREATE TABLE gift_card (
-    gf_card_id varchar(36),
+    gf_card_id varchar(36) UNIQUE PRIMARY KEY ,
     amount decimal(6,00),
     holder VARCHAR(36),
     expried_date DATE,
@@ -256,6 +256,7 @@ VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health
        ('Pasture & Cropping', NULL, 'Products for pasture management and cropping.',
         'images/category_image/Pasture & Cropping.jpg'),
        ('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
+       ('Gift-Card', NULL, 'Gift-Card', ''),
        ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
@@ -329,19 +330,16 @@ VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 
         'Products to control pests in crops.', 25.00, '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
         'Chemical products to control unwanted plants.', 15.00, '#', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide',
-        'Chemical products to control fungi.', 20.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '#', 1),
        (8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
-       (8, 'hat', 'hat', 22.00, 'product2.webp', 1);
+       (8, 'hat', 'hat', 22.00, 'product2.webp', 1),
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '#', 1);
 
 
 INSERT INTO inventory (product_id, quantity)
-VALUES ((SELECT product_id
-         FROM (SELECT product_id FROM products WHERE name = 'Vitamin Supplement' LIMIT 1) AS derived_table), 30),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Animal Feed' LIMIT 1) AS derived_table),
-        56),
-       ((SELECT product_id
-         FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
+VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Vitamin Supplement' LIMIT 1) AS derived_table), 30),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Animal Feed' LIMIT 1) AS derived_table), 56),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Aid' LIMIT 1) AS derived_table),
         28),
        ((SELECT product_id
@@ -356,19 +354,15 @@ VALUES ((SELECT product_id
          FROM (SELECT product_id FROM products WHERE name = 'Animal Supplement' LIMIT 1) AS derived_table), 30),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Poultry Feed' LIMIT 1) AS derived_table),
         60),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Cattle Feed' LIMIT 1) AS derived_table),
-        80),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pet Food' LIMIT 1) AS derived_table),
-        70),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Cattle Feed' LIMIT 1) AS derived_table), 80),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pet Food' LIMIT 1) AS derived_table),70),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Feeder' LIMIT 1) AS derived_table), 20),
-       ((SELECT product_id
-         FROM (SELECT product_id FROM products WHERE name = 'Milking Machine' LIMIT 1) AS derived_table), 15),
-       ((SELECT product_id
-         FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),
-        55),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),
-        35);
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milking Machine' LIMIT 1) AS derived_table), 15),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),55),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),35),
+       ((select product_id FROM products where name = 'Gift Card'), 10000000);
+
 
 INSERT INTO payment (user_id, total, payment_type, GST, freight)
 VALUES ((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00),
@@ -448,3 +442,7 @@ INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delive
 (3, 'pickup', 'delivered', 0.00, '2023-06-03', '2023-06-06', 'Carrier3', 'Customer will pick up.'),
 (4, 'quote', 'cancelled', 3.00, '2023-06-04', NULL, 'Carrier4', 'Cancelled due to customer request.'),
 (5, 'standard', 'ready_for_pickup', 6.00, '2023-06-05', NULL, 'Carrier5', 'Ready for pickup at the warehouse.');
+
+INSERT INTO gift_card (gf_card_id, amount, holder) VALUES (
+    '1234-abcd' , 100.00, (select user_id from users where username = 'customer')
+);

@@ -97,4 +97,11 @@ def get_products_by_ids(product_ids):
         WHERE product_id IN ({product_ids_string});
     """
 
+def get_products_by_categories():
+	return """
+	select ps.* from products ps left join categories cs on ps.category_id = cs.category_id where cs.name = %s
+"""
+
+
+
 
