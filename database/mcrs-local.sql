@@ -212,7 +212,7 @@ CREATE TABLE news (
 );
 
 CREATE TABLE gift_card (
-    gf_card_id varchar(36),
+    gf_card_id varchar(36) UNIQUE PRIMARY KEY ,
     amount decimal(6,00),
     holder VARCHAR(36),
     expried_date DATE,
@@ -442,3 +442,7 @@ INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delive
 (3, 'pickup', 'delivered', 0.00, '2023-06-03', '2023-06-06', 'Carrier3', 'Customer will pick up.'),
 (4, 'quote', 'cancelled', 3.00, '2023-06-04', NULL, 'Carrier4', 'Cancelled due to customer request.'),
 (5, 'standard', 'ready_for_pickup', 6.00, '2023-06-05', NULL, 'Carrier5', 'Ready for pickup at the warehouse.');
+
+INSERT INTO gift_card (gf_card_id, amount, holder) VALUES (
+    '1234-abcd' , 100.00, (select user_id from users where username = 'customer')
+);
