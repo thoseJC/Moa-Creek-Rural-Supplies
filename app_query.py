@@ -73,13 +73,18 @@ def update_user_profile_by_manager():
 
 def get_user_profile_query():
 	return """
-			SELECT 
-				first_name,
-				last_name,
-				email,
-				phone_number
-			FROM users
-			WHERE user_id = %s;
+		SELECT 
+			u.first_name,
+			u.last_name,
+			u.email,
+			u.phone_number,
+			ur.role_name
+		FROM 
+			users u
+		INNER JOIN 
+			user_roles ur ON u.role_id = ur.role_id
+		WHERE 
+			u.user_id = %s;
 		"""
 
 
@@ -91,5 +96,12 @@ def get_products_by_ids(product_ids):
         FROM products 
         WHERE product_id IN ({product_ids_string});
     """
+
+def get_products_by_categories():
+	return """
+	select ps.* from products ps left join categories cs on ps.category_id = cs.category_id where cs.name = %s
+"""
+
+
 
 

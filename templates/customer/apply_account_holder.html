@@ -1,42 +1,100 @@
-{% extends "base.html" %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
 
-{% block title %}Apply for Account Holder{% endblock %}
+{% extends "base.html" %}
+{% block title %}MCRS - Apply for Account Holder{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="text-center mt-5">Apply for Account Holder</h1>
+<div class="account-dashboard--container">
+    {% set current_page = 'overview' %} 
+    {% include 'global/account_navbar.html' %}
 
-    <div class="row justify-content-center mt-5">
-        <div class="col-lg-6">
-            <div class="account-content--item">
-                <div class="account-content--title">Application Status</div>
-                <div class="account-content--des">
-                    {% if user["account_holder_status"] == 'apply' %}
-                    <span>Your application is under review.</span>
-                    {% elif user["account_holder_status"] == 'approve' %}
-                    <span>Your application has been approved.</span>
-                    {% elif user["account_holder_status"] == 'decline' %}
-                    <span>Your application has been declined.</span>
-                    {% else %}
-					<span>You have not applied for an account holder yet.</span>
-					<br><br>
-					
-                    <form action="{{ url_for('account_holder.apply_account_holder') }}" method="POST">
-                        <div class="mb-3">
-                            <label for="businessName" class="form-label">Business Name</label>
-                            <input type="text" class="form-control" id="businessName" name="business_name" required>
+    <div class="account-content--container order-management">
+        <div class="account-ccount--header">
+            Apply for Account Holder
+            {% set role = session.get("user_role") %}
+            {% include 'components/role-badge.html' %}
+        </div>
+
+
+        <div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="account-content--item">
+                        <div class="account-content--title">Application Status</div>
+                        <div class="account-content--des">
+                            {% if user["account_holder_status"] == 'apply' %}
+                                <span>Your application is under review.</span>
+                            {% elif user["account_holder_status"] == 'approve' %}
+                                <span>Your application has been approved.</span>
+                            {% elif user["account_holder_status"] == 'decline' %}
+                                <span>Your application has been declined.</span>
+                            {% else %}
+                                <span>You have not applied for an account holder yet.</span>
+                                <br />
+                                
+                                <form 
+                                    action="{{ url_for('account_holder.apply_account_holder') }}"
+                                    method="POST"
+                                >
+                                    <div class="mb-3">
+                                        <label 
+                                            for="businessName" 
+                                            class="form-label"
+                                        >
+                                            Business Name
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            id="businessName" 
+                                            name="business_name" 
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-3">
+                                        <label 
+                                            for="taxNumber" 
+                                            class="form-label"
+                                        >
+                                            Tax Identification Number
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control" 
+                                            id="taxNumber" 
+                                            name="tax_number" 
+                                            required
+                                        >
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-check-input" 
+                                            id="creditCheck" 
+                                            name="credit_check" 
+                                            value="true" 
+                                            required
+                                        >
+                                        <label 
+                                            class="form-check-label" 
+                                            for="creditCheck"
+                                        >
+                                            Consent to Credit Check
+                                        </label>
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        class="common-btn--border"
+                                    >
+                                        Submit Application
+                                    </button>
+                                </form>
+                            {% endif %}
                         </div>
-                        <div class="mb-3">
-                            <label for="taxNumber" class="form-label">Tax Identification Number</label>
-                            <input type="text" class="form-control" id="taxNumber" name="tax_number" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="creditCheck" name="credit_check" value="true" required>
-                            <label class="form-check-label" for="creditCheck">Consent to Credit Check</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Application</button>
-                    </form>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

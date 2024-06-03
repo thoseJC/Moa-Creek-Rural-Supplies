@@ -9,10 +9,12 @@ def proceed_payment():
     try:
         user_id = request.json.get("userId")
         total = request.json.get('total', 0)
-        payment_type = request.json.get('paymentType', "Credit Card")
+        payment_type = request.json.get('paymentType', "Credit Card", "gift-card")
         gst = request.json.get('gst', 0)
         freight = request.json.get('freight', 0)
         cart_items = request.json.get('cartItems', [])
+
+        # if 
 
         if user_id != '':
             cursor = getCursor()
@@ -38,4 +40,5 @@ def proceed_payment():
         return jsonify({'message': 'Payment Error'}), 400
     finally:
         cursor.close()
+
 

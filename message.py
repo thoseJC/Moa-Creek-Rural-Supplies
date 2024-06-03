@@ -122,7 +122,7 @@ def send_message():
         else:
             connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
         response = {
-                'sender_username': session["user_name"],
+                'sender_role_name': session["user_role"],
                 'content': content,
                 'send_time' : datetime.utcnow()
         }

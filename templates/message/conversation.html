@@ -1,53 +1,49 @@
 <link
   rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}" 
+/>
+<link
+  rel="stylesheet"
   href="{{ url_for('static', filename='styles/conversation_page.css') }}"
 />
 {% extends "base.html" %} {% block content %}
 
-<style>
-  .msg-container {
-    margin: 20px auto;
-    width: 50%;
-  }
 
-  .customer-message {
-    text-align: left;
-    clear: both;
-  }
+<div class="account-dashboard--container conversation-container">
+  {% set current_page = 'message' %} 
+  {% include 'global/account_navbar.html' %}
 
-  .staff-message {
-    text-align: right;
-    clear: both;
-  }
-  .message-time {
-    font-size: 0.6em;
-    color: rgb(94, 91, 91);
-    margin-left: 10px;
-  }
-</style>
+  <div class="account-content--container order-management">
+    <div class="account-ccount--header">
+      Conversation
+      {% set role = session.get("user_role") %}
+      {% include 'components/role-badge.html' %}
+    </div>
 
-<div class="msg-container">
-  <h1>Conversation</h1>
-  <div id="messages">
-    {% for msgs in messages %}
-    <p
-      class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
-    >
-      <span class="sender"><b>{{ msgs.sender }}</b></span> : {{ msgs.content }}
-      <span class="message-time">({{msgs.send_time}})</span>
-    </p>
 
-    {% endfor %}
+    <div class="msg-container">
+      <div id="messages">
+        {% for msgs in messages %}
+        <p
+          class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
+        >
+          <span class="sender"><b>{{ msgs.sender_role_name }}</b></span> : {{ msgs.content }}
+          <span class="message-time">({{msgs.send_time}})</span>
+        </p>
+
+        {% endfor %}
+      </div>
+      <form
+        id="sendMessageForm"
+        method="POST"
+        action="{{ url_for('message_page.send_message') }}"
+      >
+        <input type="hidden" name="receiver_id" value="{{msg_receiver_id_id }}" />
+        <textarea name="content" required id="send_message_field"></textarea><br />
+        <button type="submit" id="send_message_button" class="common-btn--border">Send</button>
+      </form>
+    </div>
   </div>
-  <form
-    id="sendMessageForm"
-    method="POST"
-    action="{{ url_for('message_page.send_message') }}"
-  >
-    <input type="hidden" name="receiver_id" value="{{msg_receiver_id_id }}" />
-    <textarea name="content" required id="send_message_field"></textarea><br />
-    <button type="submit" id="send_message_button">Send</button>
-  </form>
 </div>
 
 <script src="{{ url_for('static', filename='scripts/message.js') }}"></script>

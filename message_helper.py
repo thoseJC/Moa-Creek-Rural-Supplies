@@ -19,7 +19,7 @@ def process_message(messages):
 			"message_id" : msg[0],
 			"content" : msg[3],
 			"send_time" : msg[4],
-			"sender" : msg[6]
+			"sender_role_name" : msg[8]
 		}
 		message_list.append(msg_obj)
 	return message_list

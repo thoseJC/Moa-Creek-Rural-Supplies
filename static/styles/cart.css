@@ -91,7 +91,7 @@
 }
 
 .cart-empty-header {
-  font-family: 'Dancing Script';
+  font-family: "Dancing Script";
   font-size: 5rem;
   position: absolute;
   top: 50%;
@@ -194,4 +194,16 @@
 .cart-product--remove .icon {
   width: 18px;
   height: 18px;
+}
+
+#applyGiftCardBtnContainer {
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: space-between;
+}
+
+#giftcard-credit-container {
+  margin-top: 15px;
+  margin-bottom: 10px;
 }

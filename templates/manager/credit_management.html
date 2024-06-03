@@ -14,11 +14,12 @@
   <div class="account-content--container">
     <div class="account-ccount--header">
       Credit Management
+      {% set role = session.get("user_role") %}
+      {% include 'components/role-badge.html' %}
     </div>
   
     <div class="account-content--wrapper">
       <div class="account-content--item">
-        <div class="account-content--title">All Account Holders</div>
         <div class="account-content--des">
           <table class="table">
             <thead>

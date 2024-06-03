@@ -1,57 +1,73 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
 {% extends "base.html" %}
-{% block title %}Update Address{% endblock %}
+{% block title %}MCRS - Address{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow">
-        <div class="card-header">
-          <h4>Edit Address</h4>
-        </div>
-        <div class="card-body">
-          <form action="{{ url_for('shipping_address.update_address', address_id=address.address_id) }}" method="POST" class="needs-validation" novalidate>
-            <div class="mb-3">
-              <label for="street_address" class="form-label">Street Address</label>
-              <input type="text" class="form-control" id="street_address" name="street_address" value="{{ address.street_address }}" required>
-              <div class="invalid-feedback">
-                Please enter a street address.
-              </div>
+<div class="account-dashboard--container">
+  {% set current_page = 'overview' %} 
+  {% include 'global/account_navbar.html' %}
+
+  <div class="account-content--container">
+      <div class="account-ccount--header">
+        Edit Address
+        {% set role = session.get("user_role") %}
+        {% include 'components/role-badge.html' %}
+      </div>
+
+
+    <div>
+      <div class="row">
+        <div>
+          <div class="card shadow">
+            <div class="card-body">
+              <form action="{{ url_for('shipping_address.update_address', address_id=address.address_id) }}" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                  <label for="street_address" class="form-label">Street Address</label>
+                  <input type="text" class="form-control" id="street_address" name="street_address" value="{{ address.street_address }}" required>
+                  <div class="invalid-feedback">
+                    Please enter a street address.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" name="city" value="{{ address.city }}" required>
+                  <div class="invalid-feedback">
+                    Please enter a city.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="state" class="form-label">State</label>
+                  <input type="text" class="form-control" id="state" name="state" value="{{ address.state }}" required>
+                  <div class="invalid-feedback">
+                    Please enter a state.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="postal_code" class="form-label">Postal Code</label>
+                  <input type="text" class="form-control" id="postal_code" name="postal_code" value="{{ address.postal_code }}" required>
+                  <div class="invalid-feedback">
+                    Please enter a postal code.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="country" class="form-label">Country</label>
+                  <input type="text" class="form-control" id="country" name="country" value="{{ address.country }}" required>
+                  <div class="invalid-feedback">
+                    Please enter a country.
+                  </div>
+                </div>
+                <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="is_primary" name="is_primary" value="true" {{ 'checked' if address.is_primary else '' }}>
+            <label class="form-check-label" for="is_primary">Set as primary address</label>
+            </div>			  
+                <button type="submit" class="common-btn--border">Update Address</button>
+              </form>
             </div>
-            <div class="mb-3">
-              <label for="city" class="form-label">City</label>
-              <input type="text" class="form-control" id="city" name="city" value="{{ address.city }}" required>
-              <div class="invalid-feedback">
-                Please enter a city.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="state" class="form-label">State</label>
-              <input type="text" class="form-control" id="state" name="state" value="{{ address.state }}" required>
-              <div class="invalid-feedback">
-                Please enter a state.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="postal_code" class="form-label">Postal Code</label>
-              <input type="text" class="form-control" id="postal_code" name="postal_code" value="{{ address.postal_code }}" required>
-              <div class="invalid-feedback">
-                Please enter a postal code.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="country" class="form-label">Country</label>
-              <input type="text" class="form-control" id="country" name="country" value="{{ address.country }}" required>
-              <div class="invalid-feedback">
-                Please enter a country.
-              </div>
-            </div>
-            <div class="mb-3 form-check">
-				<input type="checkbox" class="form-check-input" id="is_primary" name="is_primary" value="true" {{ 'checked' if address.is_primary else '' }}>
-				<label class="form-check-label" for="is_primary">Set as primary address</label>
-			  </div>			  
-            <button type="submit" class="btn btn-primary">Update Address</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

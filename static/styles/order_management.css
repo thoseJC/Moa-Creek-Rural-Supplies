@@ -1,4 +1,8 @@
-table {
+.order-management {
+    width: calc(100% - 200px);
+}
+
+.order-management table {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
@@ -6,17 +10,17 @@ table {
     box-shadow: 0 0 10px #ccc;
 }
 
-thead {
+.order-management thead {
     background-color: #dae2e5;
     color: #262222;
 }
 
-tr {
+.order-management tr {
     height: auto; 
     min-height: 50px; 
 }
 
-th, td {
+.order-management th, .order-management td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
@@ -25,17 +29,17 @@ th, td {
 }
 
 
-tr:nth-child(even) {
+.order-management tr:nth-child(even) {
     background-color: #f8f8f8; /* Slight color change for better readability */
 }
 
-.edit_box {
+.order-management .edit_box {
     width: 15%; 
     max-width: 180px;
 }
 
 
-form {
+.order-management form {
     display: inline-block;
     width: 100%; /* Adjust to full width of the cell */
     margin: 0; /* Removes unnecessary margins */
@@ -44,7 +48,7 @@ form {
     border: none; /* Removes border for a cleaner look */
 }
 
-select, button {
+.order-management select, .order-management button {
     width: auto; /* Ensures form elements do not overflow their containers */
     padding: 8px 12px;
     margin-right: 5px;
@@ -54,7 +58,7 @@ select, button {
 }
 
 
-button {
+.order-management button {
     padding: 10px 15px; /* Larger padding for easier clicking on touch devices */
     background-color: #a5d4e5;
     color: white;
@@ -63,17 +67,17 @@ button {
     min-width: 120px; /* Ensures buttons are easily tappable */
 }
 
-button:hover {
+.order-management button:hover {
     background-color: #e5ce9a;
 }
 
 
 @media (max-width: 768px) {
-    th, td {
+    .order-management th, .order-management td {
         padding: 8px 10px; /* Smaller padding */
         font-size: 3.5vw; /* Larger font size for readability on small screens */
     }
-    .edit_box, form {
+    .order-management .edit_box, .order-management form {
         width: 100%; /* Full width for better access on small screens */
     }
 }

@@ -1,5 +1,5 @@
 from flask import Blueprint, flash,request, redirect, url_for, jsonify,render_template,session
-from app_query import query_product_by_id, get_products_by_ids
+from app_query import get_products_by_categories, query_product_by_id, get_products_by_ids
 from cursor import getCursor
 from product_query import query_product_by_id, insert_product, get_all_categories, sql_update_product,query_product_list
 
@@ -45,7 +45,8 @@ def show_product(product_id):
 			"price": fetched_product[3],
 			"image": fetched_product[4],
 			"category": fetched_product[5],
-			"active": fetched_product[6]
+			"active": fetched_product[6],
+			"quantity": fetched_product[7]
 		}
 		return render_template('product_info.html',product = product)
 	except Exception as e:
@@ -173,4 +174,39 @@ def get_products():
     except Exception as e:
         print("@app.route(/get_products): %s", e)
         return products
+
+@product_page.route('/<string:categries>', methods=['GET'])
+def list_product(categries):
+	try:
+		# get a list of product from same categories
+		get_products_by_categories_sql = get_products_by_categories()
+		cursor = getCursor()
+		cursor.execute(get_products_by_categories_sql,(categries,) )
+		products_data = cursor.fetchall()
+		products = process_product(products_data)
+		cursor.close()
+		return render_template("product_list.html", products = products)
+	except Exception as e:
+		print(e)	
+		return render_template("product_list.html" ,products= [] )
+	
+
+def process_product(products_data):
+	new_list = []
+	if len(products_data) > 0:
+		for product in products_data:
+			product_obj = {
+				"id" : product[0],
+				"categories_id" : product[1],
+				"name" : product[2],
+				"product_description" : product[3],
+				"price" : product[4],
+				"image_path" : product[5],
+				"shipping_type" : product[6],
+			}
+			new_list.append(product_obj)
+		return new_list
+	else:
+		return []
+
 
