@@ -68,6 +68,9 @@ CREATE TABLE users (
     credit_remaining decimal(10,2),
     credit_apply decimal(10,2),
 	account_holder ENUM('init', 'apply', 'approve', 'decline') DEFAULT 'init',
+	business_name VARCHAR(255),
+	tax_employer_number VARCHAR(50),
+	credit_check BOOLEAN,
     status BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (role_id) REFERENCES user_roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
