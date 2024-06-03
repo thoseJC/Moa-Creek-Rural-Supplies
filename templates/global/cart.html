@@ -28,13 +28,16 @@
           <div class="cart-line--value" id="order-summary-gst"></div>
         </div>
         <div class="cart-right--line">
-          <div class="cart-line--label">Total Amount</div>
+          <div class="cart-line--label">Total Amount To Pay</div>
           <div class="cart-line--value" id="total-to-pay"></div>
         </div>
-        <div>
-          <span id="giftcard-credit"></span>
+
+        <div class="cart-right--line">
+          <div class="cart-line--label">GiftCard Credit</div>
+          <div class="cart-line--value" id="giftcard-credit"></div>
         </div>
       </div>
+
       <div class="cart-button">
         <a href="#" class="common-btn--border" id="cart-checkout-btn"
           >Checkout</a
@@ -42,11 +45,13 @@
       </div>
 
       <!-- pay be gift card -->
-      <div>
-        <label>Pay by Gift Card</label>
-        <input placeholder="type in git card code" id="giftCardCodeInput" />
-
+      <div id="giftcard-credit-container">
         <div>
+          <label id="giftcard-credit-label">Pay by Gift Card : </label>
+        </div>
+        <div id="applyGiftCardBtnContainer">
+          <input placeholder="Type in GiftCard Code" id="giftCardCodeInput" />
+
           <button id="applyGiftCardBtn">Apply</button>
         </div>
       </div>

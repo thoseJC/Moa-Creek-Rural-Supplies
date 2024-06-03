@@ -107,11 +107,14 @@ const onApplyGiftCardClick = async () => {
     });
     if (rep.ok) {
       const data = await rep.json();
-      console.log(data);
       const giftcardCredit = data.amount;
-      giftcardCreditEle = document.getElementById("giftcard-credit");
-      giftcardCreditEle.textContent =
-        "You GiftCard remain credit is: $" + giftcardCredit;
+      const giftcardCreditEle = document.getElementById("giftcard-credit");
+      const infoLabelEle = document.getElementById("giftcard-credit-label");
+
+      giftcardCreditEle.textContent = Number(giftcardCredit).toFixed(2);
+      infoLabelEle.textContent = `Pay by Gift Card : ${gitftCardCode}-$${Number(
+        giftcardCredit
+      ).toFixed(2)}`;
       const totalTopayEle = document.getElementById("total-to-pay");
       if (totalTopayEle) {
         const value = totalTopayEle.getAttribute("total-amount");
@@ -123,9 +126,7 @@ const onApplyGiftCardClick = async () => {
           totalTopayEle.textContent = `$ ${residue.toFixed(2)}`;
           totalTopayEle.setAttribute("total-amount", residue);
         } else {
-          giftcardCreditEle.textContent = `You remaining GiftCard credit is: $ ${-residue.toFixed(
-            2
-          )}`;
+          giftcardCreditEle.textContent = `$ ${-residue.toFixed(2)}`;
           totalTopayEle.textContent = `$ 0`;
           totalTopayEle.setAttribute("total-amount", 0);
         }
