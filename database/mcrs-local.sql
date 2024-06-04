@@ -449,3 +449,152 @@ INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delive
 INSERT INTO gift_card (gf_card_id, amount, holder) VALUES (
     '1234-abcd' , 100.00, (select user_id from users where username = 'customer')
 );
+
+
+-- Adding 5 products to each of 'Footerwear', 'Household Supplies', 'Animal Equipment' categories
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES (
+	(SELECT category_id FROM categories WHERE name = 'Footwear'),
+	'Grisport Genoa Safety Boots',
+	'The Grisport Genoa safety boot is a premium, durable slip-on boot with a high temperature outsole. Grisport Genoa ankle slip-on safety boot. Dakar leather upper. Steel anti-penetration and steel toecap. Anti-static, oil and chemical resistant, heat resistant nitrile sole to 300 degrees.',
+	199.99,
+	'grisport-genoa-safety-boots.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Footwear'),
+	'John Bull Oryx Lace Up Boots',
+	'Featuring the quick closure and simple release BOA® Fit system that provides custom comfort and easy access to get them on and off quickly. Revolutionary world-first CushionCore comfort technology combines two compounds of PU injected into the midsole providing superior shock absorption at the heel while also providing rebound at the forefront as you step. TPU outsole with aggressive self-clearing tread pattern providing superior grip, stability and abrasion resistance. Super cushioning Comf2Bull air flow footbed of soft PU that is also antibacterial and washable. Quick closure and simple release BOA® Fit system. Adjustable for a personalised fit. Broad fitting 200 joule impact resistant type 1 steel toe cap. Coolmax® lining fabric helps transport moisture away from your foot, through the fabric, where it can evaporate quickly.Extra heavy-duty heel guard and a TPU toe guard for extra scuff protection. L-Protection® non-metallic penetration resistant insoles resist penetration even by small diameter nails and other objects.',
+	344.95,
+	'john-bull-oryx-lace-up-boots.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Footwear'),
+	'Boonies Overlander Gumboots',
+	'Now featuring the NEW SOFT UPPER. From the Farm to the Mai Mai – get into them. Mens Gumboots for Duck Shooting, Hunting, Fishing. Now in soft 4 way stretch neoprene so you can roll them down. Seamless construction of the Boonies ‘Comfy As ‘foot bed’. Mud dispersion cleats on the outside. Unprecedented traction and comfort. Made from hardwearing solid rubber, with mud dispersion cleats. 1059g so lightweight 390mm Tall- 455mm calf (size 10)',
+	189.50,
+	'boonies-overlander-gumboots.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Footwear'),
+	'John Bull Raptor II Boots',
+	'A popular rural style, this all-rounder features revolutionary CushionCore technology. Revolutionary world-first CushionCore comfort technology combines two compounds of PU injected into the midsole, providing superior shock absorption at the heel while also providing rebound at the forefront as you step. Broad fitting 200 joule impact resistant type 1 steel toe cap. Super cushioning Comf2Bull air flow footbed of soft PU that is also antibacterial and washable. TPU outsole with aggressive self-clearing tread pattern providing superior grip, stability and abrasion resistance.',
+	209.50,
+	'john-bull-raptor-ii-boots.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Footwear'),
+	'John Bull Cougar II Boots',
+	'The Cougar has a bullbar to take the kicks plus revolutionary CushionCore technology for comfort. Revolutionary world-first CushionCore comfort technology combines two compounds of PU injected into the midsole, providing superior shock absorption at the heel while also providing rebound at the forefront as you step. Super cushioning Comf2Bull air flow footbed of soft PU that is also antibacterial and washable. Moulded PU bullbar. Broad fitting 200 joule impact resistant type 1 steel toe cap. TPU outsole with aggressive self-clearing tread pattern providing superior grip, stability and abrasion resistance.',
+	209.50,
+	'john-bull-cougar-ii-boots.jpeg',
+	1
+),
+
+(
+	(SELECT category_id FROM categories WHERE name = 'Household Supplies'),
+	'Curved Squeegee With Handle',
+	'Elevate your cleaning experience with this curved squeegee. This 5mm rubber squeegee ensures that moisture is move in the right direction without the trouble of overspill. The squeegee has a thick 5mm rubber head supported by a strong alloy frame.',
+	76.95,
+	'curved-squeegee-with-handle.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Household Supplies'),
+	'Cheese Cloth Roll Small',
+	'100% cotton Kottenette cloth in tube section for carcass covering also super soft for professional cleaning and polishing cloths. Superior Carcass Covering. Premium Cleaning and Polishing. Eco-Friendly and Sustainable. Versatile and Convenient',
+	37.95,
+	'cheese-cloth-roll-small.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Household Supplies'),
+	'Hand Scrub Brush Plastic Back',
+	'An ergonomic hand brush ideal for scrubbing greasy surfaces. An ergonomic hand brush suited for scrubbing and scouring hard surfaces. Suitable for use in hot water and performs at sub zero temperatures.',
+	26.00,
+	'hand-scrub-brush-plastic-back.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Household Supplies'),
+	'Pindone Pellets Possum and Rat',
+	'Pindone P&R is a first generation anticoagulant poison cereal based pellet and does not pose the same secondary poison risk as second generation anticoagulants.',
+	63.95,
+	'pindone-pellets-possum-and-rat.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Household Supplies'),
+	'Baby Bottle Brush',
+	'The 355mm long  x 50mm Baby bottle brush filled in nylon with a twisted handle and a fan tip suited to cleaning bottles.',
+	15.50,
+	'baby-bottle-brush.jpeg',
+	1
+),
+
+(
+	(SELECT category_id FROM categories WHERE name = 'Animal Equipment'),
+	'Stallion Calfateria Fence',
+	'A 12 teat open trough calf feeder 80L. Ideal for new born calves. Made of tough durable plastic with rounded edges
+Easy to transport and clean. Supplied with steel brackets. Peach teats included. Easy to take off and ensure a hygienic clean. Easy clean screw in teats and caps. 3-year warranty on a feeder.',
+	356.50,
+	'stallion-calfateria-fence.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Animal Equipment'),
+	'Meal Feeder Poly Cone',
+	'Poly cone feeder, 55 kilograms. Made of impact resistant polyethylene that is tough, durable and designed to last, we have a full range of meal feeders for use in both pens and paddocks. Poly cone feeders come with optional bird skirts that will keep meal clean and dry.',
+	634.00,
+	'meal-feeder-poly-cone.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Animal Equipment'),
+	'Milk Bar Calf Feeder',
+	'The Milk Bar™ 6 is the top seller for farms feeding all year round. It creates the perfect group size for hutches and is the ideal feeder for using the Follow the Teat System. Such a lovely light feeder to handle but has exceptional durability. The feeders stack inside each other with teats fitted so you can carry four or five at a time. Easy to clean, easy to use and calves love its little ledge to make them feel secure. The Ezi Lock hooks lock onto any rail type up to 75mm and flip upside down after feeding. Fitted with Milk Bar™ Teats to reduce cross suckling.',
+	209.50,
+	'milk-bar-calf-feeder.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Animal Equipment'),
+	'Milk Bar Calf Trainer Bottle',
+	'Getting the first few feeds right are critical to the overall performance of the calf and the Trainer Bottle is a great tool to help you achieve this.',
+	50.00,
+	'milk-bar-calf-trainer-bottle.jpeg',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Animal Equipment'),
+	'Acto Pritchard Lamb Teat Yellow',
+	'Acto Pritchard Lamb Teat Yellow. The ever popular Pritchard™ Screw on Lamb Teat has a flutter valve which lets air back into the bottle as the lamb is drinking.',
+	5.75,
+	'acto-pritchard-lamb-teat-yellow.jpeg',
+	1
+);
+
+-- Adding inventory data for all 15 products above
+
+INSERT INTO inventory (product_id, quantity)
+VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Grisport Genoa Safety Boots' LIMIT 1) AS derived_table), 10),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'John Bull Oryx Lace Up Boots' LIMIT 1) AS derived_table), 30),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Boonies Overlander Gumboots' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'John Bull Raptor II Boots' LIMIT 1) AS derived_table), 80),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'John Bull Cougar II Boots' LIMIT 1) AS derived_table), 100),
+
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Curved Squeegee With Handle' LIMIT 1) AS derived_table), 10),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Cheese Cloth Roll Small' LIMIT 1) AS derived_table), 30),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Hand Scrub Brush Plastic Back' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pindone Pellets Possum and Rat' LIMIT 1) AS derived_table), 80),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Baby Bottle Brush' LIMIT 1) AS derived_table), 100),
+
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Stallion Calfateria Fence' LIMIT 1) AS derived_table), 10),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Meal Feeder Poly Cone' LIMIT 1) AS derived_table), 30),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milk Bar Calf Feeder' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milk Bar Calf Trainer Bottle' LIMIT 1) AS derived_table), 80),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Acto Pritchard Lamb Teat Yellow' LIMIT 1) AS derived_table), 100);
+
