@@ -30,17 +30,6 @@
         <a href="{{ url_for('home') }}">Home</a>
       </li>
       <li>
-        <a href="#" class="desktop-item">Dropdown Menu</a>
-        <input type="checkbox" id="showDrop" />
-        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
-        <ul class="drop-menu">
-          <li><a href="#">Drop menu 1</a></li>
-          <li><a href="#">Drop menu 2</a></li>
-          <li><a href="#">Drop menu 3</a></li>
-          <li><a href="#">Drop menu 4</a></li>
-        </ul>
-      </li>
-      <li>
         <a href="{{ url_for('customer.categories') }}" class="desktop-item"
           >Categories</a
         >
@@ -60,7 +49,11 @@
                 <li><a href="#">Nutrition</a></li>
                 <li><a href="#">Shed Supplies</a></li>
                 <li><a href="#">Calving</a></li>
-                <li><a href="#">Animal Equipment</a></li>
+                <li>
+                  <a href="{{ url_for('category', category_id=5) }}">
+                    Animal Equipment
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="row">
@@ -68,8 +61,16 @@
                 <li><a href="#">Water Equipment</a></li>
                 <li><a href="#">Fencing</a></li>
                 <li><a href="#">Clothing</a></li>
-                <li><a href="#">Footwear</a></li>
-                <li><a href="#">Household Supplies</a></li>
+                <li>
+                  <a href="{{ url_for('category', category_id=9) }}">
+                    Footwear
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('category', category_id=10) }}">
+                    Household Supplies
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="row">
