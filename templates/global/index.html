@@ -40,6 +40,7 @@ content %}
   {% include "components/section-header.html" %}
   <product-cards class="product-cards--container">
     <div class="product-cards">
+      {% set product_id = 1 %}
       {% set image_path = "images/products/product1.webp"%}
       {% set product_Name = "pending"%}
       {% include "components/product-card.html" %}

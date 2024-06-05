@@ -1,0 +1,39 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/category.css') }}"
+/>
+
+{% extends "base.html" %}
+{% block title %}MCRS - {{ category[0]}}{% endblock%} 
+
+{% block content %}
+<div class="category-container">
+  <div class="category-banner">
+    <div class="category-banner--img">
+      <img 
+      src="{{ url_for('static', filename=category[2]) }}"
+      alt="{{ category[0]}}"
+      >
+    </div>
+    <div class="category-banner--title">{{ category[0]}}</div>
+    <div class="category-banner--des">{{ category[1]}}</div>
+  </div>
+</div>
+
+
+<div class="category-grid">
+{% if products %}
+  {% for product in products %}
+    {% set product_id = product[0] %}
+    {% set product_Name = product[1] %}
+    {% set product_price = product[2] %}
+    {% set image_path = "images/products/" + product[3] %}
+    {% include "components/product-card.html" %}
+  {% endfor %}
+{% else %}
+  <div class="category-empty">No product under this category.</div>
+{% endif %}
+</div>
+
+
+{% endblock %}
