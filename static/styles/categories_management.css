@@ -23,12 +23,12 @@ h1 {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    outline: none; /* 移除焦点时的轮廓 */
+    outline: none;
     transition: background-color 0.3s;
 }
 
 .button:hover {
-    background-color: #4ca3b7; /* 鼠标悬停时的颜色变化 */
+    background-color: #4ca3b7;
 }
 
 .category-management {
