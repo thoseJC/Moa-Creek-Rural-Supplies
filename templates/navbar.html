@@ -60,7 +60,11 @@
               <ul class="mega-links">
                 <li><a href="#">Water Equipment</a></li>
                 <li><a href="#">Fencing</a></li>
-                <li><a href="#">Clothing</a></li>
+                <li>
+                  <a href="{{ url_for('category', category_id=8) }}">
+                  Clothing
+                  </a>
+                </li>
                 <li>
                   <a href="{{ url_for('category', category_id=9) }}">
                     Footwear
@@ -75,8 +79,8 @@
             </div>
             <div class="row">
               <ul class="mega-links">
-                <li><a href="#">Garden Supplies</a></li>
-                <li><a href="#">Agrichemicals</a></li>
+                <li><a href="{{ url_for('category', category_id=11) }}">Garden Supplies</a></li>
+                <li><a href="{{ url_for('category', category_id=12) }}">Agrichemicals</a></li>
                 <li><a href="#">Machinery & Oil</a></li>
                 <li><a href="#">Pasture & Cropping</a></li>
                 <li><a href="#">Fertilizer</a></li>
