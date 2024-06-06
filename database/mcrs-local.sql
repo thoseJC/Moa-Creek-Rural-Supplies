@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS promotions;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS shipping_fee;
 
 
 
@@ -38,7 +39,7 @@ CREATE TABLE products (
     price DECIMAL(10, 2) NOT NULL,
     pd_image_path VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
-    shipping_type ENUM('standard', 'oversize', 'pickup') DEFAULT 'standard',
+    shipping_type ENUM('standard', 'oversized', 'pickup') DEFAULT 'standard',
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
@@ -102,6 +103,16 @@ CREATE TABLE payment (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE TABLE shipping_fee (
+    shipping_fee_id INT AUTO_INCREMENT PRIMARY KEY,
+    shipping_type ENUM('standard', 'oversized', 'pickup') NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+INSERT INTO shipping_fee (shipping_type, price) VALUES
+('standard', 10.00),
+('oversized', 100.00),
+('pickup', 0.00);
 
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY key,
@@ -112,8 +123,10 @@ CREATE TABLE orders (
     GST decimal(10,2) NOT NULL,
     freight DECIMAL(10,2),
     status ENUM('pending', 'shipped', 'delivered', 'cancelled', 'ready_for_pickup') DEFAULT 'pending',
+	shipping_fee_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (payment_id) REFERENCES payment (payment_id)
+    FOREIGN KEY (payment_id) REFERENCES payment (payment_id),
+	FOREIGN KEY (shipping_fee_id) REFERENCES shipping_fee(shipping_fee_id)
 );
 
 CREATE TABLE order_items (
@@ -179,7 +192,9 @@ CREATE TABLE shipments (
     actual_delivery_date DATE,
     carrier_name VARCHAR(255),
     additional_info TEXT,  -- For any additional details like pickup instructions or freight forwarding info
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE
+	shipping_fee_id INT,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+	FOREIGN KEY (shipping_fee_id) REFERENCES shipping_fee(shipping_fee_id)
 );
 
 CREATE TABLE notifications (
