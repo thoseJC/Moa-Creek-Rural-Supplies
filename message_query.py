@@ -26,10 +26,16 @@ def send_email(recipient, subject, body):
     server.sendmail(sender, [recipient], msg.as_string())
     server.quit()
 
-def query_inbox():
+def query_inbox_with_staff_id():
     return """
     SELECT c.*, u.first_name, u.last_name, u.username FROM conversations c left join users u on u.user_id = c.customer_id
     WHERE c.staff_id = %s;
+    """
+
+def query_inbox_with_customer_id():
+    return """
+    SELECT c.*, u.first_name, u.last_name, u.username FROM conversations c left join users u on u.user_id = c.customer_id
+    WHERE c.customer_id = %s;
     """
 
 def query_conversation():

@@ -5,7 +5,7 @@ from flask import Blueprint, flash, redirect, url_for, jsonify, render_template,
 from cursor import getConection, getCursor
 from login_helper import getUserInfo
 from message_helper import get_receiver_id, process_conversation, process_message
-from message_query import query_fetch_sender_username, query_update_order_status, send_email, query_inbox, query_conversation, query_check_receiver, query_insert_message, query_select_conversation, query_update_conversation, query_insert_conversation
+from message_query import  query_inbox_with_customer_id, query_inbox_with_staff_id, query_update_order_status, send_email, query_conversation, query_insert_message, query_select_conversation, query_update_conversation, query_insert_conversation
 
 
 message_page = Blueprint("message_page", __name__, static_folder="static", template_folder="templates/message")
@@ -55,11 +55,13 @@ def inbox():
     }
     user = getUserInfo()
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login_page.login'))
     try:
         user_id = session['user_id']
+        user = getUserInfo()
         connection = getCursor()
-        connection.execute(query_inbox(), (user_id,))
+        query_sql = query_inbox_with_customer_id() if user["user_role"] == "customer"  else query_inbox_with_staff_id()
+        connection.execute(query_sql, (user_id,))
         conversations = connection.fetchall()
         if len(conversations) == 0:
             msg = {
@@ -85,7 +87,7 @@ def conversation():
     user = getUserInfo()
     current_user_id = user["user_id"]
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login_page.login'))
     
     try:
         connection = getCursor()
@@ -104,7 +106,7 @@ def conversation():
 @message_page.route('/send_message', methods=['POST', 'GET'])
 def send_message():
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login_page.login'))
     sender_id = session['user_id']
     receiver_id = request.form.get('receiver_id')
     content = request.form.get('content')
