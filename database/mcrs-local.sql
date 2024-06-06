@@ -327,8 +327,6 @@ VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 
         30.00, '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle',
         'Bottle for feeding young animals.', 5.00, '#', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Clothing'), 'shirt', 't shirt', 12.00, '#', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Clothing'), 'hat', 'hat', 22.00, '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
         'A vaccine to prevent diseases in animals.', 30.00, '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics',
@@ -349,8 +347,6 @@ VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 
        ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
         'Chemical products to control unwanted plants.', 15.00, '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '#', 1),
-       (8, 'shirt', 't shirt', 12.00, 'product1.webp', 1),
-       (8, 'hat', 'hat', 22.00, 'product2.webp', 1),
        ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '#', 1);
 
 
@@ -362,8 +358,6 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'V
         28),
        ((SELECT product_id
          FROM (SELECT product_id FROM products WHERE name = 'Feeding Bottle' LIMIT 1) AS derived_table), 20),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'shirt' LIMIT 1) AS derived_table), 100),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'hat' LIMIT 1) AS derived_table), 50),
        ((SELECT product_id
          FROM (SELECT product_id FROM products WHERE name = 'Animal Vaccine' LIMIT 1) AS derived_table), 40),
        ((SELECT product_id
@@ -590,6 +584,126 @@ Easy to transport and clean. Supplied with steel brackets. Peach teats included.
 	5.75,
 	'acto-pritchard-lamb-teat-yellow.jpeg',
 	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Clothing'),
+	'360 Performance Mens Jacket',
+	'Our 360 Performance Mens Jacket is designed to withstand the rigours of farming life and weekend recreation, keeping you dry and comfortable in the harshest of conditions.',
+	230.99,
+	'mens-jacket.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Clothing'),
+	'360 Mens Long Sleeve Overalls- Spruce',
+	'The 360 Mens Long Sleeve Overalls are built for dairy farming. Durable and hard-wearing, this product will go the distance.',
+	59.99,
+	'mens-long-sleeve-overalls.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Clothing'),
+	'360 Mens Short Sleeve Overalls - Spruce',
+	'The 360 Mens Short Sleeve Overalls are built for dairy farming. Durable and hard-wearing, this product will go the distance.',
+	56.99,
+	'mens-short-sleeve-overalls.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Clothing'),
+	'360 Dairy Shed Bib Overtrouser',
+	'100% Waterproof, Ultra-high frequency double welded seams, Acid resistant, perfect for the Dairy shed.',
+	159.99,
+	'dairy-shed-bib-overtrouser.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Clothing'),
+	'Lynn River Hi Vis Safety D/N Vest',
+	'Tail Feature, Reflective Tape, Complies with AS/NZS 4602.1:2011 - Class D/N.',
+	14.99,
+	'safty-vest.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Garden Supplies'),
+	'Living Earth Organic Compost - 40L',
+	'When dug through your soil, it provides your plants with yummy nutrients, improves the soil moisture retention and also gives those all-important worms a place to hangout and do their thing.',
+	17.99,
+	'organic-compost.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Garden Supplies'),
+	'Living Earth More Than Garden Mix - 40L',
+	'Another quality product from the Living Earth Recycled soil range. Perfect for all your garden needs and safe to directly plant into. 100% Weed Free.',
+	19.99,
+	'garden-mix.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Garden Supplies'),
+	'Fiskars Aluminium Hand Trowel',
+	'Durable one piece hi strength aluminium Beveled edges Softouch cushioned grip.',
+	19.99,
+	'hand-trowel.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Garden Supplies'),
+	'Viking Ash Handled Digging Spade',
+	'You will love using this full sized digging spade. The polished steel blade is sharp and easy to clean. Function and looks - a great garden tool.',
+	119.99,
+	'digging-spade.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Garden Supplies'),
+	'Sprayer Pressure 5/7L Hozelock',
+	'HOZELOCK GARDEN PRESSURE SPRAYER 5L.',
+	79.99,
+	'sprayer-pressure.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Agrichemicals'),
+	'Nufarm SlugOut 10kg',
+	'Bait for the control of slugs and snails, particularly in new crops.',
+	96.99,
+	'nufarm-slugout.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Agrichemicals'),
+	'Pestoff Rodent Block 3kg',
+	'An effective highly palatable rodent bait to control rats and mice.',
+	74.99,
+	'pestoff.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Agrichemicals'),
+	'Nufarm Valdo 800WG 500g',
+	'Formulated for post emergence control of broadleaf weeds in clover, lucerne, chicory, new and mature pasture and maize.',
+	229.99,
+	'valdo.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Agrichemicals'),
+	'Nufarm Crucial 15L',
+	'Non-selective herbicide for weed control. 600g/L high strength liquid formulation powered by triple salt, triple surfactant technology.',
+	231.99,
+	'nufarm-crucial.png',
+	1
+),
+(
+	(SELECT category_id FROM categories WHERE name = 'Agrichemicals'),
+	'Raid Auto Advanced Twin Refill',
+	'Repels flies and crawling insects 24/7.  305g refill can last up to 7.5 weeks.',
+	59.99,
+	'raid-twin-refill.png',
+	1
 );
 
 -- Adding inventory data for all 15 products above
@@ -611,5 +725,22 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'G
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Meal Feeder Poly Cone' LIMIT 1) AS derived_table), 30),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milk Bar Calf Feeder' LIMIT 1) AS derived_table), 50),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milk Bar Calf Trainer Bottle' LIMIT 1) AS derived_table), 80),
-((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Acto Pritchard Lamb Teat Yellow' LIMIT 1) AS derived_table), 100);
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Acto Pritchard Lamb Teat Yellow' LIMIT 1) AS derived_table), 100),
 
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = '360 Performance Mens Jacket' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = '360 Mens Long Sleeve Overalls- Spruce' LIMIT 1) AS derived_table), 40),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = '360 Mens Short Sleeve Overalls - Spruce' LIMIT 1) AS derived_table), 40),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = '360 Dairy Shed Bib Overtrouser' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Lynn River Hi Vis Safety D/N Vest' LIMIT 1) AS derived_table), 50),
+
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Living Earth Organic Compost - 40L' LIMIT 1) AS derived_table), 80),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Living Earth More Than Garden Mix - 40L' LIMIT 1) AS derived_table), 80),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fiskars Aluminium Hand Trowel' LIMIT 1) AS derived_table), 100),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Viking Ash Handled Digging Spade' LIMIT 1) AS derived_table), 100),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Sprayer Pressure 5/7L Hozelock' LIMIT 1) AS derived_table), 80),
+
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm SlugOut 10kg' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pestoff Rodent Block 3kg' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Valdo 800WG 500g' LIMIT 1) AS derived_table), 50),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Crucial 15L' LIMIT 1) AS derived_table), 30),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Raid Auto Advanced Twin Refill' LIMIT 1) AS derived_table), 80);
