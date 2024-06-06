@@ -17,7 +17,14 @@
       <div class="cart-right--content">
         <div class="cart-right--line">
           <div class="cart-line--label">Shipping</div>
-          <div class="cart-line--value" id="order-summary-shipping"></div>
+          <div class="cart-line--value">
+            <select id="shipping-type-select" onchange="updateShippingCost()">
+              <option value="standard">Standard - $10.00</option>
+              <option value="oversized">Oversized - $100.00</option>
+              <option value="pickup">Pickup - $0.00</option>
+            </select>
+            <span id="order-summary-shipping"></span>
+          </div>
         </div>
         <div class="cart-right--line">
           <div class="cart-line--label">Total</div>
@@ -39,12 +46,10 @@
       </div>
 
       <div class="cart-button">
-        <a href="#" class="common-btn--border" id="cart-checkout-btn"
-          >Checkout</a
-        >
+        <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
       </div>
 
-      <!-- pay be gift card -->
+      <!-- pay by gift card -->
       <div id="giftcard-credit-container">
         <div>
           <label id="giftcard-credit-label">Pay by Gift Card : </label>

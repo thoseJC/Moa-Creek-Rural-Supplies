@@ -127,15 +127,15 @@
 }
 
 .row .mega-links li {
-  padding: 0 20px;
+  padding: 5px;
 }
 
 .row .mega-links li a {
-  padding: 0px;
-  padding: 0 20px;
+  padding: 5px 10px;
   color: var(--black);
   font-size: 17px;
   display: block;
+  line-height: 1;
 }
 
 .row .mega-links li a:hover {

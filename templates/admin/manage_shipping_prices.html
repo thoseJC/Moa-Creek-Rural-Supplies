@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Shipping Prices</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/account_dashboard.css') }}">
+</head>
+<body>
+  {% extends "base.html" %}
+  {% block title %}MCRS - Manage Shipping Prices{% endblock %}
+  
+  {% block content %}
+  <div class="account-dashboard--container">
+    <div class="form-error">{{ err_msg }}</div>
+
+    {% set current_page = 'shipping_prices' %}
+    {% include 'global/account_navbar.html' %}
+
+    <div class="container account-content--container">
+      <div class="account-ccount--header">
+        Manage Shipping Prices
+        {% set role = session.get("user_role") %}
+        {% include 'components/role-badge.html' %}
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <form id="shipping-prices-form" method="post" action="{{ url_for('admin.manage_shipping_prices') }}">
+            <div class="form-group">
+              <label for="standard-price">Standard Shipping:</label>
+              <input type="number" class="form-control" id="standard-price" name="standard" value="{{ standard_price }}" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="oversized-price">Oversized Shipping:</label>
+              <input type="number" class="form-control" id="oversized-price" name="oversized" value="{{ oversized_price }}" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="pickup-price">Pickup:</label>
+              <input type="number" class="form-control" id="pickup-price" name="pickup" value="{{ pickup_price }}" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update Prices</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
