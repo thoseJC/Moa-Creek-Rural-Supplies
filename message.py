@@ -68,7 +68,8 @@ def inbox():
             }
         else:
             processed_conversation = process_conversation(conversations)
-        return render_template('inbox.html', conversations=processed_conversation, msg = msg,user =user)
+            return render_template('inbox.html', conversations=processed_conversation, msg = msg,user =user,noMessage = False)
+        return render_template('inbox.html', conversations=[], msg = msg,user =user ,noMessage = True)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
