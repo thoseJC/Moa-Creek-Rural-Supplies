@@ -14,18 +14,27 @@ content %}
   <!-- 'Most Popular Collections Section' - Begin -->
   <div class="container">
     {% set section_header = 'Shop most popular collections' %} {% set
-    section_description = "Lorem Ipsum is simply dummy text of the printing and
-    typesetting industry. Lorem Ipsum has been the industry's standard dummy
-    text ever since the 1500s, when an unknown printer took a galley of type and
-    scrambled it to make a type specimen book." %} {% include
+    section_description = "Moa Creek Rural Supplies is your trusted online source for a comprehensive range of rural agricultural products, from animal health care to machinery and fertilizers. Based in Alexandra, Central Otago, our dedicated team ensures quality products and reliable delivery to support your farming needs." %} {% include
     "components/section-header.html" %}
 
     <category-cards>
       <div class="category-cards" id="home-category-cards">
-        {% include "components/category-card.html" %} {% include
-        "components/category-card.html" %} {% include
-        "components/category-card.html" %} {% include
-        "components/category-card.html" %}
+      {% set category_id = 8 %}
+      {% set image_path = "images/category_image/cloth.jpg"%}
+      {% set category_Name = "Clothing"%}
+      {% include "components/category-card.html" %} 
+      {% set category_id = 12 %}
+      {% set image_path = "images/category_image/Agrichemicals.jpg"%}
+      {% set category_Name = "Agrichemicals"%}
+      {% include "components/category-card.html" %} 
+      {% set category_id = 9 %}
+      {% set image_path = "images/category_image/footwear.jpg"%}
+      {% set category_Name = "Footwear"%}
+      {% include "components/category-card.html" %}
+      {% set category_id = 5 %}
+      {% set image_path = "images/category_image/animal_equipment.jpg"%}
+      {% set category_Name = "Animal Equipment"%}
+      {% include "components/category-card.html" %} 
       </div>
     </category-cards>
   </div>
@@ -40,16 +49,37 @@ content %}
   {% include "components/section-header.html" %}
   <product-cards class="product-cards--container">
     <div class="product-cards">
-      {% set product_id = 1 %}
-      {% set image_path = "images/products/product1.webp"%}
-      {% set product_Name = "pending"%}
+      {% set product_id = 33 %}
+      {% set image_path = "images/products/mens-jacket.png"%}
+      {% set product_Name = "360 Performance Mens Jacket"%}
       {% include "components/product-card.html" %}
+      {% set product_id = 20 %}
+      {% set image_path = "images/products/boonies-overlander-gumboots.jpeg"%}
+      {% set product_Name = "Boonies Overlander Gumboots"%}
       {% include "components/product-card.html" %}
+      {% set product_id = 38 %}
+      {% set image_path = "images/products/organic-compost.png"%}
+      {% set product_Name = "Living Earth Organic Compost - 40L"%}
       {% include "components/product-card.html" %} 
-      {% include "components/product-card.html" %}       
-      {% include "components/product-card.html" %}
-      {% include "components/product-card.html" %}
+      {% set product_id = 36 %}
+      {% set image_path = "images/products/dairy-shed-bib-overtrouser.png"%}
+      {% set product_Name = "360 Dairy Shed Bib Overtrouser"%}
       {% include "components/product-card.html" %} 
+      {% set product_id = 42 %}
+      {% set image_path = "images/products/sprayer-pressure.png"%}
+      {% set product_Name = "Sprayer Pressure 5/7L Hozelock"%}      
+      {% include "components/product-card.html" %}
+      {% set product_id = 47 %}
+      {% set image_path = "images/products/raid-twin-refill.png"%}
+      {% set product_Name = "Raid Auto Advanced Twin Refill"%}  
+      {% include "components/product-card.html" %}
+      {% set product_id = 28 %}
+      {% set image_path = "images/products/stallion-calfateria-fence.jpeg"%}
+      {% set product_Name = "Stallion Calfateria Fence"%}  
+      {% include "components/product-card.html" %} 
+      {% set product_id = 44 %}
+      {% set image_path = "images/products/pestoff.png"%}
+      {% set product_Name = "Pestoff Rodent Block 3kg"%}  
       {% include "components/product-card.html" %}
     </div>
   </product-cards>
