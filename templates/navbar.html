@@ -48,7 +48,11 @@
                 <li><a href="#">Animal Healthcare</a></li>
                 <li><a href="#">Nutrition</a></li>
                 <li><a href="#">Shed Supplies</a></li>
-                <li><a href="#">Calving</a></li>
+				<li>
+					<a href="{{ url_for('category', category_id=4) }}">
+						Calving
+					</a>
+				  </li>
                 <li>
                   <a href="{{ url_for('category', category_id=5) }}">
                     Animal Equipment
@@ -58,8 +62,16 @@
             </div>
             <div class="row">
               <ul class="mega-links">
-                <li><a href="#">Water Equipment</a></li>
-                <li><a href="#">Fencing</a></li>
+				<li>
+					<a href="{{ url_for('category', category_id=6) }}">
+						Water Equipment
+					</a>
+				</li>
+				<li>
+					<a href="{{ url_for('category', category_id=7) }}">
+						Fencing
+					</a>
+				  </li>
                 <li>
                   <a href="{{ url_for('category', category_id=8) }}">
                   Clothing
