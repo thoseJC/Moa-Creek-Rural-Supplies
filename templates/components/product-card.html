@@ -1,13 +1,11 @@
-<a href="{{ url_for('product_page.show_product', product_id=1 ) }}" class="product-card-link">
-
-<div class="product-card">
+<a class="product-card" href="{{ url_for('product_page.show_product', product_id=product_id ) }}">
   <div class="product-card--image">
     <img src="{{ url_for('static', filename=image_path) }}" alt="Product Image">
   </div>
   <div class="product-card--content">
     <div class="product-card--name">{{ product_Name }}</div>
-    <div class="product-card--price">{{ product_price }}</div>
+    <div class="product-card--price">
+      {% if product_price %}${{product_price}}{% endif %}
+    </div>
   </div>
-</div>
-
 </a>

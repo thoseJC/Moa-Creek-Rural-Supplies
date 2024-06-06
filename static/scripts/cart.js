@@ -112,6 +112,7 @@ const getUserId = () => {
 		const infoLabelEle = document.getElementById("giftcard-credit-label");
   
 		giftcardCreditEle.textContent = Number(giftcardCredit).toFixed(2);
+      giftcardCreditEle.setAttribute('data-gift-card', true);
 		infoLabelEle.textContent = `Pay by Gift Card : ${gitftCardCode}-$${Number(
 		  giftcardCredit
 		).toFixed(2)}`;
@@ -613,7 +614,11 @@ const getUserId = () => {
   
 			const cart_table = document.querySelector("#cart-table");
 			const { userId, total, gst, freight } = cart_table.dataset;
-			this.proceedPayment(userId, total, "Credit Card", gst, freight);
+          const giftcardCreditEle = document.getElementById("giftcard-credit");
+          const {
+            giftCard
+          } = giftcardCreditEle.dataset;
+			this.proceedPayment(userId, total, giftCard ? "gift-card" : "Credit Card", gst, freight);
 		  }
 		});
 	}

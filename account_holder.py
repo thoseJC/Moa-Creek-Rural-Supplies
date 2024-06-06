@@ -55,7 +55,8 @@ def apply_account_holder():
             FROM users
             WHERE user_id = %s
         """, (user_id,))
-        account_holder_status = cursor.fetchone()["account_holder"]
+        result = cursor.fetchone()
+        account_holder_status = result["account_holder"] if result else None
     finally:
         cursor.close()
         connection.close()

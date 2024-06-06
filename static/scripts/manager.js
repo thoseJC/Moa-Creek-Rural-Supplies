@@ -22,9 +22,9 @@ class CreditManagement extends HTMLElement {
           } = currentTarget.dataset;
 
           this.userId = userId;
-          this.creditApply = creditApply;
-          this.creditLimit = creditLimit;
-          this.creditRemaining = creditRemaining;
+          this.creditApply = creditApply == 'None' ? 0 : creditApply;
+          this.creditLimit = creditLimit == 'None' ? 0 : creditLimit;
+          this.creditRemaining = creditRemaining == 'None' ? 0 : creditRemaining;
 
           const popupCustomerName = targetElement.querySelector('#customer-name');
           const popupCustomerCurrentLimit = targetElement.querySelector('#customer-current-credit-limit');

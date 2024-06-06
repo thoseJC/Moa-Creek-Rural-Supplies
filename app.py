@@ -19,6 +19,8 @@ from account_holder import account_holder
 from shippingaddress import shipping_address
 from manage_account_apply import manage_account_apply_page
 from giftcard import giftcard_page
+from app_query import get_products_by_category_id, get_category_by_category_id
+from cursor import getCursor
 
 app.register_blueprint(manager_page, url_prefix="/manager")
 app.register_blueprint(customer_page, url_prefix="/customer")
@@ -52,6 +54,22 @@ def logout():
     session.pop('user_name', None)
     session.pop('user_role', None)
     return redirect(url_for('login_page.login'))
+
+@app.route('/category/<category_id>', methods=['GET'])
+def category(category_id):
+    products = []
+    category = []
+    try:
+        cursor = getCursor()
+        sql_query = get_category_by_category_id()
+        cursor.execute(sql_query, (category_id, ))
+        category = cursor.fetchone()
+        sql_query = get_products_by_category_id()
+        cursor.execute(sql_query, (category_id, ))
+        products = cursor.fetchall()
+    except Exception as e:
+        print("@app.route(/category): %s", e)
+    return render_template('global/category.html', products=products, category=category)
 
 if __name__ == '__main__':
     app.run(debug=True)
