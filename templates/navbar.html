@@ -93,10 +93,10 @@
               <ul class="mega-links">
                 <li><a href="{{ url_for('category', category_id=11) }}">Garden Supplies</a></li>
                 <li><a href="{{ url_for('category', category_id=12) }}">Agrichemicals</a></li>
-                <li><a href="#">Machinery & Oil</a></li>
-                <li><a href="#">Pasture & Cropping</a></li>
-                <li><a href="#">Fertilizer</a></li>
-                <li><a href="#">Clearance</a></li>
+                <li><a href="{{ url_for('category', category_id=13) }}">Machinery & Oil</a></li>
+                <li><a href="{{ url_for('category', category_id=14) }}">Pasture & Cropping</a></li>
+                <li><a href="{{ url_for('category', category_id=15) }}">Fertilizer</a></li>
+                <li><a href="{{ url_for('category', category_id=17) }}">Clearance</a></li>
                 <li>
                   <a
                     href="{{url_for('product_page.list_product', categries = 'Gift-Card')}}"
