@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/categories_management.css') }}">
+
+{% extends "base.html" %}
+
+{% block title %}MCRS - Accounts Management {% endblock %}
+
+{% block content %}
+
+    <body class="category-list">
+    <h1>Categories</h1>
+    <button class="button" onclick="showAddModal()">Add New Category</button>
+
+    <ul class="category-management">
+
+        {% for category in categories %}
+
+            <li class="category-management-li">
+
+                <div class="category-text" style="font-size: 20px; text-emphasis: #127d34">
+                    {{ category[2] }} - {{ category[3] }}
+                </div>
+
+                <div class="category-actions">
+                    <button class="button" onclick="showEditModal({{ category[0] }}, '{{ category[2] }}', '{{ category[3] }}')">Edit</button>
+                    <form action="{{ url_for('admin.delete', id=category[0]) }}" method="post" style="display:inline;">
+                        <button class="button d_button" type="submit" style="margin-top:16px; width: 56px; height: 40px; ">Delete</button>
+                    </form>
+                </div>
+
+            </li>
+
+        {% endfor %}
+    </ul>
+
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h2>Add Category</h2>
+            <form action="{{ url_for('admin.add') }}" method="post">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+                <button class="button" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Category</h2>
+            <form action="{{ url_for('admin.edit') }}" id="editForm" method="post">
+                <input type="hidden" id="id" name="id" value="{{ categories[0] }}">
+                <label for="editName">Name</label>
+                <input type="text" id="editName" name="name">
+                <label for="editDescription">Description</label>
+                <textarea id="editDescription" name="description"></textarea>
+                <button class="button" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/categories_management.js') }}"></script>
+    </body>
+
+{% endblock %}

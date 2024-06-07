@@ -39,15 +39,15 @@ CREATE TABLE products (
     price DECIMAL(10, 2) NOT NULL,
     pd_image_path VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
-    shipping_type ENUM('standard', 'oversized', 'pickup') DEFAULT 'standard',
-    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    shipping_type ENUM('standard', 'oversize', 'pickup') DEFAULT 'standard',
+    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
 CREATE TABLE inventory (
     inventory_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     quantity INT DEFAULT 0,
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
 

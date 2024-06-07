@@ -1,0 +1,134 @@
+section {
+    justify-content: center;
+    align-items: center;
+    width: 90vh;
+    margin: auto;
+    text-align: center;
+}
+
+h1 {
+    display: block;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    text-align: center;
+    color: #333;
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5d9db4;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #4ca3b7;
+}
+
+.category-management {
+    list-style-type: none;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.category-management-li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.category-actions {
+    display: flex;
+    align-items: center;
+}
+
+.category-actions .button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    flex-shrink: 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    padding: 20px;
+    margin: 15% auto;
+    border: none;
+    border-radius: 5px;
+    background-color: #5d9db4;
+    color: white;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"],
+.button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+.button[type="submit"]:hover {
+    background-color: #45a049;
+}
