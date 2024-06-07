@@ -4,6 +4,7 @@ def category_list_query():
     			*
     		FROM 
     			categories
+    			WHERE parent_id IS NULL
     	"""
 
 
