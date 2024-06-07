@@ -14,6 +14,8 @@ def proceed_payment():
         freight = request.json.get('freight', 0)
         cart_items = request.json.get('cartItems', [])
 
+        # if 
+
         if user_id != '':
             cursor = getCursor()
             sql_query = insert_payment_record()
@@ -38,4 +40,5 @@ def proceed_payment():
         return jsonify({'message': 'Payment Error'}), 400
     finally:
         cursor.close()
+
 

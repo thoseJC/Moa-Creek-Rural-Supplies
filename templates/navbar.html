@@ -30,17 +30,6 @@
         <a href="{{ url_for('home') }}">Home</a>
       </li>
       <li>
-        <a href="#" class="desktop-item">Dropdown Menu</a>
-        <input type="checkbox" id="showDrop" />
-        <label for="showDrop" class="mobile-item">Dropdown Menu</label>
-        <ul class="drop-menu">
-          <li><a href="#">Drop menu 1</a></li>
-          <li><a href="#">Drop menu 2</a></li>
-          <li><a href="#">Drop menu 3</a></li>
-          <li><a href="#">Drop menu 4</a></li>
-        </ul>
-      </li>
-      <li>
         <a href="{{ url_for('customer.categories') }}" class="desktop-item"
           >Categories</a
         >
@@ -60,26 +49,48 @@
                 <li><a href="#">Nutrition</a></li>
                 <li><a href="#">Shed Supplies</a></li>
                 <li><a href="#">Calving</a></li>
-                <li><a href="#">Animal Equipment</a></li>
+                <li>
+                  <a href="{{ url_for('category', category_id=5) }}">
+                    Animal Equipment
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="row">
               <ul class="mega-links">
                 <li><a href="#">Water Equipment</a></li>
                 <li><a href="#">Fencing</a></li>
-                <li><a href="#">Clothing</a></li>
-                <li><a href="#">Footwear</a></li>
-                <li><a href="#">Household Supplies</a></li>
+                <li>
+                  <a href="{{ url_for('category', category_id=8) }}">
+                  Clothing
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('category', category_id=9) }}">
+                    Footwear
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('category', category_id=10) }}">
+                    Household Supplies
+                  </a>
+                </li>
               </ul>
             </div>
             <div class="row">
               <ul class="mega-links">
-                <li><a href="#">Garden Supplies</a></li>
-                <li><a href="#">Agrichemicals</a></li>
+                <li><a href="{{ url_for('category', category_id=11) }}">Garden Supplies</a></li>
+                <li><a href="{{ url_for('category', category_id=12) }}">Agrichemicals</a></li>
                 <li><a href="#">Machinery & Oil</a></li>
                 <li><a href="#">Pasture & Cropping</a></li>
                 <li><a href="#">Fertilizer</a></li>
                 <li><a href="#">Clearance</a></li>
+                <li>
+                  <a
+                    href="{{url_for('product_page.list_product', categries = 'Gift-Card')}}"
+                    >Gift Card</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -94,7 +105,10 @@
       </a>
       <a class="nav-side--link" href="{{ url_for('cart.cart') }}">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
-        <span data-user-id="{{ session['user_id'] }}" class="nav-side--link-quantity"></span>
+        <span
+          data-user-id="{{ session['user_id'] }}"
+          class="nav-side--link-quantity"
+        ></span>
       </a>
     </div>
   </div>

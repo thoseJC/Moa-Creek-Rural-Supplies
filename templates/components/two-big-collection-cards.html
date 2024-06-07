@@ -2,7 +2,13 @@
 
 <div class="collection-cards--container">
   <div class="collection-cards">
+    {% set category_id = 11 %}
+    {% set image_path = "images/category_image/garden_supplies.jpg"%}
+    {% set category_Name = "Garden Supplies"%}
     {% include "components/collection-card.html" %}
+    {% set category_id = 10 %}
+    {% set image_path = "images/category_image/household_supplies.jpg"%}
+    {% set category_Name = "Household Supplies"%}
     {% include "components/collection-card.html" %}
   </div>
 </div>

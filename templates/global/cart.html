@@ -1,9 +1,14 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/cart.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/cart.css') }}"
+/>
 
-{% extends 'base.html' %}
-
-{% block content %}
-<cart-table class="cart--container" id="cart-table" data-user-id="{{ user_id }}">
+{% extends 'base.html' %} {% block content %}
+<cart-table
+  class="cart--container"
+  id="cart-table"
+  data-user-id="{{ user_id }}"
+>
   <div class="cart--header">My Bag</div>
   <div class="cart--details with-products displayNone">
     <div class="cart-left--container"></div>
@@ -12,7 +17,14 @@
       <div class="cart-right--content">
         <div class="cart-right--line">
           <div class="cart-line--label">Shipping</div>
-          <div class="cart-line--value" id="order-summary-shipping"></div>
+          <div class="cart-line--value">
+            <select id="shipping-type-select" onchange="updateShippingCost()">
+              <option value="standard">Standard - $10.00</option>
+              <option value="oversized">Oversized - $100.00</option>
+              <option value="pickup">Pickup - $0.00</option>
+            </select>
+            <span id="order-summary-shipping"></span>
+          </div>
         </div>
         <div class="cart-right--line">
           <div class="cart-line--label">Total</div>
@@ -22,21 +34,38 @@
           <div class="cart-line--label">GST</div>
           <div class="cart-line--value" id="order-summary-gst"></div>
         </div>
+        <div class="cart-right--line">
+          <div class="cart-line--label">Total Amount To Pay</div>
+          <div class="cart-line--value" id="total-to-pay"></div>
+        </div>
+
+        <div class="cart-right--line">
+          <div class="cart-line--label">GiftCard Credit</div>
+          <div class="cart-line--value" id="giftcard-credit"></div>
+        </div>
       </div>
+
       <div class="cart-button">
         <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
+      </div>
+
+      <!-- pay by gift card -->
+      <div id="giftcard-credit-container">
+        <div>
+          <label id="giftcard-credit-label">Pay by Gift Card : </label>
+        </div>
+        <div id="applyGiftCardBtnContainer">
+          <input placeholder="Type in GiftCard Code" id="giftCardCodeInput" />
+
+          <button id="applyGiftCardBtn">Apply</button>
+        </div>
       </div>
     </div>
   </div>
   <div class="cart--details without-products displayNone">
-    <div class="cart-empty-header">
-      Your bag is empty!!
-    </div>
+    <div class="cart-empty-header">Your bag is empty!!</div>
   </div>
- {% include "components/loading.html" %}
+  {% include "components/loading.html" %}
 </cart-table>
 
-
-{% include "cart/checkout.html" %}
-{% endblock %}
-
+{% include "cart/checkout.html" %} {% endblock %}

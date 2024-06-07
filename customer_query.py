@@ -27,8 +27,19 @@ def update_credit_apply():
 	"""
 def query_notifications():
     return """
-    		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC
+    		SELECT notification_id, message, is_read, created_at FROM notifications WHERE user_id = %s and is_read = %s ORDER BY created_at DESC;
     	"""
+
+
+def send_inquiry():
+      return """
+		INSERT INTO messages (sender_id, receiver_id, content) VALUES(%s, %s,%s);
+      """
+
+def add_conversation():
+	return """
+	INSERT INTO conversations (staff_id, customer_id, last_message_id) VALUES (%s, %s,%s);
+"""
 
 def get_customer_all_orders():
 	return """

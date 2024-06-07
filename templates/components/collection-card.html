@@ -1,11 +1,13 @@
 <div class="collection-card">
-  <a href="#" class="collection-card--img">
+  <a href="{{ url_for('category', category_id=category_id ) }}" class="collection-card--img">
     <!-- the ratio of image here should be 1:1 -->
-    <img src="{{ url_for('static', filename='images/collection-img.webp') }}" alt="Collection Image">
+    <img src="{{ url_for('static', filename=image_path) }}" alt="Collection Image">
   </a>
   <div class="collection-card--content">
-    <div class="collection-card--content-title">Collection Name</div>
-    <div class="collection-card--content-des">Promotion Content: e.g: Spend $199 or more and you'll get a free gift.</div>
-    <a href="#" class="common-btn--text">SHOP NOW</a>
+    <div class="collection-card--content-title">
+      {{ category_Name }}
+    </div>
+    <div class="collection-card--content-des">Promotion Content: Spend $199 or more and you'll get a free gift.</div>
+    <a href="{{ url_for('category', category_id=category_id ) }}" class="common-btn--text">SHOP NOW</a>
   </div>
 </div>

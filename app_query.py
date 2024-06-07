@@ -97,4 +97,34 @@ def get_products_by_ids(product_ids):
         WHERE product_id IN ({product_ids_string});
     """
 
+def get_products_by_categories():
+	return """
+	select ps.* from products ps left join categories cs on ps.category_id = cs.category_id where cs.name = %s
+"""
+
+def get_products_by_category_id():
+	return """
+		SELECT 
+			product_id,
+			name,
+			price,
+			pd_image_path
+	FROM 
+			products
+	WHERE 
+			category_id = %s;
+	"""
+
+def get_category_by_category_id():
+	return """
+		SELECT 
+			name,
+			description,
+			ct_image_path
+	FROM 
+			categories c
+	WHERE 
+			c.category_id = %s;
+	"""
+
 
