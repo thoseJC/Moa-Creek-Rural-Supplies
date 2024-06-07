@@ -275,7 +275,7 @@ const getUserId = () => {
 			</div>
 			<div class="cart-product--content">
 			  <div class="cart-product--content-title">${product.name}</div>
-			  <div class="cart-product--content-price">$${product.price}</div>
+			  <div class="cart-product--content-price">$${ product.discounted_price? "discounted: "+product.discounted_price : product.price}</div>
 			  <div class="cart-product--content-quantity">
 				<div class="cart-product--quantity">
 				  <div class="cart-product--quantity-label">Qty.</div>
@@ -386,7 +386,8 @@ const getUserId = () => {
 	  products.forEach((product) => {
 		const cartItem = cartItems.find((item) => item.id == product.product_id);
 		const quantity = cartItem ? cartItem.quantity : 1;
-		totalPrice += product.price * quantity;
+		let product_price = product.discounted_price ? product.discounted_price : product.price
+		totalPrice += product_price * quantity;
 		if (product.shipping_type === "oversized") {
 		  hasOversizedItem = true;
 		}

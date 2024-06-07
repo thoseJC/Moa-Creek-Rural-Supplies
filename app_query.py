@@ -92,7 +92,7 @@ def get_products_by_ids(product_ids):
     product_ids_string = ', '.join(map(str, product_ids))
     return f"""
         SELECT
-            product_id, category_id, name, description, price, pd_image_path, is_active
+            product_id, category_id, name, description, price,discounted_price, pd_image_path, is_active
         FROM products 
         WHERE product_id IN ({product_ids_string});
     """

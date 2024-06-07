@@ -40,6 +40,8 @@ CREATE TABLE products (
     pd_image_path VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
     shipping_type ENUM('standard', 'oversize', 'pickup') DEFAULT 'standard',
+    discount DECIMAL(5, 2) DEFAULT 0.00,
+    discounted_price DECIMAL(10, 2) NULL,
     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
@@ -706,6 +708,9 @@ Easy to transport and clean. Supplied with steel brackets. Peach teats included.
 	1
 );
 
+
+
+
 -- Adding inventory data for all 15 products above
 
 INSERT INTO inventory (product_id, quantity)
@@ -744,3 +749,4 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'G
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Valdo 800WG 500g' LIMIT 1) AS derived_table), 50),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Crucial 15L' LIMIT 1) AS derived_table), 30),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Raid Auto Advanced Twin Refill' LIMIT 1) AS derived_table), 80);
+

@@ -5,6 +5,8 @@ def query_product_by_id():
 			p.name,
 			p.description,
 			p.price,
+			p.discount,
+			p.discounted_price,
 			p.pd_image_path,
 			c.name,
 			p.is_active,
@@ -44,6 +46,6 @@ def get_all_categories():
 def sql_update_product():
 	return """
 			UPDATE products 
-			SET name=%s, description=%s, price=%s, pd_image_path=%s, category_id=%s
+			SET name=%s, description=%s, price=%s, pd_image_path=%s, category_id=%s, discount=%s, discounted_price=%s
 			WHERE product_id=%s
 	"""
