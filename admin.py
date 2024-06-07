@@ -1,4 +1,6 @@
 from flask import Blueprint, flash, redirect, url_for, jsonify, request
+
+from admin_query import query_add, query_edit, query_delete_prm, query_delete_p, query_delete_c
 from cursor import getCursor
 from flask import session
 from flask import render_template
@@ -30,7 +32,7 @@ def add():
     description = request.form.get('description')
 
     connection = getCursor()
-    sql_query = "INSERT INTO categories (name, description) VALUES (%s, %s)"
+    sql_query = query_add
     connection.execute(sql_query, (name, description))
 
     return redirect(url_for('admin.categories_management'))
@@ -44,7 +46,7 @@ def edit():
     description = request.form.get('description')
 
     connection = getCursor()
-    sql_query = "UPDATE categories SET name = %s, description = %s WHERE category_id = %s"
+    sql_query = query_edit
     connection.execute(sql_query, (name, description, id))
     return redirect(url_for('admin.categories_management'))
 
@@ -54,13 +56,13 @@ def delete():
     id = request.args.get('id')
     connection = getCursor()
 
-    prm_sql_query = "DELETE FROM promotions WHERE target_category_id = %s"
+    prm_sql_query = query_delete_prm
     connection.execute(prm_sql_query, (id,))
 
-    p_sql_query = "DELETE FROM products WHERE category_id = %s"
+    p_sql_query = query_delete_p
     connection.execute(p_sql_query, (id,))
 
-    c_sql_query = "DELETE FROM categories WHERE category_id = %s"
+    c_sql_query = query_delete_c
     connection.execute(c_sql_query, (id,))
 
     return redirect(url_for('admin.categories_management'))
