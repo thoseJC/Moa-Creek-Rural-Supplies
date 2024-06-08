@@ -30,3 +30,13 @@ def get_user_address_query():
     WHERE 
 		  user_id = %s AND is_primary = TRUE;
   """
+
+def query_product_current_inventory():
+  return """
+    SELECT quantity FROM inventory WHERE product_id = %s
+  """
+
+def update_product_new_inventory():
+  return """
+    UPDATE inventory SET quantity = %s WHERE product_id = %s
+  """

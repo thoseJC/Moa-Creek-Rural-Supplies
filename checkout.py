@@ -1,5 +1,5 @@
 from flask import Blueprint, session, render_template, request, jsonify
-from checkout_query import insert_payment_record, query_latest_id, insert_orders_record, insert_order_items_record, get_user_address_query
+from checkout_query import insert_payment_record, query_latest_id, insert_orders_record, insert_order_items_record, get_user_address_query, query_product_current_inventory, update_product_new_inventory
 from cursor import getCursor
 
 checkout_page = Blueprint("checkout", __name__, static_folder="static", template_folder="templates/checkout")
@@ -34,6 +34,15 @@ def proceed_payment():
               price = item.get('price', 0.00)
               sql_query = insert_order_items_record()
               cursor.execute(sql_query, (order_id, product_id, qty, price))
+
+              sql_query = query_product_current_inventory()
+              cursor.execute(sql_query, (product_id,))
+              current_qty = cursor.fetchone()[0]
+
+              new_qty = current_qty - qty
+              sql_query = update_product_new_inventory()
+              cursor.execute(sql_query, (new_qty, product_id))
+
             return jsonify({'message': 'Payment Completed'}), 200
     except Exception as e:
         print("@checkout_page.route(/proceed_payment): %s", e)
