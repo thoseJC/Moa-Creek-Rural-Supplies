@@ -274,80 +274,84 @@ VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health
        ('Pasture & Cropping', NULL, 'Products for pasture management and cropping.',
         'images/category_image/Pasture & Cropping.jpg'),
        ('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
-       ('Gift-Card', NULL, 'Gift-Card', ''),
+       ('Gift-Card', NULL, 'Gift-Card', 'images/category_image/gift_card.jpg'),
        ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
 -- Inserting sub-categories for 'Animal Health Care'
 INSERT INTO categories (name, parent_id, description, ct_image_path)
 VALUES ('Vaccines', (SELECT category_id
                      FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Vaccines to prevent diseases in animals.', '#'),
+        'Vaccines to prevent diseases in animals.', ''),
        ('Antibiotics', (SELECT category_id
                         FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Antibiotics to treat animal diseases.', '#'),
+        'Antibiotics to treat animal diseases.', ''),
        ('Supplements', (SELECT category_id
                         FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Supplements to enhance animal health.', '#'),
+        'Supplements to enhance animal health.', ''),
        ('Poultry Feed', (SELECT category_id
                          FROM (SELECT category_id
                                FROM categories
-                               WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for poultry.', '#'),
+                               WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for poultry.', ''),
        ('Cattle Feed', (SELECT category_id
                         FROM (SELECT category_id
                               FROM categories
-                              WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for cattle.', '#'),
+                              WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for cattle.', ''),
        ('Pet Food', (SELECT category_id
                      FROM (SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition') AS derived_table),
-        'Food for pets.', '#'),
+        'Food for pets.', ''),
        ('Feeding Equipment',
         (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
-        'Equipment used for feeding livestock.', '#'),
+        'Equipment used for feeding livestock.', ''),
        ('Milking Equipment',
         (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
-        'Equipment used for milking livestock.', '#'),
+        'Equipment used for milking livestock.', ''),
        ('Pest Control',
         (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Products to control pests in crops.', '#'),
+        'Products to control pests in crops.', ''),
        ('Herbicides',
         (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Chemical products to control unwanted plants.', '#'),
+        'Chemical products to control unwanted plants.', ''),
        ('Fungicides',
         (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Chemical products to control fungi.', '#');
+        'Chemical products to control fungi.', '');
 
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
 VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Vitamin Supplement',
-        'A supplement to enhance animal health.', 25.00, '#', 1),
+        'A supplement to enhance animal health.', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Animal Feed',
-        'High-quality feed for various animals.', 15.00, '#', 1),
+        'High-quality feed for various animals.', 15.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Dairy Cleaner',
-        'Cleaner for dairy equipment.', 10.00, '#', 1),
+        'Cleaner for dairy equipment.', 10.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Aid', 'Aid for assisting in calving.',
+<<<<<<< Updated upstream
         30.00, 'calving-aid.jpg', 1),
+=======
+        30.00, '', 1),
+>>>>>>> Stashed changes
        ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle',
-        'Bottle for feeding young animals.', 5.00, '#', 1),
+        'Bottle for feeding young animals.', 5.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
-        'A vaccine to prevent diseases in animals.', 30.00, '#', 1),
+        'A vaccine to prevent diseases in animals.', 30.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics',
-        'Antibiotics to treat animal diseases.', 20.00, '#', 1),
+        'Antibiotics to treat animal diseases.', 20.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Supplements'), 'Animal Supplement',
-        'A supplement to enhance animal health.', 25.00, '#', 1),
+        'A supplement to enhance animal health.', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Poultry Feed'), 'Poultry Feed', 'Feed for poultry.', 15.00,
         '#', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Cattle Feed'), 'Cattle Feed', 'Feed for cattle.', 18.00, '#',
+       ((SELECT category_id FROM categories WHERE name = 'Cattle Feed'), 'Cattle Feed', 'Feed for cattle.', 18.00, '',
         1),
-       ((SELECT category_id FROM categories WHERE name = 'Pet Food'), 'Pet Food', 'Food for pets.', 22.00, '#', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Pet Food'), 'Pet Food', 'Food for pets.', 22.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Feeding Equipment'), 'Feeder',
-        'Equipment used for feeding livestock.', 50.00, '#', 1),
+        'Equipment used for feeding livestock.', 50.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Milking Equipment'), 'Milking Machine',
-        'Equipment used for milking livestock.', 120.00, '#', 1),
+        'Equipment used for milking livestock.', 120.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Pest Control'), 'Pest Control Spray',
-        'Products to control pests in crops.', 25.00, '#', 1),
+        'Products to control pests in crops.', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
-        'Chemical products to control unwanted plants.', 15.00, '#', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '#', 1),
-       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '#', 1);
+        'Chemical products to control unwanted plants.', 15.00, '', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '', 1),
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '', 1);
 
 
 INSERT INTO inventory (product_id, quantity)

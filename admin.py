@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, jsonify, request, session
 from cursor import getConection, getCursor
 from flask import current_app as app
 from login_helper import getUserInfo
-from admin_query import query_add, query_edit, query_delete_prm, query_delete_p, query_delete_c
+from admin_query import query_add, query_edit, query_delete_prm, query_delete_p, query_delete_c, query_ctgr_list
 
 admin_page = Blueprint("admin", __name__, static_folder="static", template_folder="templates/admin")
 
@@ -19,8 +19,8 @@ def dashboard():
 def categories_management():
     try:
         connection = getCursor()
-        sql_query = "SELECT * FROM categories"
-        connection.execute(sql_query)
+        sql_query = query_ctgr_list()
+        connection.execute(sql_query,)
         categories = connection.fetchall()
         return render_template('/categories_management.html', categories=categories)
     except Exception as e:

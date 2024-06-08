@@ -1,3 +1,7 @@
+def query_ctgr_list():
+    return """
+    SELECT * FROM categories
+    """
 def query_add():
     return """
     INSERT INTO categories (name, description) VALUES (%s, %s)

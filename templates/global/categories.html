@@ -3,27 +3,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="banner">
-  <a href="#">
-    <img src="/static/images/category_image/image_banner_niuniu.jpg" alt="poster">
-  </a>
-</div>
-<header>
-<div class="flex-container">
-    <h1>Shop By Category</h1>
-    <p>From Pasture to Pantry: Everything for Healthy Farms and Homes.</p>
-</div>
-</header>
+    <div class="banner">
+        <a href="{{ url_for('category', category_id=17) }}">
+            <img src="/static/images/category_image/image_banner_niuniu.jpg" alt="poster">
+        </a>
+    </div>
+
+    <header>
+        <div class="flex-container">
+            <h1>Shop By Category</h1>
+            <p>From Pasture to Pantry: Everything for Healthy Farms and Homes.</p>
+        </div>
+    </header>
 
 
-<main class="list-container">
-{% for ctl in categories_list %}
-
+    <main class="list-container">
+        {% for ctl in categories_list %}
+            {% set category_id=ctl[0] %}
             {% set image_path = ctl[4] %}
             {% set product_Name = ctl[2] %}
             {% include "components/ct_product_card.html" %}
-{% endfor %}
+        {% endfor %}
 
-</main>
+    </main>
 {% endblock %}
 
