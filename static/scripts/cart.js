@@ -143,11 +143,59 @@ const getUserId = () => {
   if (applyGiftCardBtn) {
 	applyGiftCardBtn.addEventListener("click", onApplyGiftCardClick);
   }
+
+	const getRenderAddress = () => {
+		const userId = getUserId();
+
+		fetch(`/checkout/get_user_address?user_id=${userId}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => {
+				let addressContent = '';
+				if (data && data.data && Object.keys(data.data).length != 0) {
+					const address = data.data;
+					addressContent = `
+						<div>
+							${address[0] ? `${address[0]} <br />` : ''}
+							${address[1] ? `${address[1]} <br />` : ''}
+							${address[2] ? `${address[2]} <br />` : ''}
+							${address[3] ? `${address[3]} <br />` : ''}
+							${address[4] ? `${address[4]}` : ''}
+						</div>
+					`;
+					document.getElementById("payButton").disabled = false;
+				} else {
+					addressContent = `
+						<div>
+							You haven't set a default shipping address yet. 
+							Please go to <a href="/shipping/manage_addresses/${userId}">Address</a> page to set it up.
+						</div>
+					`;
+				}
+				const shippingAddressEle = document.querySelector('#shipping-address');
+				if (addressContent && shippingAddressEle) {
+					shippingAddressEle.innerHTML = addressContent;
+				}
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
+	}
   
   const proceedCheckout = (flag) => {
 	const checkoutPopup = document.querySelector(".checkout--container");
 	if (checkoutPopup) {
 	  if (flag) {
+			getRenderAddress();
 		checkoutPopup.classList.add("active");
 	  } else {
 		checkoutPopup.classList.remove("active");

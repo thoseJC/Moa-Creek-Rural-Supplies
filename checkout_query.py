@@ -17,3 +17,16 @@ def query_latest_id():
   return """
     SELECT LAST_INSERT_ID();
   """
+
+def get_user_address_query():
+	return """
+    SELECT 
+      street_address,
+			city,
+			state,
+			postal_code,
+			country
+    FROM address 
+    WHERE 
+		  user_id = %s AND is_primary = TRUE;
+  """

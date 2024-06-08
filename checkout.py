@@ -1,5 +1,5 @@
 from flask import Blueprint, session, render_template, request, jsonify
-from checkout_query import insert_payment_record, query_latest_id, insert_orders_record, insert_order_items_record
+from checkout_query import insert_payment_record, query_latest_id, insert_orders_record, insert_order_items_record, get_user_address_query
 from cursor import getCursor
 
 checkout_page = Blueprint("checkout", __name__, static_folder="static", template_folder="templates/checkout")
@@ -41,4 +41,24 @@ def proceed_payment():
     finally:
         cursor.close()
 
-
+@checkout_page.route("/get_user_address", methods=["GET"])
+def get_user_address():
+    address = {}
+    try:
+        user_id = request.args.get("user_id")
+        cursor = getCursor()
+        sql_query = get_user_address_query()
+        cursor.execute(sql_query, (user_id, ))
+        address = cursor.fetchone()
+        return jsonify({
+                'message': 'Success',
+                'data': address
+            }), 200
+    except Exception as e:
+        print("@checkout_page.route(/get_user_address): %s", e)
+        return jsonify({
+                'message': 'Fail',
+                'data': address
+            }), 400
+    finally:
+        cursor.close()
