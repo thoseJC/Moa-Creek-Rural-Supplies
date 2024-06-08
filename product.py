@@ -43,10 +43,12 @@ def show_product(product_id):
 			"name": fetched_product[1],
 			"description": fetched_product[2],
 			"price": fetched_product[3],
-			"image": fetched_product[4],
-			"category": fetched_product[5],
-			"active": fetched_product[6],
-			"quantity": fetched_product[7]
+			"discount": fetched_product[4],
+			"discounted_price": fetched_product[5],
+			"image": fetched_product[6],
+			"category": fetched_product[7],
+			"active": fetched_product[8],
+			"quantity": fetched_product[9]
 		}
 		return render_template('product_info.html',product = product)
 	except Exception as e:
@@ -91,47 +93,52 @@ def add_product():
 
 @product_page.route('/edit/<int:product_id>', methods=['GET', 'POST'])
 def edit_product(product_id):
-	try:
-		if request.method == 'POST':
-			# Retrieve form data
-			name = request.form['name']
-			description = request.form['description']
-			price = request.form['price']
-			image_path = request.form['image_path']
-			category_id = request.form['category_id']
+    try:
+        if request.method == 'POST':
+            # Retrieve form data
+            name = request.form['name']
+            description = request.form['description']
+            price = float(request.form['price'])
+            discount = float(request.form['discount'])
+            discounted_price = price - (price * discount / 100)
+            image_path = request.form['image_path']
+            category_id = request.form['category_id']
 
-			# Update the product in the database
-			cursor = getCursor()
-			sql_query = sql_update_product()
-			cursor.execute(sql_query, (name, description, price, image_path, category_id, product_id))
+            # Update the product in the database
+            cursor = getCursor()
+            sql_query = sql_update_product()
+            cursor.execute(sql_query, (name, description, price, image_path, category_id,discount, discounted_price, product_id))
 
-			# Redirect to the product info page of the updated product
-			return redirect(url_for('product_page.get_list_of_product'))
-		else:
-			# Fetch the product details from the database
-			cursor = getCursor()
-			sql_query1 = query_product_by_id()
-			cursor.execute(sql_query1, (product_id,))
-			fetched_product = cursor.fetchone()
-			product = {
-				"id": fetched_product[0],
-				"name": fetched_product[1],
-				"description": fetched_product[2],
-				"price": fetched_product[3],
-				"image": fetched_product[4],
-				"category_id": fetched_product[5],
-				"active": fetched_product[6]
-			}
+            # Redirect to the product info page of the updated product
+            return redirect(url_for('product_page.get_list_of_product'))
+        else:
+            # Fetch the product details from the database
+            cursor = getCursor()
+            sql_query1 = query_product_by_id()
+            cursor.execute(sql_query1, (product_id,))
+            fetched_product = cursor.fetchone()
+            product = {
+                "id": fetched_product[0],
+                "name": fetched_product[1],
+                "description": fetched_product[2],
+                "price": fetched_product[3],
+                "discount": fetched_product[4],
+                "discounted_price": fetched_product[5],
+                "image": fetched_product[6],
+                "category_id": fetched_product[7],
+                "active": fetched_product[8]
+            }
 
-			# Retrieve category options from the database
-			sql_query = get_all_categories()
-			cursor.execute(sql_query)
-			categories = cursor.fetchall()
+            # Retrieve category options from the database
+            sql_query = get_all_categories()
+            cursor.execute(sql_query)
+            categories = cursor.fetchall()
 
-			return render_template('edit_product.html', product=product, categories=categories)
-	except Exception as e:
-		print("@app.route('/product/edit'): %s",e)
-		return render_template('edit_product.html', error_msg = e)
+            return render_template('edit_product.html', product=product, categories=categories)
+    except Exception as e:
+        print("@app.route('/product/edit'): %s",e)
+        return render_template('edit_product.html', error_msg = e)
+
 		
 @product_page.route('/delete/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
@@ -166,8 +173,9 @@ def get_products():
                 "name": product[2],
                 "description": product[3],
                 "price": product[4],
-                "pd_image_path": product[5],
-                "is_active": product[6]
+				"discounted_price": product[5],
+                "pd_image_path": product[6],
+                "is_active": product[7]
             })
         cursor.close()
         return products
