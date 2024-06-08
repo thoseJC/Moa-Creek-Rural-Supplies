@@ -1,5 +1,6 @@
+import uuid
 from flask import Blueprint, flash, redirect, url_for, jsonify,render_template,session,request
-from app_query import register_new_user
+from app_query import register_new_user, add_address_to_new_user
 from auth import hashPassword
 from cursor import getCursor
 from validation import is_valid_email, is_valid_phone_number
@@ -28,8 +29,32 @@ def register():
 			register_query = register_new_user()
 
 			try:
-				cursor.execute(register_query
-				, (first_name, last_name, username, email, phone_number, password, address))
+				new_user_id = str(uuid.uuid4())
+				cursor.execute(
+					register_query, 
+					(
+						new_user_id, 
+						first_name, 
+						last_name, 
+						username, 
+						email, 
+						phone_number, 
+						password
+					)
+				)
+
+				add_address_to_new_user_query = add_address_to_new_user()
+				cursor.execute(
+					add_address_to_new_user_query, 
+					(
+						new_user_id, 
+						address, 
+						'', 
+						'', 
+						'', 
+						''
+					)
+				)
 
 				flash('Registration successful!')
 				return redirect(url_for('login_page.login'))
