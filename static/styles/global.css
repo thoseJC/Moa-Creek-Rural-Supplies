@@ -21,6 +21,7 @@
 
 section.content {
   padding-top: 85px;
+  padding-bottom: 40px;
   min-height: calc(100vh - 360px);
 }
 
@@ -203,3 +204,13 @@ section.content {
   color: var(--green);
 }
 
+.flash {
+  background-color: rgba(18, 125, 52, 0.2);
+  border: 1px solid var(--green);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin: 1px 0 0 0;
+}
