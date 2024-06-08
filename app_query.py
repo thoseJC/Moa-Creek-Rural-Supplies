@@ -39,8 +39,57 @@ def query_product_by_id():
 
 def register_new_user():
 	return """
-				INSERT INTO users (user_id, role_id, first_name, last_name, username, email, phone_number, loyalty_points, user_password, shipping_address, status)
-				VALUES (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), %s, %s, %s, %s, %s, 0, %s, %s, TRUE)"""
+		INSERT INTO users 
+			(
+				user_id, 
+				role_id, 
+				first_name, 
+				last_name, 
+				username, 
+				email, 
+				phone_number, 
+				loyalty_points, 
+				user_password, 
+				status
+			)
+		VALUES 
+			(
+				%s, 
+				(SELECT role_id FROM user_roles WHERE role_name = 'customer'), 
+				%s, 
+				%s, 
+				%s, 
+				%s, 
+				%s, 
+				0, 
+				%s, 
+				TRUE
+			)
+	"""
+
+def add_address_to_new_user():
+	return """
+		INSERT INTO address 
+			(
+				user_id, 
+				street_address, 
+				city, 
+				state, 
+				postal_code, 
+				country, 
+				is_primary
+			)
+		VALUES 
+			(
+				%s, 
+				%s, 
+				%s, 
+				%s, 
+				%s, 
+				%s, 
+				TRUE
+			)
+	"""
 
 def update_user_profile_query():
 	return """

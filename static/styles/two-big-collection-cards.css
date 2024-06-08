@@ -22,7 +22,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 90%;
+  width: 100%;
+  height: 100%;
 }
 
 .collection-cards--container .collection-card--content {
@@ -37,7 +38,9 @@
 }
 .collection-card--content-des {
   font-size: 1rem;
-  margin-bottom: 5px;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto 5px auto;
 }
 
 @media (max-width: 1024px) {

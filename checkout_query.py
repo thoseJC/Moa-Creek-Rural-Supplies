@@ -17,3 +17,26 @@ def query_latest_id():
   return """
     SELECT LAST_INSERT_ID();
   """
+
+def get_user_address_query():
+	return """
+    SELECT 
+      street_address,
+			city,
+			state,
+			postal_code,
+			country
+    FROM address 
+    WHERE 
+		  user_id = %s AND is_primary = TRUE;
+  """
+
+def query_product_current_inventory():
+  return """
+    SELECT quantity FROM inventory WHERE product_id = %s
+  """
+
+def update_product_new_inventory():
+  return """
+    UPDATE inventory SET quantity = %s WHERE product_id = %s
+  """

@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
-  <div class="card shadow p-4 w-100" style="max-width: 400px">
+  <div class="card shadow p-4 w-100 mb-3 mt-3" style="max-width: 400px">
     <div class="card-header text-center bg-transparent border-0">
       <h3>Create Account</h3>
       <p class="text-muted">
@@ -46,18 +46,18 @@
           style="color: red">Please enter a valid phone number.</div>
         </div>
         <div class="mb-3">
-          <label for="address" class="form-label">Address (Optional)</label>
-          <textarea name="address" id="address" class="form-control" rows="3"></textarea>
+          <label for="address" class="form-label">Address</label>
+          <textarea name="address" id="address" class="form-control" rows="3" required></textarea>
           <div id="address_validation_message" class="invalid-feedback">Please enter a valid address.</div>
         </div>
         <div class="form-error text-danger">{{ error }}</div>
-        <button type="submit" class="btn btn-primary w-100 mt-3">REGISTER</button>
+        <button type="submit" class="common-btn--border mt-3">REGISTER</button>
       </form>
     </div>
     <div class="card-footer text-center bg-transparent border-0 mt-3">
       <p>
         Already have an account?
-        <a href="{{ url_for('login_page.login') }}">Sign In</a>
+        <a class="common-btn--text" href="{{ url_for('login_page.login') }}">Sign In</a>
       </p>
     </div>
   </div>
@@ -153,25 +153,6 @@
 	  emailEle.addEventListener("input", debounce(processEmailInput, 200));
 	  phoneNumberEle.addEventListener("input", debounce(processPhoneNumberInput, 200));
 	});
-  </script>
-  
-	const debounce = (func, delay) => {
-	  let timer;
-	  return function () {
-		const context = this;
-		const args = arguments;
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-		  func.apply(context, args);
-		}, delay);
-	  };
-	};
-  
-	const validatePassword = (password) => {
-	  const passwordRegex =
-		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-	  return passwordRegex.test(password);
-	};
   
 	const resetSecondPasswordField = () => {
 	  second_password_ele.value = "";

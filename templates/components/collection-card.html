@@ -7,7 +7,9 @@
     <div class="collection-card--content-title">
       {{ category_Name }}
     </div>
-    <div class="collection-card--content-des">Promotion Content: Spend $199 or more and you'll get a free gift.</div>
+    <div class="collection-card--content-des">
+      {{ promotion_content }}
+    </div>
     <a href="{{ url_for('category', category_id=category_id ) }}" class="common-btn--text">SHOP NOW</a>
   </div>
 </div>
