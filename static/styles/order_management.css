@@ -2,8 +2,16 @@
     width: calc(100% - 200px);
 }
 
+.order-management .ord-list{
+    overflow: scroll;
+    overflow-x: unset;
+    width: 122%;
+    height: 60%;
+}
+
 .order-management table {
-    width: 100%;
+    width: 80%;
+    height: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
     margin-top: 40px;
