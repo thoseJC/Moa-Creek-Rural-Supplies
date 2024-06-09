@@ -37,4 +37,4 @@ def login():
 			return render_template('login.html', err_msg=err_msg)
 	except Exception as e:
 		print("@app.route(/login) : %s",e)
-		render_template('login.html', err_msg=e)
+		return render_template('login.html', err_msg=e)
