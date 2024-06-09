@@ -32,16 +32,21 @@ h1 {
 }
 
 .category-management {
+    overflow: scroll;
+    overflow-x: unset;
+    height: 70%;
+    width:100%;
     list-style-type: none;
-    margin-top: 30px;
+    margin: auto;
     padding: 0;
+
 }
 
 .category-management-li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: rgba(0, 0, 0, .075);
     margin: 10px 0;
     padding: 15px;
     border-radius: 5px;
@@ -121,14 +126,14 @@ input[type="submit"],
 .button[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: #5d9db4;
     color: white;
-    border: none;
+    border: #000000;
     border-radius: 5px;
     cursor: pointer;
 }
 
 input[type="submit"]:hover,
 .button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #0d87a6;
 }
