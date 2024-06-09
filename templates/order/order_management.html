@@ -23,8 +23,7 @@
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Customer ID</th>
-                    <th>First Name</th>
+                    <th>Username</th>
                     <th>Last Name</th>
                     <th>Total</th>
                     <th>GST</th>
@@ -39,12 +38,11 @@
                 {% for ords in orders_list %}
                 <tr>
                     <td>{{ ords[0] }}</td>
-                    <td>{{ ords[1] }}</td>
-                    <td>{{ ords[8] }}</td>
                     <td>{{ ords[9] }}</td>
-                    <td>{{ ords[4] }}</td>
-                    <td>{{ ords[5] }}</td>
-                    <td>{{ ords[6] }}</td>
+                    <td>{{ ords[10] }}</td>
+                    <td>${{ ords[4] }}</td>
+                    <td>${{ ords[5] }}</td>
+                    <td>${{ ords[6] }}</td>
                     <td>{{ ords[3] }}</td>
                     <td>{{ ords[7] }}</td>
                     <td class="edit_box">

@@ -326,11 +326,8 @@ VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 
        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Dairy Cleaner',
         'Cleaner for dairy equipment.', 10.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Aid', 'Aid for assisting in calving.',
-<<<<<<< Updated upstream
         30.00, 'calving-aid.jpg', 1),
-=======
-        30.00, '', 1),
->>>>>>> Stashed changes
+
        ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle',
         'Bottle for feeding young animals.', 5.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
