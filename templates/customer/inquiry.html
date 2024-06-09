@@ -19,6 +19,12 @@
   #button-container {
     margin-top: 15px;
   }
+  .successmsg {
+    color: green;
+  }
+  .faildmsg {
+    color: red;
+  }
 </style>
 
 {% extends 'base.html' %} {% block title %}MCRS - Inquiry {% endblock %} {%
@@ -34,7 +40,11 @@ block content %}
         <button type="submit" id="submit-inquiry">Send</button>
       </div>
     </form>
-    <span>{{msg.message}}</span>
+    {% if msg.success %}
+    <span class="successmsg">{{msg.message}}</span>
+    {%endif%} {% if !msg.success %}
+    <span class="faildmsg">{{msg.message}}</span>
+    {%endif%}
   </div>
 </div>
 {% endblock %}
