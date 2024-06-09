@@ -1,6 +1,4 @@
-from sqlite3 import connect
 from flask import Blueprint, request, render_template, flash, redirect, session, url_for
-from cursor import getCursor, connection  
 import mysql.connector
 import connect
 
@@ -12,7 +10,7 @@ def getDictCursor():
         password=connect.dbpass,
         host=connect.dbhost,
         database=connect.dbname,
-        autocommit=False 
+        autocommit=False
     )
     return connection, connection.cursor(dictionary=True)
 
@@ -36,7 +34,13 @@ def add_address():
             state = request.form.get('state')
             postal_code = request.form.get('postal_code')
             country = request.form.get('country')
-            is_primary = request.form.get('is_primary', 'false') == 'true'
+            is_primary = request.form.get('is_primary') == 'on'
+
+            if is_primary:
+                cursor.execute("""
+                    UPDATE address SET is_primary = %s
+                    WHERE user_id = %s AND is_primary = %s
+                """, (False, user_id, True))
 
             cursor.execute("""
                 INSERT INTO address (user_id, street_address, city, state, postal_code, country, is_primary)
@@ -79,7 +83,7 @@ def update_address(address_id):
             state = request.form.get('state')
             postal_code = request.form.get('postal_code')
             country = request.form.get('country')
-            is_primary = request.form.get('is_primary', 'false') == 'true'
+            is_primary = request.form.get('is_primary') == 'on'
 
             if is_primary:
                 cursor.execute("""
@@ -115,7 +119,6 @@ def update_address(address_id):
     finally:
         cursor.close()
         connection.close()
-
 
 @shipping_address.route('/delete_address/<int:address_id>', methods=['POST'])
 def delete_address(address_id):
@@ -154,5 +157,3 @@ def customer_dashboard():
     finally:
         cursor.close()
         connection.close()
-
-    

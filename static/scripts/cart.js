@@ -1,7 +1,7 @@
 const getUserId = () => {
 	let userId = 0;
 	const navCartQuantity = document.querySelector(".nav-side--link-quantity");
-	if (navCartQuantity.dataset.userId) userId = navCartQuantity.dataset.userId;
+	if (navCartQuantity && navCartQuantity.dataset.userId) userId = navCartQuantity.dataset.userId;
 	return userId;
   };
   
@@ -91,7 +91,7 @@ const getUserId = () => {
 	const gitftCardCode = document.getElementById("giftCardCodeInput").value;
 	if (!gitftCardCode) {
 	  giftcardCreditEle = document.getElementById("giftcard-credit");
-	  giftcardCreditEle.textContent = `You GiftCard remain credit is: $ 0`;
+	  giftcardCreditEle.textContent = `Your GiftCard remaining credit is: $0`;
 	  return;
 	}
   
@@ -112,23 +112,19 @@ const getUserId = () => {
 		const infoLabelEle = document.getElementById("giftcard-credit-label");
   
 		giftcardCreditEle.textContent = Number(giftcardCredit).toFixed(2);
-      giftcardCreditEle.setAttribute('data-gift-card', true);
-		infoLabelEle.textContent = `Pay by Gift Card : ${gitftCardCode}-$${Number(
-		  giftcardCredit
-		).toFixed(2)}`;
+		giftcardCreditEle.setAttribute('data-gift-card', true);
+		infoLabelEle.textContent = `Pay by Gift Card : ${gitftCardCode} - $${Number(giftcardCredit).toFixed(2)}`;
 		const totalTopayEle = document.getElementById("total-to-pay");
 		if (totalTopayEle) {
 		  const value = totalTopayEle.getAttribute("total-amount");
 		  const total = Number(value);
-		  console.log("total", total);
 		  const residue = total - Number(giftcardCredit);
-		  console.log("residue", residue);
 		  if (residue > 0) {
-			totalTopayEle.textContent = `$ ${residue.toFixed(2)}`;
+			totalTopayEle.textContent = `$${residue.toFixed(2)}`;
 			totalTopayEle.setAttribute("total-amount", residue);
 		  } else {
-			giftcardCreditEle.textContent = `$ ${-residue.toFixed(2)}`;
-			totalTopayEle.textContent = `$ 0`;
+			giftcardCreditEle.textContent = `$${(-residue).toFixed(2)}`;
+			totalTopayEle.textContent = `$0`;
 			totalTopayEle.setAttribute("total-amount", 0);
 		  }
 		}
@@ -143,59 +139,59 @@ const getUserId = () => {
   if (applyGiftCardBtn) {
 	applyGiftCardBtn.addEventListener("click", onApplyGiftCardClick);
   }
-
-	const getRenderAddress = () => {
-		const userId = getUserId();
-
-		fetch(`/checkout/get_user_address?user_id=${userId}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Network response was not ok");
-				}
-				return response.json();
-			})
-			.then((data) => {
-				let addressContent = '';
-				if (data && data.data && Object.keys(data.data).length != 0) {
-					const address = data.data;
-					addressContent = `
-						<div>
-							${address[0] ? `${address[0]} <br />` : ''}
-							${address[1] ? `${address[1]} <br />` : ''}
-							${address[2] ? `${address[2]} <br />` : ''}
-							${address[3] ? `${address[3]} <br />` : ''}
-							${address[4] ? `${address[4]}` : ''}
-						</div>
-					`;
-					document.getElementById("payButton").disabled = false;
-				} else {
-					addressContent = `
-						<div>
-							You haven't set a default shipping address yet. 
-							Please go to <a href="/shipping/manage_addresses/${userId}">Address</a> page to set it up.
-						</div>
-					`;
-				}
-				const shippingAddressEle = document.querySelector('#shipping-address');
-				if (addressContent && shippingAddressEle) {
-					shippingAddressEle.innerHTML = addressContent;
-				}
-			})
-			.catch((error) => {
-				console.error("Error:", error);
-			});
-	}
+  
+  const getRenderAddress = () => {
+	const userId = getUserId();
+  
+	fetch(`/checkout/get_user_address?user_id=${userId}`, {
+	  method: "GET",
+	  headers: {
+		"Content-Type": "application/json",
+	  },
+	})
+	  .then((response) => {
+		if (!response.ok) {
+		  throw new Error("Network response was not ok");
+		}
+		return response.json();
+	  })
+	  .then((data) => {
+		let addressContent = '';
+		if (data && data.data && Object.keys(data.data).length != 0) {
+		  const address = data.data;
+		  addressContent = `
+			<div>
+			  ${address[0] ? `${address[0]} <br />` : ''}
+			  ${address[1] ? `${address[1]} <br />` : ''}
+			  ${address[2] ? `${address[2]} <br />` : ''}
+			  ${address[3] ? `${address[3]} <br />` : ''}
+			  ${address[4] ? `${address[4]}` : ''}
+			</div>
+		  `;
+		  document.getElementById("payButton").disabled = false;
+		} else {
+		  addressContent = `
+			<div>
+			  You haven't set a default shipping address yet. 
+			  Please go to <a href="/shipping/manage_addresses/${userId}">Address</a> page to set it up.
+			</div>
+		  `;
+		}
+		const shippingAddressEle = document.querySelector('#shipping-address');
+		if (addressContent && shippingAddressEle) {
+		  shippingAddressEle.innerHTML = addressContent;
+		}
+	  })
+	  .catch((error) => {
+		console.error("Error:", error);
+	  });
+  }
   
   const proceedCheckout = (flag) => {
 	const checkoutPopup = document.querySelector(".checkout--container");
 	if (checkoutPopup) {
 	  if (flag) {
-			getRenderAddress();
+		getRenderAddress();
 		checkoutPopup.classList.add("active");
 	  } else {
 		checkoutPopup.classList.remove("active");
@@ -264,7 +260,7 @@ const getUserId = () => {
 	}
 	fetchProductsDetails() {
 	  const allProductIds = getAllProductIds();
-	  if (allProductIds) {
+	  if (allProductIds.length > 0) {
 		fetch("/product/get_products", {
 		  method: "POST",
 		  headers: {
@@ -323,7 +319,7 @@ const getUserId = () => {
 			</div>
 			<div class="cart-product--content">
 			  <div class="cart-product--content-title">${product.name}</div>
-			  <div class="cart-product--content-price">$${ product.discounted_price? "discounted: "+product.discounted_price : product.price}</div>
+			  <div class="cart-product--content-price">$${ product.discounted_price ? "discounted: " + product.discounted_price : product.price}</div>
 			  <div class="cart-product--content-quantity">
 				<div class="cart-product--quantity">
 				  <div class="cart-product--quantity-label">Qty.</div>
@@ -450,7 +446,7 @@ const getUserId = () => {
 	  }
   
 	  const orderSummaryGST = document.querySelector("#order-summary-gst");
-	  if (orderSummaryTotal) {
+	  if (orderSummaryGST) {
 		const totalGST = totalPrice * 0.15;
 		orderSummaryGST.textContent = `$${totalGST.toFixed(2)}`;
 		cart_table.setAttribute("data-gst", totalGST);
@@ -460,23 +456,28 @@ const getUserId = () => {
 	  const orderSummaryShipping = document.getElementById(
 		"order-summary-shipping"
 	  );
+  
+	  const standardPrice = parseFloat(shippingTypeSelect.querySelector("option[value='standard']").dataset.price);
+	  const oversizedPrice = parseFloat(shippingTypeSelect.querySelector("option[value='oversized']").dataset.price);
+	  const pickupPrice = parseFloat(shippingTypeSelect.querySelector("option[value='pickup']").dataset.price);
+  
 	  if (hasOversizedItem) {
 		shippingTypeSelect.innerHTML = `
-		  <option value="oversized">Oversized - $100.00</option>
-		  <option value="pickup">Pickup - $0.00</option>
+		  <option value="oversized" data-price="${oversizedPrice}">Oversized - $${oversizedPrice.toFixed(2)}</option>
+		  <option value="pickup" data-price="${pickupPrice}">Pickup - $${pickupPrice.toFixed(2)}</option>
 		`;
 		if (orderSummaryShipping) {
-		  orderSummaryShipping.textContent = `$100.00`;
-		  cart_table.setAttribute("data-freight", 100);
+		  orderSummaryShipping.textContent = `$${oversizedPrice.toFixed(2)}`;
+		  cart_table.setAttribute("data-freight", oversizedPrice);
 		}
 	  } else {
 		shippingTypeSelect.innerHTML = `
-		  <option value="standard">Standard - $10.00</option>
-		  <option value="pickup">Pickup - $0.00</option>
+		  <option value="standard" data-price="${standardPrice}">Standard - $${standardPrice.toFixed(2)}</option>
+		  <option value="pickup" data-price="${pickupPrice}">Pickup - $${pickupPrice.toFixed(2)}</option>
 		`;
 		if (orderSummaryShipping) {
-		  orderSummaryShipping.textContent = `$10.00`;
-		  cart_table.setAttribute("data-freight", 10);
+		  orderSummaryShipping.textContent = `$${standardPrice.toFixed(2)}`;
+		  cart_table.setAttribute("data-freight", standardPrice);
 		}
 	  }
   
@@ -491,7 +492,7 @@ const getUserId = () => {
 		  Number(cart_table.getAttribute("data-gst")) +
 		  Number(cart_table.getAttribute("data-total")) +
 		  Number(cart_table.getAttribute("data-freight"));
-		totalTopay.textContent = `$ ${total.toFixed(2)}`;
+		totalTopay.textContent = `$${total.toFixed(2)}`;
 		totalTopay.setAttribute("total-amount", total);
 	  }
 	}
@@ -502,35 +503,39 @@ const getUserId = () => {
   const updateShippingCost = () => {
 	const shippingTypeSelect = document.getElementById("shipping-type-select");
 	const selectedShippingType = shippingTypeSelect.value;
+	const selectedOption = shippingTypeSelect.options[shippingTypeSelect.selectedIndex];
+	const shippingCost = parseFloat(selectedOption.dataset.price);
+  
 	const cartTable = document.querySelector("#cart-table");
-	let shippingCost = 0;
-  
-	switch (selectedShippingType) {
-	  case "standard":
-		shippingCost = 10;
-		break;
-	  case "oversized":
-		shippingCost = 100;
-		break;
-	  case "pickup":
-		shippingCost = 0;
-		break;
-	  default:
-		shippingCost = 10;
-	}
-  
 	const orderSummaryShipping = document.getElementById("order-summary-shipping");
+  
 	orderSummaryShipping.textContent = `$${shippingCost.toFixed(2)}`;
 	cartTable.setAttribute("data-freight", shippingCost);
   
 	const totalGST = parseFloat(cartTable.getAttribute("data-gst"));
 	const total = parseFloat(cartTable.getAttribute("data-total"));
+  
 	const totalToPay = total + totalGST + shippingCost;
   
 	const totalTopay = document.getElementById("total-to-pay");
 	totalTopay.textContent = `$${totalToPay.toFixed(2)}`;
 	totalTopay.setAttribute("total-amount", totalToPay);
+  
+	const orderSummaryTotal = document.getElementById("order-summary-total");
+	if (orderSummaryTotal) {
+	  orderSummaryTotal.textContent = `$${total.toFixed(2)}`;
+	}
+  
+	const orderSummaryGST = document.getElementById("order-summary-gst");
+	if (orderSummaryGST) {
+	  orderSummaryGST.textContent = `$${totalGST.toFixed(2)}`;
+	}
   };
+  
+  document.addEventListener("DOMContentLoaded", () => {
+
+	updateShippingCost();
+  });
   
   class CheckoutPop extends HTMLElement {
 	constructor() {
@@ -663,11 +668,9 @@ const getUserId = () => {
   
 			const cart_table = document.querySelector("#cart-table");
 			const { userId, total, gst, freight } = cart_table.dataset;
-          const giftcardCreditEle = document.getElementById("giftcard-credit");
-          const {
-            giftCard
-          } = giftcardCreditEle.dataset;
-			this.proceedPayment(userId, total, giftCard ? "gift-card" : "Credit Card", gst, freight);
+			const giftcardCreditEle = document.getElementById("giftcard-credit");
+			const { giftCard } = giftcardCreditEle.dataset;
+			this.proceedPayment(userId, total, giftCard ? "gift-card" : "Credit Card", gst, freight, giftCard);
 		  }
 		});
 	}
