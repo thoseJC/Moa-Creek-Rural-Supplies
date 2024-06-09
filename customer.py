@@ -3,7 +3,7 @@ from flask import Blueprint, flash, redirect, url_for, jsonify, request,session,
 from cursor import getConection, getCursor
 from customer_query import add_conversation, get_credit_fields, send_inquiry, update_credit_apply, get_customer_all_orders, get_order_all_data
 from login_helper import getUserInfo
-from customer_query import category_list_query, query_notifications
+from customer_query import category_list_query, query_notifications, get_customer_order_count
 
 customer_page = Blueprint("customer", __name__, static_folder="static", template_folder="templates/customer")
 
@@ -28,9 +28,14 @@ def dashboard():
         "is_published": news[4],
         "published_date": news[5]
     })
+
+  sql_query = get_customer_order_count()
+  connection.execute(sql_query, (user["user_id"], ))
+  order_count_result = connection.fetchone()
+  order_count = order_count_result[0] if order_count_result else 0
   connection.close()
 
-  return render_template("global/account_dashboard.html", user=user, latest_news = news_list)
+  return render_template("global/account_dashboard.html", user=user, latest_news = news_list, order_count=order_count)
 
 
 @customer_page.route("/categories")
