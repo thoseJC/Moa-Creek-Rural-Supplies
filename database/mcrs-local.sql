@@ -320,45 +320,64 @@ VALUES ('Vaccines', (SELECT category_id
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
 VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Vitamin Supplement',
-        'A supplement to enhance animal health.', 25.00, '', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Animal Feed',
-        'High-quality feed for various animals.', 15.00, '', 1),
+        'A supplement to enhance animal health.jpeg', 25.00, '', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Calcium deficiency in cattle',
+        'Instant release of calcium offers 26g per bolus of two different calcium sources – Calcium Phosphate and Calcium Formate.
+Reduces the risk of milk fever by increasing the levels of calcium in the blood.', 15.00, 'Calcitop-new-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Dairy Cleaner',
-        'Cleaner for dairy equipment.', 10.00, '', 1),
+        'Cleaner for dairy equipment', 10.00, 'CleanerfordairyEquipment.jpeg', 1),
        ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Aid', 'Aid for assisting in calving.',
-<<<<<<< Updated upstream
-        30.00, 'calving-aid.jpg', 1),
-=======
         30.00, '', 1),
->>>>>>> Stashed changes
        ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle',
-        'Bottle for feeding young animals.', 5.00, '', 1),
+        'Bottle for feeding young animals.jpeg', 5.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
-        'A vaccine to prevent diseases in animals.', 30.00, '', 1),
+        'A vaccine to prevent diseases in animals.jpeg', 30.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics',
-        'Antibiotics to treat animal diseases.', 20.00, '', 1),
+        'Antibiotics to treat animal diseases.jpeg', 20.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Supplements'), 'Animal Supplement',
-        'A supplement to enhance animal health.', 25.00, '', 1),
+        'A supplement to enhance animal health.jpeg', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Poultry Feed'), 'Poultry Feed', 'Feed for poultry.', 15.00,
         '#', 1),
        ((SELECT category_id FROM categories WHERE name = 'Cattle Feed'), 'Cattle Feed', 'Feed for cattle.', 18.00, '',
         1),
        ((SELECT category_id FROM categories WHERE name = 'Pet Food'), 'Pet Food', 'Food for pets.', 22.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Feeding Equipment'), 'Feeder',
-        'Equipment used for feeding livestock.', 50.00, '', 1),
+        'Equipment used for feeding livestock.jpeg', 50.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Milking Equipment'), 'Milking Machine',
-        'Equipment used for milking livestock.', 120.00, '', 1),
+        'Equipment used for milking livestock.jpeg', 120.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Pest Control'), 'Pest Control Spray',
-        'Products to control pests in crops.', 25.00, '', 1),
+        'Products to control pests in crops.jpeg', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
         'Chemical products to control unwanted plants.', 15.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '', 1),
-       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '', 1);
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card', 'Gift-Card', 100.00, '', 1),
+        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Iodine-Tincture-Spray','Iodine Tincture Spray 10% contains free iodine (in alcohol) which has antiseptic qualities. This is the iodine best used on wounds ie dehorning wounds, navels on calves, sheep and horses, etc.', 55.00, 'Iodine-Tincture-Spray-10-1L-5L-web.jpeg', 1),
+        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'),
+        'Teatease Udder Cream for lactating cows',
+        'Teatease Udder Cream for lactating cows is an odourless non staining udder cream with antiseptic qualities.',
+        188.40,
+        'Teatease-500g-web.png',
+        1),
+        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Hand Sanitiser Aerosol','Quick acting highly effective alcohol-based hand sanitiser.
+Kills 99.99% of germs. Effective against a wide range of pathogens incl COVID-19.
+Rapidly evaporates from hands.
+Fragrance free.
+Contains Benzalkonium Chloride (BAC) disinfectant to give additional sanitising power.
+Contains an emollient to moisturise hands.
+Disinfects hands when soap and water are not readily available.
+', 24.95, 'Hand-sanitiser.jpeg', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Biostack AP Effluent Pond Management','The world’s first and only photosynthetic bacteria cultivated for use in unique formulations specifically for agricultural wastewater systems including effluent ponds.', 614.10, 'Biostack-4L-ap-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Turmericle Turmeric and Coconut Oil Powder','Turmericle Turmeric and Coconut Oil Powder is a unique powdered blend of well researched nutraceutical herbs including two varieties of turmeric, and black pepper. Combined with powdered coconut oil, this easy to feed powder is suitable for horses, and dogs.', 114.10, 'Turmericle-NZ-500g-round-Pail-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Calf Oral Electrolytes','Animal Health Direct Limited Calf Electrolyte is fast acting free flowing formulation of electrolyte salts easily dissolved in water. Designed to assist with treatment for calves which are scouring as a result of bacterial, viral or nutritional causes. Can also be used for lambs and goat kids.', 152.09, 'Calf-Oral-Electrolyte-Replacer-1.8kg-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Oral Mag','Smooth easy to drench formulation which can also be added to feed.Offers an extended residual effect meaning the magnesium is available when needed.', 828.14, 'Oral-Mag-2L-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'MetaBoost 4 in 1 Metabolic Injection','Metabolic injection containing high levels of Calcium, Magnesium, Phosphorus and Dextrose. Effective in the treatment and prevention of milk fever and grass staggers.
+Flexible 500ml collapsible pouch with a unique snap off plug and 14 gauge monoject needle included.', 1028.14, 'Metaboost-4-in-1-green-web-1.png', 1),
+((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Leader Rubber Rings','Leader Rubber Rings are a pure latex standard marking ring that have no fillings to ensure positive, germ-free marking and are used for the castration of lambs and calves.', 38.35, 'Leader-marker-rings-500-web.png', 1);
 
 
 INSERT INTO inventory (product_id, quantity)
 VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Vitamin Supplement' LIMIT 1) AS derived_table), 30),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Animal Feed' LIMIT 1) AS derived_table), 56),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calcium deficiency in cattle' LIMIT 1) AS derived_table), 56),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Aid' LIMIT 1) AS derived_table),
         28),
@@ -379,7 +398,15 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'V
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),55),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),35),
-       ((select product_id FROM products where name = 'Gift Card'), 10000000);
+       ((select product_id FROM products where name = 'Gift Card'), 10000000),
+       ((select product_id FROM products where name = 'Iodine-Tincture-Spray'), 500),
+       ((select product_id FROM products where name = 'Leader Rubber Rings'), 500),
+       ((select product_id FROM products where name = 'Teatease Udder Cream for lactating cows'), 500),
+       ((select product_id FROM products where name = 'Biostack AP Effluent Pond Management'), 500),
+       ((select product_id FROM products where name = 'Calf Oral Electrolytes'), 500),
+       ((select product_id FROM products where name = 'Oral Mag'), 500),
+       ((select product_id FROM products where name = 'MetaBoost 4 in 1 Metabolic Injection'), 500),
+       ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
 
 INSERT INTO payment (user_id, total, payment_type, GST, freight)
