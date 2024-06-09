@@ -319,8 +319,8 @@ VALUES ('Vaccines', (SELECT category_id
 
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
-VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Vitamin Supplement',
-        'A supplement to enhance animal health.jpeg', 25.00, '', 1),
+VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Equilibrium Mineral Mix',
+        'Equilibrium Mineral Mix is an all in one vitamin and mineral supplement for horses that contains balanced ratios of vitamins, macro and trace minerals and salts (electrolytes).', 25.00, 'Mineral-Mix-5kg-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Calcium deficiency in cattle',
         'Instant release of calcium offers 26g per bolus of two different calcium sources – Calcium Phosphate and Calcium Formate.
 Reduces the risk of milk fever by increasing the levels of calcium in the blood.', 15.00, 'Calcitop-new-web.png', 1),
@@ -370,13 +370,15 @@ Disinfects hands when soap and water are not readily available.
        ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Turmericle Turmeric and Coconut Oil Powder','Turmericle Turmeric and Coconut Oil Powder is a unique powdered blend of well researched nutraceutical herbs including two varieties of turmeric, and black pepper. Combined with powdered coconut oil, this easy to feed powder is suitable for horses, and dogs.', 114.10, 'Turmericle-NZ-500g-round-Pail-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Calf Oral Electrolytes','Animal Health Direct Limited Calf Electrolyte is fast acting free flowing formulation of electrolyte salts easily dissolved in water. Designed to assist with treatment for calves which are scouring as a result of bacterial, viral or nutritional causes. Can also be used for lambs and goat kids.', 152.09, 'Calf-Oral-Electrolyte-Replacer-1.8kg-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'Oral Mag','Smooth easy to drench formulation which can also be added to feed.Offers an extended residual effect meaning the magnesium is available when needed.', 828.14, 'Oral-Mag-2L-web.png', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'MetaBoost 4 in 1 Metabolic Injection','Metabolic injection containing high levels of Calcium, Magnesium, Phosphorus and Dextrose. Effective in the treatment and prevention of milk fever and grass staggers.
-Flexible 500ml collapsible pouch with a unique snap off plug and 14 gauge monoject needle included.', 1028.14, 'Metaboost-4-in-1-green-web-1.png', 1),
-((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Leader Rubber Rings','Leader Rubber Rings are a pure latex standard marking ring that have no fillings to ensure positive, germ-free marking and are used for the castration of lambs and calves.', 38.35, 'Leader-marker-rings-500-web.png', 1);
+       ((SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition'), 'MetaBoost 4 in 1 Metabolic Injection','Metabolic injection containing high levels of Calcium, Magnesium, Phosphorus and Dextrose. Effective in the treatment and prevention of milk fever and grass staggers.Flexible 500ml collapsible pouch with a unique snap off plug and 14 gauge monoject needle included.', 1028.14, 'Metaboost-4-in-1-green-web-1.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'AHD Medicated Shampoo Animal Wash','Cleans and protects your animal’s coat leaving it soft and shiny while promoting healthy skin. Showing off the best of your animal’s coat.Contains anti-bacterial and anti-fungal ingredients to suppress skin infections.', 46.14, 'Medicated-shampoo-500ml-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'AHD Zinc Ointment','Treats slight abrasions and minor wounds. Prevents sunburn in all species.', 58.82, 'Zinc-web.png', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Equine Health Aloe Vera Gel','Contains Arnica and Manuka Honey. Aids in blood circulation to bruised areas.', 94.20, 'Aloe-Vera-Gel-web.png', 1),
+        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Leader Rubber Rings','Leader Rubber Rings are a pure latex standard marking ring that have no fillings to ensure positive, germ-free marking and are used for the castration of lambs and calves.', 38.35, 'Leader-marker-rings-500-web.png', 1);
 
 
 INSERT INTO inventory (product_id, quantity)
-VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Vitamin Supplement' LIMIT 1) AS derived_table), 30),
+VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Equilibrium Mineral Mix' LIMIT 1) AS derived_table), 30),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calcium deficiency in cattle' LIMIT 1) AS derived_table), 56),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Aid' LIMIT 1) AS derived_table),
@@ -406,6 +408,9 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'V
        ((select product_id FROM products where name = 'Calf Oral Electrolytes'), 500),
        ((select product_id FROM products where name = 'Oral Mag'), 500),
        ((select product_id FROM products where name = 'MetaBoost 4 in 1 Metabolic Injection'), 500),
+       ((select product_id FROM products where name = 'AHD Medicated Shampoo Animal Wash'), 500),
+       ((select product_id FROM products where name = 'AHD Zinc Ointment'), 500),
+       ((select product_id FROM products where name = 'Equine Health Aloe Vera Gel'), 500),
        ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
 
