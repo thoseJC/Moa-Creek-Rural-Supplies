@@ -202,3 +202,21 @@
 .product-management--btns form {
   margin: 0;
 }
+
+.product-list-container {
+  max-height: 400px;
+  overflow-y: auto; 
+}
+
+.small-btn {
+  padding: 8px 12px; /* 调整按钮的内边距 */
+  font-size: 14px; /* 调整按钮的字体大小 */
+  background-color: #f0f0f0; /* 按钮的背景颜色 */
+  color: #333; /* 按钮的文字颜色 */
+  border: 1px solid #ccc; /* 按钮的边框样式 */
+}
+
+.small-btn:hover {
+  background-color: #e0e0e0; /* 按钮的悬停背景颜色 */
+  border-color: #999; /* 按钮的悬停边框颜色 */
+}
