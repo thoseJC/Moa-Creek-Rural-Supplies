@@ -108,6 +108,8 @@ def send_message():
     if 'user_id' not in session:
         return redirect(url_for('login_page.login'))
     sender_id = session['user_id']
+    
+    sender_username = session["user_name"]
     receiver_id = request.form.get('receiver_id')
     content = request.form.get('content')
 
@@ -124,8 +126,8 @@ def send_message():
             connection.execute(query_update_conversation(), (new_message_id, datetime.utcnow(), conversation[0][0]))
         else:
             connection.execute(query_insert_conversation(), (sender_id, receiver_id, new_message_id, datetime.utcnow()))
-        response = {
-                'sender_role_name': session["user_role"],
+        response = {                
+                "sender_user_name":sender_username,
                 'content': content,
                 'send_time' : datetime.utcnow()
         }

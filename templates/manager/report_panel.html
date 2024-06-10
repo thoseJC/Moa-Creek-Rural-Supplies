@@ -1,34 +1,47 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/report_panel.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/report_panel.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
 <script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
 
-{% extends 'base.html' %}
-{% block content %}
-    <title>Dashboard</title>
+{% extends 'base.html' %} 
+{% block title %}MCRS - WebSite Report 
+{% endblock%}
 
-<body>
-    <h1 class="header">MCRS Dashboard</h1>
-<main>
-    <div class="cont">
-        <ul>
-            <li class = 'invt'>
-                <div id="inventory-chart" style="width: 700px; height: 500px;"></div>
-            </li>
-            <li>
-                <div id="orders-chart" style="width: 700px; height: 500px;"></div>
-            </li>
-            <li>
-                <div id="payment-chart" style="width: 700px; height: 500px;"></div>
-            </li>
-            <li>
-                <div id="shipments-chart" style="width: 700px; height: 500px;"></div>
-            </li>
-        </ul>
+{% block content %}
+<div class="account-dashboard--container">
+  <div class="form-error">{{ err_msg }}</div>
+  {% set current_page = 'webSite Report' %}
+   {% include'global/account_navbar.html' %}
+
+  <div class="container account-content--container">
+    <div class="account-ccount--header">    
     </div>
-</main>
-</body>
+
+    <div class="cont">
+      <ul>
+        <li class="invt">
+          <div id="inventory-chart" style="width: 700px; height: 500px"></div>
+        </li>
+        <li>
+          <div id="orders-chart" style="width: 700px; height: 500px"></div>
+        </li>
+        <li>
+          <div id="payment-chart" style="width: 700px; height: 500px"></div>
+        </li>
+        <li>
+          <div id="shipments-chart" style="width: 700px; height: 500px"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <script src="{{ url_for('static', filename='scripts/report_panel.js') }}"></script>
-
 
 {% endblock %}

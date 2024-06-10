@@ -17,7 +17,8 @@
       {% set role = session.get("user_role") %}
       {% include 'components/role-badge.html' %}
     </div>
-  
+    <div class="card shadow">
+      <div class="card-body">
     <div class="account-content--wrapper">
       <div class="account-content--item">
         <div class="account-content--des">
@@ -67,6 +68,8 @@
         </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
   {% include "components/manage-customer-credit.html" %}
 </credit-management>

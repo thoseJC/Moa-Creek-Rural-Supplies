@@ -34,7 +34,7 @@ def query_inbox_with_staff_id():
 
 def query_inbox_with_customer_id():
     return """
-    SELECT c.*, u.first_name, u.last_name, u.username FROM conversations c left join users u on u.user_id = c.customer_id
+    SELECT c.*, u.first_name, u.last_name, u.username FROM conversations c left join users u on u.user_id = c.staff_id
     WHERE c.customer_id = %s;
     """
 

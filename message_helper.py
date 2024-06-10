@@ -6,7 +6,7 @@ def process_conversation(conversations):
 			"customer_id" : conv[1],
 			"last_message_id" : conv[3],
 			"last_update_at" : conv[4],
-			"cust_full_name" : conv[5]+conv[6],
+			"cust_full_name" : conv[5]+ " " + conv[6],
 			"cust_login_name" : conv[7]
 		}
 		cons_list.append(conv_obj)
@@ -19,6 +19,8 @@ def process_message(messages):
 			"message_id" : msg[0],
 			"content" : msg[3],
 			"send_time" : msg[4],
+			"sender_username" : msg[6],
+			"receiver_username" : msg[7],
 			"sender_role_name" : msg[8]
 		}
 		message_list.append(msg_obj)

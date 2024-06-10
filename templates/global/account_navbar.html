@@ -32,6 +32,8 @@
     <li class="{% if current_page == 'Message' %}active{% endif %}">
       <a href="{{url_for('message_page.inbox')}}">Message</a>
     </li>
+
+    <!-- Nav Bar for Manager -->
     {% elif session["user_role"] == 'manager' %}
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
@@ -54,13 +56,20 @@
     <li class="{% if current_page == 'news' %}active{% endif %}">
       <a href="{{url_for('news_page.get_news')}}">News Management</a>
     </li>
-    <li class="{% if current_page == 'accountholder' %}active{% endif %}">
-      <a href="{{url_for('manage_account_apply.dashboard')}}">Account Holder Management</a>
+    <li class="{% if current_page == 'webSite Report'%}active{% endif %}">
+      <a href="{{url_for('manager.web_report')}}">Website Report</a>
     </li>
+    <li class="{% if current_page == 'businessAccAppMag'%}active{% endif %}">
+      <a href="{{url_for('manage_account_apply.dashboard')}}">Business Account Management</a>
+    </li>
+
+    <!-- Nav Bar for admin -->
     {% elif session["user_role"] == 'admin' %}
     <li class="{% if current_page == 'credit' %}active{% endif %}">
       <a href="{{url_for('manager.credit_management')}}">Credit Management</a>
     </li>
+
+    <!-- Nav Bar for Staff -->
     {% elif session["user_role"] == 'staff' %}
     <li class="{% if current_page == 'product' %}active{% endif %}">
       <a href="{{url_for('product_page.get_list_of_product')}}"
@@ -78,18 +87,10 @@
     <li class="{% if current_page == 'message' %}active{% endif %}">
       <a href="{{url_for('message_page.inbox')}}">Message Management</a>
     </li>
+
+
     {% endif %}
-
-    <!-- 'Addresses' feature is currently pending -->
-    <!-- <li class="{% if current_page == 'addresses' %}active{% endif %}">
-      <a href="#">Addresses</a>
-    </li> -->
-
-    <!-- 'Order History' feature is currently pending -->
-    <!-- <li class="{% if current_page == 'order-history' %}active{% endif %}">
-      <a href="#">Order History</a>
-    </li> -->
-
+    
     <li>
       <a href="{{ url_for('logout') }}">Logout</a>
     </li>

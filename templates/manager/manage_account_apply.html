@@ -1,67 +1,94 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/account_dashboard.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+
 
 {% extends "base.html" %}
 {% block title %}Manager Account Apply{% endblock %}
-
 {% block content %}
+
+<style>
+  .stb-button {
+    border: 1px grey;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .stb-1 {
+    color: green;
+  }
+
+  .stb-2 {
+    color: red;
+  }
+</style>
+
 <div class="account-dashboard--container">
-  {% set current_page = 'accountholder' %}
+  {% set current_page = 'Business Account Management' %} 
   {% include 'global/account_navbar.html' %}
-
-  <div class="container account-content--container">
-    <div class="account-ccount--header">
-      Manager Account Apply
-      {% set role = session.get("user_role") %}
-      {% include 'components/role-badge.html' %}
-    </div>
-
-    {% if applications %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" class="displayNone">User ID</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Business Name</th>
-          <th scope="col">Account Holder</th>
-          <th scope="col">Credit Limit</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for application in applications %}
-        <tr>
-          <th scope="row" class="displayNone">{{ application.user_id }}</th>
-          <td>{{ application.first_name }}</td>
-          <td>{{ application.last_name }}</td>
-          <td>{{ application.business_name }}</td>
-          <td>{{ application.account_holder }}</td>
-          <td>
-        {% if application.account_holder != 'init' %}
-          {{ application.credit_limit }}
-        {% endif %}
+<div class="container">
+  <h3>Manage Business Account Apply</h3>
+  {% if applications %}
+  <div class="card shadow">
+    <div class="card-body">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="displayNone">User ID</th>
+        <th scope="col">User Name</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Business Name</th>
+        <th scope="col">Application Status</th>
+        <th scope="col">Credit Limit</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in applications %}
+      <tr>
+        <th scope="row" class="displayNone">{{ application.user_id }}</th>
+        <th scope="row">{{ application.username }}</th>
+        <td scope="row">{{ application.first_name }}</td>
+        <td scope="row">{{ application.last_name }}</td>
+        <td scope="row">{{ application.business_name }}</td>
+        <td scope="row">{{ application.account_holder }}</td>
+        <td scope="row">
+			{% if application.account_holder != 'init' %}
+			  {{ application.credit_limit }}
+			{% endif %}
+		  </td>
+        <td scope="row">
+          <div style="display: flex;">
+          {% if application.account_holder == 'applied' %}
+          <div style="margin-right: 10px;">
+          <form action="{{ url_for('manage_account_apply.approve_application', user_id=application.user_id) }}" method="post">
+            <input type="hidden" name="credit_limit" value="500">
+            <button type="submit" class="stb-button stb-1">Approve</button>
+          </form>
+          </div>
+          <form action="{{ url_for('manage_account_apply.reject_application', user_id=application.user_id) }}" method="post">
+            <button type="submit" class="stb-button stb-2">Reject</button>
+          </form>
+          {% elif application.account_holder == 'approved' or application.account_holder == 'declined'  %}
+          <form action="{{ url_for('manage_account_apply.revoke_application', user_id=application.user_id) }}" method="post">
+            <button type="submit" class="stb-button stb-2">Revoke</button>
+          </form>
+        </div>
+          {% else %}
+          <spa></spa>
+          {% endif %}
         </td>
-          <td>
-            {% if application.account_holder == 'apply' %}
-            <form action="{{ url_for('manage_account_apply.approve_application', user_id=application.user_id) }}" method="post">
-              <input type="hidden" name="credit_limit" value="500">
-              <button type="submit" class="common-btn--text">Approve</button>
-            </form>
-            <form action="{{ url_for('manage_account_apply.reject_application', user_id=application.user_id) }}" method="post">
-              <button type="submit" class="common-btn--text">Reject</button>
-            </form>
-            {% else %}
-            <p>Action not available</p>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-    <p>No applications found.</p>
-    {% endif %}
-  </div>
-  </div>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+  {% else %}
+  <p>No applications found.</p>
+  {% endif %}
+</div>
 </div>
 {% endblock %}
