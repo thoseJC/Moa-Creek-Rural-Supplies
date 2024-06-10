@@ -19,9 +19,15 @@ def get_user_info():
 @manager_page.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
    user = getUserInfo()
-   if session.get('logged_in') != True or user["user_role"] != 'manager':
-      return redirect(url_for('login_page.login'))
-   return render_template("global/account_dashboard.html", user=user)
+   try:
+      if session.get('logged_in') != True or user["user_role"] != 'manager':
+         return redirect(url_for('login_page.login'))
+      cursor = getCursor()
+      cursor.execute("select * from users where user_id = %s", (user["user_id"],))
+      user_data = cursor.fetchone()
+      return render_template("global/account_dashboard.html", user=user, user_data= user_data)
+   except Exception as e:
+      return render_template("global/account_dashboard.html", user=user)
 
 @manager_page.route("/credit_management")
 def credit_management():

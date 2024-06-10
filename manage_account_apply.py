@@ -23,7 +23,7 @@ def dashboard():
     connection, cursor = getDictCursor()
     try:
         cursor.execute("""
-            SELECT user_id, first_name, last_name, business_name, account_holder, credit_limit
+            SELECT user_id, username, first_name, last_name, business_name, account_holder, credit_limit
             FROM users WHERE account_holder != 'init'
         """)
         applications = cursor.fetchall()

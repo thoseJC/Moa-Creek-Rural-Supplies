@@ -1,8 +1,9 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
 {% extends "base.html" %}
 {% block title %}Manager Account Apply{% endblock %}
-
-
-
 {% block content %}
 
 <style>
@@ -22,9 +23,13 @@
 </style>
 
 <div class="account-dashboard--container">
+  {% set current_page = 'Business Account Management' %} 
+  {% include 'global/account_navbar.html' %}
 <div class="container">
-  <h1 class="my-4">Manage Account Apply</h1>
+  <h3>Manage Business Account Apply</h3>
   {% if applications %}
+  <div class="card shadow">
+    <div class="card-body">
   <table class="table">
     <thead>
       <tr>
@@ -71,6 +76,8 @@
       {% endfor %}
     </tbody>
   </table>
+</div>
+</div>
   {% else %}
   <p>No applications found.</p>
   {% endif %}
