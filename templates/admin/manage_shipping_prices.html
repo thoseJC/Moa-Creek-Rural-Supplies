@@ -27,18 +27,7 @@
 
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                  {{ message }}
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endwith %}
+          
           <form id="shipping-prices-form" method="post" action="{{ url_for('admin.manage_shipping_prices') }}">
             <div class="form-group">
               <label for="standard-price">Standard Shipping:</label>

@@ -1,71 +1,76 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/cart.css') }}"
-/>
-
-{% extends 'base.html' %} {% block content %}
-<cart-table
-  class="cart--container"
-  id="cart-table"
-  data-user-id="{{ user_id }}"
->
-  <div class="cart--header">My Bag</div>
-  <div class="cart--details with-products displayNone">
-    <div class="cart-left--container"></div>
-    <div class="cart-right--container">
-      <div class="cart-right--header">Order Summary</div>
-      <div class="cart-right--content">
-        <div class="cart-right--line">
-          <div class="cart-line--label">Shipping</div>
-          <div class="cart-line--value">
-            <select id="shipping-type-select" onchange="updateShippingCost()">
-              <option value="standard">Standard - $10.00</option>
-              <option value="oversized">Oversized - $100.00</option>
-              <option value="pickup">Pickup - $0.00</option>
-            </select>
-            <span id="order-summary-shipping"></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/cart.css') }}">
+</head>
+<body>
+  {% extends "base.html" %}
+  {% block content %}
+  <cart-table class="cart--container" id="cart-table" data-user-id="{{ user_id }}">
+    <div class="cart--header">My Bag</div>
+    <div class="cart--details with-products displayNone">
+      <div class="cart-left--container"></div>
+      <div class="cart-right--container">
+        <div class="cart-right--header">Order Summary</div>
+        <div class="cart-right--content">
+          <div class="cart-right--line">
+            <div class="cart-line--label">Shipping</div>
+            <div class="cart-line--value">
+              <select id="shipping-type-select" onchange="updateShippingCost()">
+                <option value="standard" data-price="{{ standard_price }}">Standard - ${{ standard_price }}</option>
+                <option value="oversized" data-price="{{ oversized_price }}">Oversized - ${{ oversized_price }}</option>
+                <option value="pickup" data-price="{{ pickup_price }}">Pickup - ${{ pickup_price }}</option>
+              </select>
+              <span id="order-summary-shipping"></span>
+            </div>
+          </div>
+          <div class="cart-right--line">
+            <div class="cart-line--label">Total</div>
+            <div class="cart-line--value" id="order-summary-total"></div>
+          </div>
+          <div class="cart-right--line">
+            <div class="cart-line--label">GST</div>
+            <div class="cart-line--value" id="order-summary-gst"></div>
+          </div>
+          <div class="cart-right--line">
+            <div class="cart-line--label">Total Amount To Pay</div>
+            <div class="cart-line--value" id="total-to-pay"></div>
+          </div>
+          <div class="cart-right--line">
+            <div class="cart-line--label">GiftCard Credit</div>
+            <div class="cart-line--value" id="giftcard-credit"></div>
           </div>
         </div>
-        <div class="cart-right--line">
-          <div class="cart-line--label">Total</div>
-          <div class="cart-line--value" id="order-summary-total"></div>
+        <div class="cart-button">
+          <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
         </div>
-        <div class="cart-right--line">
-          <div class="cart-line--label">GST</div>
-          <div class="cart-line--value" id="order-summary-gst"></div>
-        </div>
-        <div class="cart-right--line">
-          <div class="cart-line--label">Total Amount To Pay</div>
-          <div class="cart-line--value" id="total-to-pay"></div>
-        </div>
-
-        <div class="cart-right--line">
-          <div class="cart-line--label">GiftCard Credit</div>
-          <div class="cart-line--value" id="giftcard-credit"></div>
-        </div>
-      </div>
-
-      <div class="cart-button">
-        <a href="#" class="common-btn--border" id="cart-checkout-btn">Checkout</a>
-      </div>
-
-      <!-- pay by gift card -->
-      <div id="giftcard-credit-container">
-        <div>
-          <label id="giftcard-credit-label">Pay by Gift Card : </label>
-        </div>
-        <div id="applyGiftCardBtnContainer">
-          <input placeholder="Type in GiftCard Code" id="giftCardCodeInput" />
-
-          <button id="applyGiftCardBtn">Apply</button>
+        <!-- pay by gift card -->
+        <div id="giftcard-credit-container">
+          <div>
+            <label id="giftcard-credit-label">Pay by Gift Card : </label>
+          </div>
+          <div id="applyGiftCardBtnContainer">
+            <input placeholder="Type in GiftCard Code" id="giftCardCodeInput" />
+            <button id="applyGiftCardBtn">Apply</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="cart--details without-products displayNone">
-    <div class="cart-empty-header">Your bag is empty!!</div>
-  </div>
-  {% include "components/loading.html" %}
-</cart-table>
+    <div class="cart--details without-products displayNone">
+      <div class="cart-empty-header">Your bag is empty!!</div>
+    </div>
+    {% include "components/loading.html" %}
+  </cart-table>
+  {% include "cart/checkout.html" %}
+  {% endblock %}
 
-{% include "cart/checkout.html" %} {% endblock %}
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+</body>
+</html>

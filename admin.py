@@ -106,6 +106,9 @@ def manage_shipping_prices():
         cursor.close()
         db_conn.close()
 
+        # Clear previous flash messages
+        session.pop('_flashes', None)
+        
         flash('Shipping prices updated successfully.', 'success')
         return redirect(url_for('admin.manage_shipping_prices'))
 
@@ -126,4 +129,4 @@ def manage_shipping_prices():
         standard_price=prices.get('standard', 0),
         oversized_price=prices.get('oversized', 0),
         pickup_price=prices.get('pickup', 0)
-    )
+    ) 
