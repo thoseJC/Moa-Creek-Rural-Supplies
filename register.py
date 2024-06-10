@@ -1,8 +1,9 @@
 import uuid
 from flask import Blueprint, flash, redirect, url_for, jsonify,render_template,session,request
-from app_query import register_new_user, add_address_to_new_user
+from app_query import query_user_when_login, register_new_user, add_address_to_new_user
 from auth import hashPassword
 from cursor import getCursor
+from login_helper import redirect_by_role, setUp_session
 from validation import is_valid_email, is_valid_phone_number
 
 register_page = Blueprint("register_page", __name__, static_folder="static", template_folder="templates/global")
@@ -55,9 +56,18 @@ def register():
 						''
 					)
 				)
-
-				flash('Registration successful!')
-				return redirect(url_for('login_page.login'))
+				
+				# get user info from db
+				sql_query = query_user_when_login()
+				cursor.execute(sql_query, (username,))
+				new_user = cursor.fetchone()
+				if new_user:
+					setUp_session(new_user)
+					flash('Registration successful!')
+					user_role = session.get("user_role")
+					return redirect_by_role(user_role)
+				else:
+					return redirect(url_for('login_page.login'))
 			except Exception as e:
 				flash(f'Registration failed: {str(e)}', 'error')
 				return render_template('register.html', error=str(e))
