@@ -351,6 +351,8 @@ Reduces the risk of milk fever by increasing the levels of calcium in the blood.
         'Chemical products to control unwanted plants.', 15.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '', 1),
        ((select category_id from categories where name = 'Gift-Card'), 'Gift Card 100', 'Gift-Card Value $100', 100.00, 'giftcard-100.png', 1),
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card 50', 'Gift-Card Value $50', 50.00, 'giftcard-50.png', 1),
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card 20', 'Gift-Card Value $20', 20.00, 'giftcard-20.png', 1),
         ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Iodine-Tincture-Spray','Iodine Tincture Spray 10% contains free iodine (in alcohol) which has antiseptic qualities. This is the iodine best used on wounds ie dehorning wounds, navels on calves, sheep and horses, etc.', 55.00, 'Iodine-Tincture-Spray-10-1L-5L-web.jpeg', 1),
         ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'),
         'Teatease Udder Cream for lactating cows',
@@ -411,6 +413,8 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((select product_id FROM products where name = 'AHD Zinc Ointment'), 500),
        ((select product_id FROM products where name = 'Equine Health Aloe Vera Gel'), 500),
        ((select product_id FROM products where name = 'Gift Card 100'), 500),
+       ((select product_id FROM products where name = 'Gift Card 50'), 500),
+       ((select product_id FROM products where name = 'Gift Card 20'), 500),
        ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
 
@@ -492,11 +496,6 @@ INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delive
 (3, 'pickup', 'delivered', 0.00, '2023-06-03', '2023-06-06', 'Carrier3', 'Customer will pick up.'),
 (4, 'quote', 'cancelled', 3.00, '2023-06-04', NULL, 'Carrier4', 'Cancelled due to customer request.'),
 (5, 'standard', 'ready_for_pickup', 6.00, '2023-06-05', NULL, 'Carrier5', 'Ready for pickup at the warehouse.');
-
-INSERT INTO gift_card (gf_card_id, amount, holder) VALUES (
-    '1234-abcd' , 100.00, (select user_id from users where username = 'customer')
-);
-
 
 -- Adding 5 products to each of 'Footerwear', 'Household Supplies', 'Animal Equipment' categories
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
