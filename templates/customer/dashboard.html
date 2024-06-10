@@ -10,10 +10,10 @@
     <div class="account-content--item">
       <div class="account-content--title">ORDERS OVERVIEW</div>
       <div class="account-content--des">
-        {% if user["order_count"] == 0 %}
+        {% if order_count == 0 %}
         <span>You haven't placed any orders yet.</span>
         {% else %}
-        <span>You have {{ user["order_count"] }} orders.</span>
+        <span>You have {{ order_count }} orders.</span>
         <span>
           <a href="{{url_for('customer.orders')}}" class="common-btn--text">Check your order history.</a>
         </span>

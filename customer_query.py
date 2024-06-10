@@ -88,3 +88,11 @@ def get_order_all_data():
 		WHERE 
 			o.order_id=%s;
 	"""
+
+def get_customer_order_count():
+	return """
+		SELECT 
+		 	COUNT(*) as order_count
+		FROM orders
+		WHERE user_id = %s;
+	"""
