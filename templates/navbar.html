@@ -45,9 +45,9 @@
             </div>
             <div class="row">
               <ul class="mega-links">
-                <li><a href="#">Animal Healthcare</a></li>
-                <li><a href="#">Nutrition</a></li>
-                <li><a href="#">Shed Supplies</a></li>
+                <li><a href="{{ url_for('category', category_id=1) }}">Animal Healthcare</a></li>
+                <li><a href="{{ url_for('category', category_id=2) }}">Nutrition</a></li>
+                <li><a href="{{ url_for('category', category_id=3) }}">Shed Supplies</a></li>
 				<li>
 					<a href="{{ url_for('category', category_id=4) }}">
 						Calving

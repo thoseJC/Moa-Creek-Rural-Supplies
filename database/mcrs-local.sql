@@ -279,7 +279,6 @@ VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health
        ('Gift-Card', NULL, 'Gift-Card', 'images/category_image/gift_card.jpg'),
        ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
 
--- Inserting sub-categories for 'Animal Health Care'
 INSERT INTO categories (name, parent_id, description, ct_image_path)
 VALUES ('Vaccines', (SELECT category_id
                      FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
@@ -375,7 +374,6 @@ Disinfects hands when soap and water are not readily available.
        ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'AHD Zinc Ointment','Treats slight abrasions and minor wounds. Prevents sunburn in all species.', 58.82, 'Zinc-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 'Equine Health Aloe Vera Gel','Contains Arnica and Manuka Honey. Aids in blood circulation to bruised areas.', 94.20, 'Aloe-Vera-Gel-web.png', 1),
         ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Leader Rubber Rings','Leader Rubber Rings are a pure latex standard marking ring that have no fillings to ensure positive, germ-free marking and are used for the castration of lambs and calves.', 38.35, 'Leader-marker-rings-500-web.png', 1);
-
 
 INSERT INTO inventory (product_id, quantity)
 VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Equilibrium Mineral Mix' LIMIT 1) AS derived_table), 30),
@@ -785,4 +783,61 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'G
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Valdo 800WG 500g' LIMIT 1) AS derived_table), 50),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nufarm Crucial 15L' LIMIT 1) AS derived_table), 30),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Raid Auto Advanced Twin Refill' LIMIT 1) AS derived_table), 80);
+
+--  Machinery & Oil
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES
+((SELECT category_id FROM categories WHERE name = 'Machinery & Oil'), 'Tractor Oil', 'High performance tractor oil.', 100.00, 'tractor_oil.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Machinery & Oil'), 'Hydraulic Fluid', 'Hydraulic fluid for various machinery.', 75.00, 'hydraulic_fluid.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Machinery & Oil'), 'Engine Oil', 'Premium engine oil.', 50.00, 'engine_oil.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Machinery & Oil'), 'Gear Oil', 'Gear oil for smooth operation.', 80.00, 'gear_oil.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Machinery & Oil'), 'Transmission Fluid', 'Transmission fluid for heavy-duty machinery.', 90.00, 'transmission_fluid.jpg', 1);
+
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES
+((SELECT category_id FROM categories WHERE name = 'Pasture & Cropping'), 'Pasture Seed Mix', 'High-quality seed mix for pasture.', 150.00, 'pasture_seed_mix.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Pasture & Cropping'), 'Crop Fertilizer', 'Fertilizer for better crop yield.', 120.00, 'crop_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Pasture & Cropping'), 'Herbicide', 'Herbicide for weed control.', 60.00, 'Herbicide.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Pasture & Cropping'), 'Pesticide', 'Pesticide for crop protection.', 70.00, 'pesticide.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Pasture & Cropping'), 'Growth Enhancer', 'Enhancer for crop growth.', 90.00, 'growth_enhancer.jpg', 1);
+
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES
+((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Organic Fertilizer', 'Organic fertilizer for healthy crops.', 110.00, 'organic_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Nitrogen Fertilizer', 'Nitrogen-rich fertilizer.', 130.00, 'nitrogen_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Phosphate Fertilizer', 'Phosphate fertilizer for strong roots.', 140.00, 'phosphate_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Potassium Fertilizer', 'Potassium fertilizer for plant vigor.', 150.00, 'potassium_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Liquid Fertilizer', 'Liquid fertilizer for easy application.', 160.00, 'liquid_fertilizer.jpg', 1);
+
+INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
+VALUES
+((SELECT category_id FROM categories WHERE name = 'Clearance'), 'Discounted Seed Mix', 'Seed mix at a discounted price.', 50.00, 'discounted_seed_mix.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Clearance'), 'Clearance Pesticide', 'Pesticide at a clearance price.', 40.00, 'clearance_pesticide.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Clearance'), 'Clearance Fertilizer', 'Fertilizer at a clearance price.', 60.00, 'clearance_fertilizer.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Clearance'), 'Clearance Herbicide', 'Herbicide at a clearance price.', 30.00, 'clearance_herbicide.jpg', 1),
+((SELECT category_id FROM categories WHERE name = 'Clearance'), 'Clearance Equipment', 'Equipment at a clearance price.', 70.00, 'clearance_equipment.jpg', 1);
+
+INSERT INTO inventory (product_id, quantity)
+VALUES
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Tractor Oil' LIMIT 1) AS derived_table), 100),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Hydraulic Fluid' LIMIT 1) AS derived_table), 120),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Engine Oil' LIMIT 1) AS derived_table), 140),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Gear Oil' LIMIT 1) AS derived_table), 160),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Transmission Fluid' LIMIT 1) AS derived_table), 180),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pasture Seed Mix' LIMIT 1) AS derived_table), 200),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Crop Fertilizer' LIMIT 1) AS derived_table), 220),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table), 240),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pesticide' LIMIT 1) AS derived_table), 260),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Growth Enhancer' LIMIT 1) AS derived_table), 280),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Organic Fertilizer' LIMIT 1) AS derived_table), 300),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nitrogen Fertilizer' LIMIT 1) AS derived_table), 320),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Phosphate Fertilizer' LIMIT 1) AS derived_table), 340),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Potassium Fertilizer' LIMIT 1) AS derived_table), 360),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Liquid Fertilizer' LIMIT 1) AS derived_table), 380),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Discounted Seed Mix' LIMIT 1) AS derived_table), 400),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Pesticide' LIMIT 1) AS derived_table), 420),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Fertilizer' LIMIT 1) AS derived_table), 440),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Herbicide' LIMIT 1) AS derived_table), 460),
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Equipment' LIMIT 1) AS derived_table), 480);
+
 

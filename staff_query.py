@@ -2,7 +2,7 @@ def order_list_query():
     return """
                 SELECT 
                 o.*,
-                u.first_name, 
+                u.username, 
                 u.last_name 
                 FROM 
                 orders o
@@ -18,7 +18,7 @@ def order_list_without_date_query():
     return """
    SELECT 
         o.*,
-        u.first_name, 
+        u.username, 
         u.last_name, 
         u.email
         FROM 

@@ -18,13 +18,12 @@
           {% set role = session.get("user_role") %}
           {% include 'components/role-badge.html' %}
         </div>
-
+        <div class="ord-list">
         <table>
             <thead>
                 <tr>
                     <th>Order ID</th>
-                    <th>Customer ID</th>
-                    <th>First Name</th>
+                    <th>Username</th>
                     <th>Last Name</th>
                     <th>Total</th>
                     <th>GST</th>
@@ -39,12 +38,11 @@
                 {% for ords in orders_list %}
                 <tr>
                     <td>{{ ords[0] }}</td>
-                    <td>{{ ords[1] }}</td>
-                    <td>{{ ords[8] }}</td>
                     <td>{{ ords[9] }}</td>
-                    <td>{{ ords[4] }}</td>
-                    <td>{{ ords[5] }}</td>
-                    <td>{{ ords[6] }}</td>
+                    <td>{{ ords[10] }}</td>
+                    <td>${{ ords[4] }}</td>
+                    <td>${{ ords[5] }}</td>
+                    <td>${{ ords[6] }}</td>
                     <td>{{ ords[3] }}</td>
                     <td>{{ ords[7] }}</td>
                     <td class="edit_box">
@@ -55,11 +53,11 @@
 
                             <!-- pass parameter 'order_status' -->
                                 <select name="order_status">
-                                    <option value="pending" {% if ords[7] == 'pending' %}selected{% endif %}>pending</option>
-                                    <option value="shipped" {% if ords[7] == 'shipped' %}selected{% endif %}>shipped</option>
-                                    <option value="delivered" {% if ords[7] == 'delivered' %}selected{% endif %}>delivered</option>
-                                    <option value="cancelled" {% if ords[7] == 'cancelled' %}selected{% endif %}>cancelled</option>
-                                    <option value="ready_for_pickup" {% if ords[7] =='ready_for_pickup' %}selected{% endif %}>ready for pickup</option>
+                                    <option value="pending" {% if ords[7] == 'pending' %}selected disabled{% endif %} >pending</option>
+                                    <option value="shipped" {% if ords[7] == 'shipped' %}selected disabled{% endif %}>shipped</option>
+                                    <option value="delivered" {% if ords[7] == 'delivered' %}selected disabled{% endif %}>delivered</option>
+                                    <option value="cancelled" {% if ords[7] == 'cancelled' %}selected disabled{% endif %}>cancelled</option>
+                                    <option value="ready_for_pickup" {% if ords[7] =='ready_for_pickup' %}selected disabled{% endif %}>ready for pickup</option>
                                 </select>
                         
                             <button type="submit"> Update Status </button>
@@ -78,6 +76,7 @@
             </tbody>
 
         </table>
+        </div>
     </div>
 </div>
 
