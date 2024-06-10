@@ -414,33 +414,6 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((select product_id FROM products where name = 'Gift Card 20'), 500),
        ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
-
--- INSERT INTO payment (user_id, total, payment_type, GST, freight)
--- VALUES ((SELECT user_id FROM users WHERE username = 'customer'), 138.00, 'Credit Card', 18.00, 0.00),
---        ((SELECT user_id FROM users WHERE username = 'alice'), 100.00, 'Credit Card', 15.00, 5.00),
---        ((SELECT user_id FROM users WHERE username = 'bob'), 200.00, 'PayPal', 20.00, 10.00),
---        ((SELECT user_id FROM users WHERE username = 'charlie'), 150.00, 'Bank Transfer', 18.00, 7.00),
---        ((SELECT user_id FROM users WHERE username = 'david'), 80.00, 'Credit Card', 10.00, 3.00),
---        ((SELECT user_id FROM users WHERE username = 'eva'), 120.00, 'Debit Card', 16.00, 6.00);
-
-
--- INSERT INTO orders (user_id, payment_id, total, GST, freight, status) VALUES
---     ((SELECT user_id FROM users WHERE username = 'customer'), 1, 138.00, 18.00, 0.00, 'Pending'),
---     ((SELECT user_id FROM users WHERE username = 'alice'), 1, 100.00, 15.00, 5.00, 'shipped'),
---     ((SELECT user_id FROM users WHERE username = 'bob'), 2, 200.00, 20.00, 10.00, 'pending'),
---     ((SELECT user_id FROM users WHERE username = 'charlie'), 3, 150.00, 18.00, 7.00, 'delivered'),
---     ((SELECT user_id FROM users WHERE username = 'david'), 4, 80.00, 10.00, 3.00, 'cancelled'),
---     ((SELECT user_id FROM users WHERE username = 'eva'), 5, 120.00, 16.00, 6.00, 'ready_for_pickup');
-
-
--- INSERT INTO receipt (user_id, GST, freight, total) VALUES
---     ((SELECT user_id FROM users WHERE username = 'customer'), 18.00, 0.00, 138.00),
---     ((SELECT user_id FROM users WHERE username = 'alice'), 15.00, 5.00, 100.00),
---     ((SELECT user_id FROM users WHERE username = 'bob'), 20.00, 10.00, 200.00),
---     ((SELECT user_id FROM users WHERE username = 'charlie'), 18.00, 7.00, 150.00),
---     ((SELECT user_id FROM users WHERE username = 'david'), 10.00, 3.00, 80.00),
---     ((SELECT user_id FROM users WHERE username = 'eva'), 16.00, 6.00, 120.00);
-
 INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES
 ('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
 ('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
@@ -470,18 +443,6 @@ INSERT INTO news (title,content,created_by,is_published,published_date) VALUES
 ('test2','dadfa\r\nasdf\r\n\r\n\r\nasdfasdfa',(SELECT user_id FROM users WHERE username = 'manager'),0,NULL),
 ('Special Offer for Customers','Avail of our limited-time special offer exclusively for our valued customers. Enjoy discounts and benefits on select products.',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:29:00'),
 ('New Product Launch','We are excited to announce the launch of our latest product line. \r\n\r\nExplore innovative features and enhanced performance!',(SELECT user_id FROM users WHERE username = 'manager'),1,'2024-05-25 14:28:15');
-
--- insert notification to customer 
--- INSERT INTO notifications
--- (user_id, message, is_read, created_at)
--- VALUES((select user_id FROM users WHERE username = 'customer'), 'hello world', 0, CURRENT_TIMESTAMP);
-
--- INSERT INTO shipments (order_id, shipping_type, status, freight, expected_delivery_date, actual_delivery_date, carrier_name, additional_info) VALUES
--- (1, 'standard', 'shipped', 5.00, '2023-06-01', '2023-06-05', 'Carrier1', 'Leave at the front door.'),
--- (2, 'oversized', 'pending', 10.00, '2023-06-02', NULL, 'Carrier2', 'Handle with care.'),
--- (3, 'pickup', 'delivered', 0.00, '2023-06-03', '2023-06-06', 'Carrier3', 'Customer will pick up.'),
--- (4, 'quote', 'cancelled', 3.00, '2023-06-04', NULL, 'Carrier4', 'Cancelled due to customer request.'),
--- (5, 'standard', 'ready_for_pickup', 6.00, '2023-06-05', NULL, 'Carrier5', 'Ready for pickup at the warehouse.');
 
 -- Adding 5 products to each of 'Footerwear', 'Household Supplies', 'Animal Equipment' categories
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
