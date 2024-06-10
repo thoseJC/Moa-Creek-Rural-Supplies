@@ -35,11 +35,12 @@
   <table class="table">
     <thead>
       <tr>
+        <th scope="col" class="displayNone">User ID</th>
         <th scope="col">User Name</th>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
         <th scope="col">Business Name</th>
-        <th scope="col">Account Holder</th>
+        <th scope="col">Application Status</th>
         <th scope="col">Credit Limit</th>
         <th scope="col">Action</th>
       </tr>
@@ -47,17 +48,18 @@
     <tbody>
       {% for application in applications %}
       <tr>
+        <th scope="row" class="displayNone">{{ application.user_id }}</th>
         <th scope="row">{{ application.username }}</th>
-        <td>{{ application.first_name }}</td>
-        <td>{{ application.last_name }}</td>
-        <td>{{ application.business_name }}</td>
-        <td>{{ application.account_holder }}</td>
-        <td>
+        <td scope="row">{{ application.first_name }}</td>
+        <td scope="row">{{ application.last_name }}</td>
+        <td scope="row">{{ application.business_name }}</td>
+        <td scope="row">{{ application.account_holder }}</td>
+        <td scope="row">
 			{% if application.account_holder != 'init' %}
 			  {{ application.credit_limit }}
 			{% endif %}
 		  </td>
-        <td>
+        <td scope="row">
           <div style="display: flex;">
           {% if application.account_holder == 'applied' %}
           <div style="margin-right: 10px;">
@@ -65,9 +67,13 @@
             <input type="hidden" name="credit_limit" value="500">
             <button type="submit" class="stb-button stb-1">Approve</button>
           </form>
-        </div>
+          </div>
           <form action="{{ url_for('manage_account_apply.reject_application', user_id=application.user_id) }}" method="post">
             <button type="submit" class="stb-button stb-2">Reject</button>
+          </form>
+          {% elif application.account_holder == 'approved' or application.account_holder == 'declined'  %}
+          <form action="{{ url_for('manage_account_apply.revoke_application', user_id=application.user_id) }}" method="post">
+            <button type="submit" class="stb-button stb-2">Revoke</button>
           </form>
         </div>
           {% else %}

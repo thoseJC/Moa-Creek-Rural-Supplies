@@ -59,6 +59,18 @@ def reject_application(user_id):
         flash('Failed to reject application.', 'error')
     return redirect(url_for('manage_account_apply.dashboard'))
 
+@manage_account_apply_page.route("/revoke/<user_id>", methods=['POST'])
+def revoke_application(user_id):
+    if session.get("user_role") != 'manager':
+        flash('Unauthorized', 'error')
+        return redirect(url_for('manage_account_apply.dashboard'))
+
+    if update_application_status(user_id, 'init'):
+        flash('Application revoke successfully.', 'success')
+    else:
+        flash('Failed to revoke application.', 'error')
+    return redirect(url_for('manage_account_apply.dashboard'))
+
 def update_application_status(user_id, status, credit_limit=None):
     connection, cursor = getDictCursor()
     try:
