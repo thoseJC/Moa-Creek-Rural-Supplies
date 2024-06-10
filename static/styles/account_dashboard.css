@@ -202,3 +202,8 @@
 .product-management--btns form {
   margin: 0;
 }
+
+.product-list-container {
+  max-height: 400px;
+  overflow-y: auto; 
+}

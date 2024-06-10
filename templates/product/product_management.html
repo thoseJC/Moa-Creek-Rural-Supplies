@@ -1,18 +1,15 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
-/>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/account_dashboard.css') }}" />
 
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
-{% block title %}MCRS - Product Management {% endblock %} 
+{% block title %}MCRS - Product Management {% endblock %}
 
 {% block content %}
 
 <div class="account-dashboard--container">
   <div class="form-error">{{ err_msg }}</div>
 
-  {% set current_page = 'product' %} 
+  {% set current_page = 'product' %}
   {% include 'global/account_navbar.html' %}
 
   <div class="container account-content--container">
@@ -22,8 +19,14 @@
       {% include 'components/role-badge.html' %}
     </div>
 
+    {% if session["user_role"] != 'admin' %}
+      <div class="container mt-4 mb-4"> 
+        <a href="{{ url_for('product_page.add_product') }}" class="common-btn--border">Add New Product</a>
+      </div>
+    {% endif %}
+
     <div class="row">
-      <div>
+      <div class="product-list-container"> 
         <table class="table">
           <thead>
             <tr>
@@ -36,45 +39,28 @@
           </thead>
           <tbody>
             {% for product in products %}
-            <tr>
-              <td>{{ product.name }}</td>
-              <td>{{ product.description }}</td>
-              <td>${{ product.price }}</td>
-              <td>{{ product.category_name }}</td>
-              <td>
-                <div class="product-management--btns">
-                  <a
-                    href="{{ url_for('product_page.edit_product', product_id=product.id) }}"
-                    class="common-btn--text"
-                  >
-                    Edit
-                  </a>
-                  {% if session["user_role"] != 'admin' %}
-                  <form
-                    action="{{ url_for('product_page.delete_product', product_id=product.id) }}"
-                    method="post"
-                  >
-                    <button type="submit" class="common-btn--text">
-                      Delete
-                    </button>
-                  </form>
-                  {% endif %}
-                </div>
-              </td>
-            </tr>
+              <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.category_name }}</td>
+                <td>
+                  <div class="product-management--btns">
+                    <a href="{{ url_for('product_page.edit_product', product_id=product.id) }}" class="common-btn--text">Edit</a>
+                    {% if session["user_role"] != 'admin' %}
+                      <form action="{{ url_for('product_page.delete_product', product_id=product.id) }}" method="post">
+                        <button type="submit" class="common-btn--text">Delete</button>
+                      </form>
+                    {% endif %}
+                  </div>
+                </td>
+              </tr>
             {% endfor %}
           </tbody>
         </table>
-        {% if session["user_role"] != 'admin' %}
-        <a
-          href="{{ url_for('product_page.add_product') }}"
-          class="common-btn--border"
-        >
-          Add New Product
-        </a>
-        {% endif %}
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}
