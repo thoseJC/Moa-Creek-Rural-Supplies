@@ -31,7 +31,7 @@
             href="{{ url_for('message_page.conversation', conversation_id = convsn.conversation_id) }}"
             class="common-btn--text"
           >
-            Conversation with {{convsn["cust_full_name"] }}
+            Conversation with {{convsn["cust_full_name"] }} -- {{convsn["last_update_at"]}}
           </a>
         </li>
         {% endfor %}

@@ -6,7 +6,7 @@ def process_conversation(conversations):
 			"customer_id" : conv[1],
 			"last_message_id" : conv[3],
 			"last_update_at" : conv[4],
-			"cust_full_name" : conv[5]+conv[6],
+			"cust_full_name" : conv[5]+ " " + conv[6],
 			"cust_login_name" : conv[7]
 		}
 		cons_list.append(conv_obj)
