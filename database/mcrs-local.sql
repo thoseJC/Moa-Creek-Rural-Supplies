@@ -426,13 +426,6 @@ INSERT INTO address (user_id, street_address, city, state, postal_code, country,
 ((SELECT user_id FROM users WHERE username = 'david'), '101 Pine St', 'Metropolis', 'State4', '44556', 'Country1', TRUE),
 ((SELECT user_id FROM users WHERE username = 'eva'), '202 Maple St', 'Hamlet', 'State5', '77889', 'Country1', TRUE);
 
--- INSERT INTO messages (sender_id, receiver_id, content) VALUES
--- ((SELECT user_id FROM users WHERE username = 'customer'), (SELECT user_id FROM users WHERE username = 'staff'), 'Hello, this is a test message.');
-
-
--- SELECT LAST_INSERT_ID() INTO @last_message_id;
--- INSERT INTO conversations (staff_id, customer_id, last_message_id) VALUES
--- ((SELECT user_id FROM users WHERE username = 'staff'), (SELECT user_id FROM users WHERE username = 'customer'), @last_message_id);
 
 CREATE VIEW user_account_management  AS (
 SELECT us.user_id, us.first_name, us.last_name, us.username, us.email, ur.role_name, IF(us.status = 1, 'Active', 'Inactive') as account_status FROM users us LEFT JOIN user_roles ur ON us.role_id = ur.role_id
