@@ -350,7 +350,7 @@ Reduces the risk of milk fever by increasing the levels of calcium in the blood.
        ((SELECT category_id FROM categories WHERE name = 'Herbicides'), 'Herbicide',
         'Chemical products to control unwanted plants.', 15.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Fungicides'), 'Fungicide','Chemical products to control fungi.', 20.00, '', 1),
-       ((select category_id from categories where name = 'Gift-Card'), 'Gift-Card-100', 'Gift-Card Value $100', 100.00, 'giftcard-100.png', 1),
+       ((select category_id from categories where name = 'Gift-Card'), 'Gift Card 100', 'Gift-Card Value $100', 100.00, 'giftcard-100.png', 1),
         ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Iodine-Tincture-Spray','Iodine Tincture Spray 10% contains free iodine (in alcohol) which has antiseptic qualities. This is the iodine best used on wounds ie dehorning wounds, navels on calves, sheep and horses, etc.', 55.00, 'Iodine-Tincture-Spray-10-1L-5L-web.jpeg', 1),
         ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'),
         'Teatease Udder Cream for lactating cows',
@@ -400,7 +400,6 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),55),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),35),
-       ((select product_id FROM products where name = 'Gift Card'), 10000000),
        ((select product_id FROM products where name = 'Iodine-Tincture-Spray'), 500),
        ((select product_id FROM products where name = 'Leader Rubber Rings'), 500),
        ((select product_id FROM products where name = 'Teatease Udder Cream for lactating cows'), 500),
@@ -411,7 +410,7 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((select product_id FROM products where name = 'AHD Medicated Shampoo Animal Wash'), 500),
        ((select product_id FROM products where name = 'AHD Zinc Ointment'), 500),
        ((select product_id FROM products where name = 'Equine Health Aloe Vera Gel'), 500),
-       ((select product_id FROM products where name = 'Gift-Card-100'), 500),
+       ((select product_id FROM products where name = 'Gift Card 100'), 500),
        ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
 
