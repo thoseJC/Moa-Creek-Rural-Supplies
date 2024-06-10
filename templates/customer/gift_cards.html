@@ -1,0 +1,108 @@
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/account_dashboard.css') }}"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+
+
+
+.outer-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gift-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.gift-card {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.gift-card div {
+    margin-bottom: 10px;
+}
+
+.gift-card-id, .gift-card-amount, .gift-card-holder, .gift-card-expiry {
+    font-size: 14px;
+}
+
+.gift-card-amount {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.gift-card-expiry {
+    color: #e74c3c;
+}
+
+button {
+	background: transparent;
+	border: none;
+}
+
+</style>
+
+{% extends 'base.html' %} 
+
+{% block title %}
+MCRS - My Gift Cards
+ {% endblock %} 
+ {%block content %}
+ 
+ <div class="account-dashboard--container">
+	{% set current_page = 'My Gift Card' %} 
+	{% include 'global/account_navbar.html' %}
+<div class="container">
+	<h3>My Gift Card</h3>
+	<div class="outer-container">
+		<div class="gift-cards-container">
+			{% for card in gift_cards %}
+			<div class="gift-card">
+				<div class="gift-card-id">
+					ID: 
+					<span id="card-id-{{ loop.index }}">{{ card[0] }}</span>
+					<button onclick="copyToClipboard('card-id-{{ loop.index }}')"> 
+						<i class="fas fa-clipboard-list"></i>
+					</button>
+				</div>
+                <div class="gift-card-amount">Amount: ${{ card[1] }}</div>
+				<div class="gift-card-expiry">Expried date:  {{ card[3] }}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+ </div>
+ 
+ 
+
+<script>
+    function copyToClipboard(elementId) {
+        const text = document.getElementById(elementId).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied to clipboard: ' + text);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    }
+</script>
+ {% endblock %}

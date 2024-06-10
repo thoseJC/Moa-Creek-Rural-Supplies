@@ -1,6 +1,7 @@
 from flask import Blueprint, session, render_template, request, jsonify
 from checkout_query import insert_payment_record, query_latest_id, insert_orders_record, insert_order_items_record, get_user_address_query, query_product_current_inventory, update_product_new_inventory
 from cursor import getCursor
+import uuid
 
 checkout_page = Blueprint("checkout", __name__, static_folder="static", template_folder="templates/checkout")
 
@@ -29,6 +30,7 @@ def proceed_payment():
             result = cursor.fetchone()
             order_id = result[0]
             for item in cart_items:
+              print("item")
               product_id = item['id']
               qty = item['quantity']
               price = item.get('price', 0.00)
@@ -43,6 +45,12 @@ def proceed_payment():
               sql_query = update_product_new_inventory()
               cursor.execute(sql_query, (new_qty, product_id))
 
+              if product_id == '17' or product_id == '18' or product_id == '19':
+                #   insert gift card record into gift card table for this user : 
+                update_giftcard = "insert into gift_card (gf_card_id, amount, holder) values (%s, %s,%s)"
+                amount = get_figt_card_amount(product_id)
+                gift_card_uuid = str(uuid.uuid4())
+                cursor.execute(update_giftcard, (gift_card_uuid, amount, user_id))
             return jsonify({'message': 'Payment Completed'}), 200
     except Exception as e:
         print("@checkout_page.route(/proceed_payment): %s", e)
@@ -71,3 +79,13 @@ def get_user_address():
             }), 400
     finally:
         cursor.close()
+
+
+def get_figt_card_amount(gift_card_type_id):
+    if gift_card_type_id == '17':
+        return 100
+    if gift_card_type_id == '18':
+        return 50
+    if gift_card_type_id == '19':
+        return 20
+    

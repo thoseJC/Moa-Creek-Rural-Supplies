@@ -27,8 +27,9 @@
   }
 </style>
 
-{% extends 'base.html' %} {% block title %}MCRS - Inquiry {% endblock %} {%
-block content %}
+{% extends 'base.html' %} 
+{% block title %}MCRS - Inquiry {% endblock %} 
+{%block content %}
 
 <div class="account-dashboard--container">
   {% set current_page = 'inquiry' %} {% include 'global/account_navbar.html' %}
@@ -42,7 +43,9 @@ block content %}
     </form>
     {% if msg.success %}
     <span class="successmsg">{{msg.message}}</span>
-    {%endif%} {% if !msg.success %}
+    {%endif%} 
+
+    {% if msg.success == 'False'%}
     <span class="faildmsg">{{msg.message}}</span>
     {%endif%}
   </div>

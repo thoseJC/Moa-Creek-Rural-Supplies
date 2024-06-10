@@ -26,6 +26,9 @@
     <li class="{% if current_page == 'inquiry' %}active{% endif %}">
       <a href="{{url_for('customer.inquiry')}}">Inquiry</a>
     </li>
+    <li class="{% if current_page == 'My Gift Card' %}active{% endif %}">
+      <a href="{{url_for('customer.my_gift_card')}}">My Gift Card</a>
+    </li>
     <li class="{% if current_page == 'Message' %}active{% endif %}">
       <a href="{{url_for('message_page.inbox')}}">Message</a>
     </li>
