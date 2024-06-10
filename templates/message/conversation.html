@@ -20,14 +20,13 @@
       {% include 'components/role-badge.html' %}
     </div>
 
-
     <div class="msg-container">
       <div id="messages">
         {% for msgs in messages %}
         <p
-          class="{{ 'staff-message' if msgs.sender == 'staff' else 'customer-message' }}"
+          class="{{ 'right-side-message' if msgs.sender_username == session.get('user_name') else 'left-side-message' }}"
         >
-          <span class="sender"><b>{{ msgs.sender_role_name }}</b></span> : {{ msgs.content }}
+          <span class="sender"><b>{{ msgs.sender_username }}</b></span> : {{ msgs.content }}
           <span class="message-time">({{msgs.send_time}})</span>
         </p>
 

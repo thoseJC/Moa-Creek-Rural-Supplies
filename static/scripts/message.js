@@ -1,16 +1,11 @@
 const send_message_field = document.getElementById("send_message_field");
 
-const createMessageElement = (sender_role_name, content, send_time) => {
+const createMessageElement = (sender_user_name, content, send_time) => {
   const p = document.createElement("p");
-  if (sender_role_name === "staff") {
-    p.className = "staff-message";
-  } else {
-    p.className = "customer-message";
-  }
+  p.className = "right-side-message";
   const senderSpan = document.createElement("span");
   senderSpan.className = "sender";
-  senderSpan.innerHTML = `<b>${sender_role_name}</b>`;
-
+  senderSpan.innerHTML = `<b>${sender_user_name}</b>`;
   const contentText = document.createTextNode(`: ${content} `);
 
   const timeSpan = document.createElement("span");
@@ -45,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
           } else {
             send_message_field.value = "";
             msg_element = createMessageElement(
-              data.sender_role_name,
+              data.sender_user_name,
               data.content,
               data.send_time
             );
