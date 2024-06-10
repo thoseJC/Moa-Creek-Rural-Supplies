@@ -213,3 +213,17 @@ def order_details():
 @customer_page.route("/faq")
 def faq():
     return render_template('customer/faq.html')
+
+@customer_page.route("mygiftcard")
+def my_gift_card():
+  try:
+    cursor = getCursor()
+    user = getUserInfo()
+    user_id = user["user_id"]
+    cursor.execute("select * from gift_card where holder = %s",(user_id,))
+    gift_cards =  cursor.fetchall()
+    return render_template("gift_cards.html" , gift_cards= gift_cards, err = None)
+  except Exception as e:
+    print(e)
+    return render_template("gift_cards.html",err = e)
+
