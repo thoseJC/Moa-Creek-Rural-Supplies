@@ -32,7 +32,7 @@ def apply_account_holder():
 
             cursor.execute("""
                 UPDATE users
-                SET business_name = %s, tax_employer_number = %s, credit_check = %s, account_holder = 'apply'
+                SET business_name = %s, tax_employer_number = %s, credit_check = %s, account_holder = 'applied'
                 WHERE user_id = %s
             """, (business_name, tax_number, bool(credit_check), user_id))
             connection.commit()

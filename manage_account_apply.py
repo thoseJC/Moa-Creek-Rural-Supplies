@@ -41,7 +41,7 @@ def approve_application(user_id):
 
     credit_limit = request.form.get('credit_limit')  
     
-    if update_application_status(user_id, 'approve', credit_limit):
+    if update_application_status(user_id, 'approved', credit_limit):
         flash('Application approved successfully.', 'success')
     else:
         flash('Failed to approve application.', 'error')
@@ -53,7 +53,7 @@ def reject_application(user_id):
         flash('Unauthorized', 'error')
         return redirect(url_for('manage_account_apply.dashboard'))
 
-    if update_application_status(user_id, 'decline'):
+    if update_application_status(user_id, 'declined'):
         flash('Application rejected successfully.', 'success')
     else:
         flash('Failed to reject application.', 'error')
@@ -62,7 +62,7 @@ def reject_application(user_id):
 def update_application_status(user_id, status, credit_limit=None):
     connection, cursor = getDictCursor()
     try:
-        if status == 'approve' and credit_limit is not None:
+        if status == 'approved' and credit_limit is not None:
             cursor.execute("""
                 UPDATE users
                 SET account_holder = %s, credit_limit = %s

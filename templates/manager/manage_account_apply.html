@@ -57,7 +57,7 @@
 		  </td>
         <td>
           <div style="display: flex;">
-          {% if application.account_holder == 'apply' %}
+          {% if application.account_holder == 'applied' %}
           <div style="margin-right: 10px;">
           <form action="{{ url_for('manage_account_apply.approve_application', user_id=application.user_id) }}" method="post">
             <input type="hidden" name="credit_limit" value="500">

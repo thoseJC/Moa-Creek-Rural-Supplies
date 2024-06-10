@@ -32,6 +32,8 @@
     </div>
     
     <div class="account-content--item">
+
+      {% if user["business_account_status"] == 'init' %}
       <div class="account-content--title">Apply for Account Holder</div>
       <div class="account-content--des">
         <span>
@@ -43,6 +45,15 @@
           </a>
         </span>
       </div>
+      {% else %}
+      <div>
+        <span>You Business Account Application Status : </span>
+        <div><span style="font-size: 20px;">{{user["business_account_status"]}}</span></div>
+
+      </div>
+
+      {% endif %}
+
     </div>
     
     <div class="account-content--item">

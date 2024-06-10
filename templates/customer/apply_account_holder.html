@@ -25,11 +25,11 @@
                     <div class="account-content--item">
                         <div class="account-content--title">Application Status</div>
                         <div class="account-content--des">
-                            {% if user["account_holder_status"] == 'apply' %}
+                            {% if user["account_holder_status"] == 'applied' %}
                                 <span>Your application is under review.</span>
-                            {% elif user["account_holder_status"] == 'approve' %}
+                            {% elif user["account_holder_status"] == 'approved' %}
                                 <span>Your application has been approved.</span>
-                            {% elif user["account_holder_status"] == 'decline' %}
+                            {% elif user["account_holder_status"] == 'declined' %}
                                 <span>Your application has been declined.</span>
                             {% else %}
                                 <span>You have not applied for an account holder yet.</span>

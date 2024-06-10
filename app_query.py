@@ -9,6 +9,7 @@ def query_user_when_login():
 				ur.role_name,
 				u.first_name,
 				u.last_name,
+				u.account_holder,
 				COUNT(o.order_id) AS order_count
 			FROM 
 				users u
