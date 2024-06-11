@@ -387,11 +387,17 @@ const getUserId = () => {
 	  const productIndex = cartItems.findIndex((item) => item.id == productId);
   
 	  if (productIndex !== -1) {
-		cartItems.splice(productIndex, 1);
-		localStorage.setItem("cart", JSON.stringify(cart));
-		cartIconQuantity();
-		this.fetchProductsDetails();
-		this.toggleLoading(false);
+			cartItems.splice(productIndex, 1);
+			localStorage.setItem("cart", JSON.stringify(cart));
+			cartIconQuantity();
+			this.fetchProductsDetails();
+			this.toggleLoading(false);
+			if (cartItems.length == 0) {
+				const cartTableWithProducts = document.querySelector(".cart--details.with-products");
+				const cartTableWithoutProducts = document.querySelector(".cart--details.without-products");
+				if (cartTableWithProducts) cartTableWithProducts.classList.add("displayNone");
+				if (cartTableWithoutProducts) cartTableWithoutProducts.classList.remove("displayNone");
+			}
 	  }
 	}
 	bindQuantityChange() {
