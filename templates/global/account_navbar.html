@@ -92,7 +92,20 @@
     {% endif %}
     
     <li>
-      <a href="{{ url_for('logout') }}">Logout</a>
+      <a href="{{ url_for('logout') }}" id="logout-btn-on-click">Logout</a>
     </li>
   </ul>
 </div>
+
+<script>
+
+  const cleanUp = () =>{
+    this.localStorage.clear()
+  }
+
+  const logoutEle = document.getElementById("logout-btn-on-click")
+  if(logoutEle){
+    logoutEle.addEventListener("click", cleanUp)
+  }
+
+</script>
