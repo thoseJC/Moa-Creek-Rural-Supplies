@@ -16,22 +16,22 @@
         <div class="form-container">
           <div class="form-header">Payment</div>
           <form id="payment-form">
-            <div class="form-group">
+            <div class="form-group" id="NameOnCardBox">
               <label for="name">Name on Card</label>
               <input type="text" id="name" required>
               <div id="nameError" class="form-error"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="cardNumberBox">
               <label for="cardNumber">Card Number</label>
               <input type="text" id="cardNumber" required>
               <div id="cardNumberError" class="form-error"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="ExpiryDateBox">
               <label for="expiryDate">Expiry Date</label>
               <input type="text" id="expiryDate" placeholder="MM/YY" required>
               <div id="expiryDateError" class="form-error"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="CVVBox">
               <label for="cvv">CVV</label>
               <input type="text" id="cvv" required>
               <div id="cvvError" class="form-error"></div>
