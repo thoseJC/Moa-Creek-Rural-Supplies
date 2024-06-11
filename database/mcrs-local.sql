@@ -378,7 +378,6 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Feeder' LIMIT 1) AS derived_table), 20),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Milking Machine' LIMIT 1) AS derived_table), 15),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pest Control Spray' LIMIT 1) AS derived_table), 45),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table),55),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Fungicide' LIMIT 1) AS derived_table),35),
        ((select product_id FROM products where name = 'Iodine-Tincture-Spray'), 500),
        ((select product_id FROM products where name = 'Leader Rubber Rings'), 500),
@@ -747,7 +746,6 @@ VALUES
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Transmission Fluid' LIMIT 1) AS derived_table), 180),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pasture Seed Mix' LIMIT 1) AS derived_table), 200),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Crop Fertilizer' LIMIT 1) AS derived_table), 220),
-((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Herbicide' LIMIT 1) AS derived_table), 240),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pesticide' LIMIT 1) AS derived_table), 260),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Growth Enhancer' LIMIT 1) AS derived_table), 280),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Organic Fertilizer' LIMIT 1) AS derived_table), 300),
@@ -758,6 +756,6 @@ VALUES
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Pesticide' LIMIT 1) AS derived_table), 420),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Fertilizer' LIMIT 1) AS derived_table), 440),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Herbicide' LIMIT 1) AS derived_table), 460),
-((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Equipment' LIMIT 1) AS derived_table), 480);
-
+((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Equipment' LIMIT 1) AS derived_table), 480),
+(69, 480);
 

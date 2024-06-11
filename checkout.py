@@ -9,18 +9,31 @@ checkout_page = Blueprint("checkout", __name__, static_folder="static", template
 def proceed_payment():
     try:
         user_id = request.json.get("userId")
-        total = request.json.get('total', 0)
+        total = float(request.json.get('total', 0))
         payment_type = request.json.get('paymentType', "Credit Card")
         gst = request.json.get('gst', 0)
         freight = request.json.get('freight', 0)
         cart_items = request.json.get('cartItems', [])
-
-        # if 
-
+        gift_card_id = request.json.get("giftCardId")
+        cursor = getCursor()
+        if payment_type == 'gift-card' and gift_card_id:
+            # get gift card again : double validation 
+            cursor.execute("select * from gift_card where gf_card_id = %s" ,(gift_card_id,))
+            gf_card_info = cursor.fetchone()
+            gf_card_amount = float(gf_card_info[1])
+            update_gf_card_sql = "update gift_card set amount = %s where gf_card_id = %s"
+            if gf_card_amount == 0:
+                return jsonify({'message': 'Gift Card has 0 credit'}), 400
+            if total >= gf_card_amount:
+                # update the gift card value to 0
+                cursor.execute(update_gf_card_sql, (0,gift_card_id ) )
+            else:
+                # update the remain of gift card value
+                remain = gf_card_amount - total
+                cursor.execute(update_gf_card_sql, (remain,gift_card_id ))
         if user_id != '':
-            cursor = getCursor()
-            sql_query = insert_payment_record()
-            cursor.execute(sql_query, (user_id, total, payment_type, gst, freight))
+            insert_payment_record_sql = insert_payment_record()
+            cursor.execute(insert_payment_record_sql, (user_id, total, payment_type, gst, freight))
             cursor.execute(query_latest_id())
             result = cursor.fetchone()
             payment_id = result[0]
@@ -29,6 +42,7 @@ def proceed_payment():
             cursor.execute(query_latest_id())
             result = cursor.fetchone()
             order_id = result[0]
+            
             for item in cart_items:
               print("item")
               product_id = item['id']
@@ -45,6 +59,7 @@ def proceed_payment():
               sql_query = update_product_new_inventory()
               cursor.execute(sql_query, (new_qty, product_id))
 
+                # if user buy gift card
               if product_id == '17' or product_id == '18' or product_id == '19':
                 #   insert gift card record into gift card table for this user : 
                 update_giftcard = "insert into gift_card (gf_card_id, amount, holder) values (%s, %s,%s)"

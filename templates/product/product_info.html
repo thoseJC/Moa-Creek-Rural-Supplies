@@ -4,11 +4,27 @@
 />
 
 {% extends 'base.html' %}
-
-
-
 {% block content %}
 <div class="form-error">{{ err_msg }}</div>
+
+<div>
+    <div class="category-top-nav-bar">
+        {% for ca in categories  %}
+            <div>
+            <a href="{{url_for('category',category_id=ca[0])}}">{{ca[2]}}</a>
+            </div>
+        {%endfor%}
+    </div>
+<div class="whole-container">
+    <div class="product-side-list">
+        <ul>
+        {% for pd in products%}
+        <a href="{{pd[0]}}"">
+        <li>{{pd[2]}}</li>
+        </a>
+        {%endfor%}
+    </ul>
+    </div>
 <div class="product-container">
     <div class="product-img">
         <img 
@@ -96,6 +112,7 @@
         </div>
     </div>
 </div>
-
+</div>
+</div>
 {% endblock %}
 
