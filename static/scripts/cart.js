@@ -90,8 +90,14 @@ const getUserId = () => {
   const onApplyGiftCardClick = async () => {
 	const gitftCardCode = document.getElementById("giftCardCodeInput").value;
 	if (!gitftCardCode) {
-	  giftcardCreditEle = document.getElementById("giftcard-credit");
-	  giftcardCreditEle.textContent = `Your GiftCard remaining credit is: $0`;
+	  const giftcardCreditEle = document.getElementById("giftcard-credit");
+	  const totalTopayEle = document.getElementById("total-to-pay");
+	  const previoursValue = totalTopayEle.getAttribute("persistent-totalTopay")
+	  totalTopayEle.textContent = `$ ${previoursValue}`
+	  totalTopayEle.setAttribute("total-amount", previoursValue);
+
+
+		giftcardCreditEle.setAttribute("giftCardApplied", "")
 	  return;
 	}
   
@@ -110,9 +116,17 @@ const getUserId = () => {
 		const giftcardCredit = data.amount;
 		const giftcardCreditEle = document.getElementById("giftcard-credit");
 		const infoLabelEle = document.getElementById("giftcard-credit-label");
+
+		const giftCardApplied = giftcardCreditEle.getAttribute("giftCardApplied")
+		if(giftCardApplied === gitftCardCode){
+			// avoid user repeatly apply same gift card code 
+			return;
+		}
   
 		giftcardCreditEle.textContent = Number(giftcardCredit).toFixed(2);
 		giftcardCreditEle.setAttribute('data-gift-card', true);
+		// avoid user repeatly apply same gift card code 
+		giftcardCreditEle.setAttribute("giftCardApplied", gitftCardCode)
 		infoLabelEle.textContent = `Pay by Gift Card : ${gitftCardCode} - $${Number(giftcardCredit).toFixed(2)}`;
 		const totalTopayEle = document.getElementById("total-to-pay");
 		if (totalTopayEle) {
@@ -122,6 +136,8 @@ const getUserId = () => {
 		  if (residue > 0) {
 			totalTopayEle.textContent = `$${residue.toFixed(2)}`;
 			totalTopayEle.setAttribute("total-amount", residue);
+			//  show info to user : gift card has no remain 
+			giftcardCreditEle.textContent = `Your GiftCard remaining amount is: $0`;
 		  } else {
 			giftcardCreditEle.textContent = `$${(-residue).toFixed(2)}`;
 			totalTopayEle.textContent = `$0`;
@@ -198,6 +214,7 @@ const getUserId = () => {
   
   const proceedCheckout = (flag) => {
 	const checkoutPopup = document.querySelector(".checkout--container");
+
 	if (checkoutPopup) {
 	  if (flag) {
 		getRenderAddress();
@@ -503,6 +520,7 @@ const getUserId = () => {
 		  Number(cart_table.getAttribute("data-freight"));
 		totalTopay.textContent = `$${total.toFixed(2)}`;
 		totalTopay.setAttribute("total-amount", total);
+		totalTopay.setAttribute("persistent-totalTopay", total);
 	  }
 	}
   }
@@ -513,9 +531,7 @@ const getUserId = () => {
 	var shippingCost = 0;
 	const shippingTypeSelect = document.getElementById("shipping-type-select");
 	if(shippingTypeSelect && shippingTypeSelect.value){
-
 		const selectedShippingType = shippingTypeSelect ? shippingTypeSelect.value : 'None';
-		console.log("selectedShippingType : ", selectedShippingType)
 		const selectedOption = shippingTypeSelect.options[shippingTypeSelect.selectedIndex];
 		shippingCost = parseFloat(selectedOption.dataset.price);
 	}
@@ -531,9 +547,11 @@ const getUserId = () => {
 		const totalGST = parseFloat(cartTable.getAttribute("data-gst"));
 		const total = parseFloat(cartTable.getAttribute("data-total"));
 		const totalToPay = total + totalGST + shippingCost;
-		const totalTopay = document.getElementById("total-to-pay");
-		totalTopay.textContent = `$${totalToPay.toFixed(2)}`;
-		totalTopay.setAttribute("total-amount", totalToPay);
+		const totalTopayEle = document.getElementById("total-to-pay");
+		totalTopayEle.textContent = `$${totalToPay.toFixed(2)}`;
+		totalTopayEle.setAttribute("total-amount", `$${totalToPay.toFixed(2)}`);
+		totalTopayEle.setAttribute("persistent-totalTopay", `${totalToPay.toFixed(2)}`);
+
 		const orderSummaryTotal = document.getElementById("order-summary-total");  
 		if (orderSummaryTotal) {
 		  orderSummaryTotal.textContent = `$${total.toFixed(2)}`;
