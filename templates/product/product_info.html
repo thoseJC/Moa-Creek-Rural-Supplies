@@ -9,6 +9,15 @@
 
 {% block content %}
 <div class="form-error">{{ err_msg }}</div>
+{% if error != true %}
+<div>
+    <div class="category-top-nav-bar">
+        {% for ca in categories  %}
+            <div>
+            <a href="{{url_for('category',category_id=ca[0])}}">{{ca[2]}}</a>
+            </div>
+        {%endfor%}
+    </div>
 <div class="whole-container">
     <div class="product-side-list">
         <ul>
@@ -107,6 +116,12 @@
     </div>
 </div>
 </div>
+</div>
+
+{%else%}
+<h1 class="vertical-center">Product Not Exist</h1>
+
+{% endif%}
 
 {% endblock %}
 

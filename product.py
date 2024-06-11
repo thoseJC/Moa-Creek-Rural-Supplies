@@ -38,6 +38,8 @@ def show_product(product_id):
 		sql_query = query_product_by_id()
 		cursor.execute(sql_query, (product_id,))
 		fetched_product = cursor.fetchone()
+		cursor.execute("select * from categories")
+		categories = cursor.fetchall()
 		product = {
 			"id":fetched_product[0],
 			"name": fetched_product[1],
@@ -54,10 +56,12 @@ def show_product(product_id):
 		categoryId = product["categoryId"]
 		cursor.execute("select * from products where category_id = %s",(categoryId,))
 		products = cursor.fetchall();
-		return render_template('product_info.html',product = product, products= products)
+
+		
+		return render_template('product_info.html',product = product, products= products, categories =categories, error_msg = None , error = False)
 	except Exception as e:
 		print("@app.route('/product'): %s",e)
-		return render_template('product_info.html', error_msg = e)
+		return render_template('product_info.html', error_msg = e, error = True)
 
 
 @product_page.route('/add', methods=['GET', 'POST'])
