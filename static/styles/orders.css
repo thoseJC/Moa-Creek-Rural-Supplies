@@ -41,7 +41,7 @@
   width: calc(100% - 80px);
   max-width: 600px;
   min-height: 300px;
-  max-height: 600px;
+  max-height: 800px;
   overflow: scroll;
   background-color: var(--light-white);
   display: flex;
