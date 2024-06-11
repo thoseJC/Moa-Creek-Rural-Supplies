@@ -8,11 +8,11 @@
 }
 
 .category-top-nav-bar{
-  height: 30px;
+  height: 35px;
   width: 100%;
   display: flex;
   background-color: #f8f9fa;
-  scrollbar-width:none;
+  scrollbar-width:thin;
   white-space: nowrap;
   overflow-x: auto;
   flex-wrap: nowrap;
