@@ -17,6 +17,15 @@ header div {
     margin:0 auto;
 }
 
+.banner-img-container{
+    margin: 0 auto;
+    width: 50%;
+  }
+
+  .banner-img-container img{
+    width: 80%;
+  }
+
 .flex-container{
     display: flex;
     justify-content: center;
