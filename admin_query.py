@@ -1,6 +1,6 @@
 def query_ctgr_list():
     return """
-    SELECT * FROM categories
+    SELECT * FROM categories WHERE active = TRUE
     """
 def query_add():
     return """
@@ -15,19 +15,18 @@ def query_edit():
 	"""
 
 
-def query_delete_prm():
+def query_deactivate_prm():
     return """
-    DELETE FROM promotions WHERE target_category_id = %s
+    UPDATE promotions SET active = 0 WHERE target_category_id = %s
     """
 
-
-def query_delete_p():
+def query_deactivate_p():
     return """
-    DELETE FROM products WHERE category_id = %s
+    UPDATE products SET is_active = 0 WHERE category_id = %s
     """
 
-
-def query_delete_c():
+def query_deactivate_c():
     return """
-    DELETE FROM categories WHERE category_id = %s
+    UPDATE categories SET active = 0 WHERE parent_id=%s or category_id = %s
     """
+
