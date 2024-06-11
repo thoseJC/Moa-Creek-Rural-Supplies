@@ -24,36 +24,49 @@ def get_list_of_product():
                 "is_active": product[6]
             })
 		cursor.close()
-        
-		return render_template('product_management.html', products=products)	
+
+		return render_template('product_management.html', products=products)
 	except Exception as e:
 		print("Error in product_management:", e)
         # Handle error appropriately, like rendering an error template
 		return render_template('product_management.html', error_msg="An error occurred while fetching products.")
 
+
 @product_page.route('/<int:product_id>')
 def show_product(product_id):
-	try:
-		cursor = getCursor()
-		sql_query = query_product_by_id()
-		cursor.execute(sql_query, (product_id,))
-		fetched_product = cursor.fetchone()
-		product = {
-			"id":fetched_product[0],
-			"name": fetched_product[1],
-			"description": fetched_product[2],
-			"price": fetched_product[3],
-			"discount": fetched_product[4],
-			"discounted_price": fetched_product[5],
-			"image": fetched_product[6],
-			"category": fetched_product[7],
-			"active": fetched_product[8],
-			"quantity": fetched_product[9]
-		}
-		return render_template('product_info.html',product = product)
-	except Exception as e:
-		print("@app.route('/product'): %s",e)
-		return render_template('product_info.html', error_msg = e)
+    try:
+        cursor = getCursor()
+
+        sql_query = query_product_by_id()
+        cursor.execute(sql_query, (product_id,))
+        fetched_product = cursor.fetchone()
+
+        product = {
+            "id": fetched_product[0],
+            "name": fetched_product[1],
+            "description": fetched_product[2],
+            "price": fetched_product[3],
+            "discount": fetched_product[4],
+            "discounted_price": fetched_product[5],
+            "image": fetched_product[6],
+            "category": fetched_product[7],
+            "active": fetched_product[8],
+            "quantity": fetched_product[9]
+        }
+
+        category_id = fetched_product[7]
+        sql_query = "SELECT active FROM categories WHERE category_id = %s"
+        cursor.execute(sql_query, (category_id,))
+        category_active = cursor.fetchone()[0]
+
+        if not category_active:
+            return render_template('category_inactive.html', product=product)
+
+        return render_template('product_info.html', product=product)
+
+    except Exception as e:
+        print(f"@app.route('/product'): {e}")
+        return render_template('product_info.html', error_msg=str(e))
 
 
 @product_page.route('/add', methods=['GET', 'POST'])
@@ -139,7 +152,7 @@ def edit_product(product_id):
         print("@app.route('/product/edit'): %s",e)
         return render_template('edit_product.html', error_msg = e)
 
-		
+
 @product_page.route('/delete/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
 	try:
@@ -195,9 +208,9 @@ def list_product(categries):
 		cursor.close()
 		return render_template("product_list.html", products = products)
 	except Exception as e:
-		print(e)	
+		print(e)
 		return render_template("product_list.html" ,products= [] )
-	
+
 
 def process_product(products_data):
 	new_list = []

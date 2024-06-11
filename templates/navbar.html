@@ -5,17 +5,10 @@
 
 <nav class="navbar">
   <div class="wrapper">
-    <label for="menu-btn" class="btn menu-btn"
-      ><i class="fas fa-bars"></i
-    ></label>
+    <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
     <div class="logo">
       <a href="{{ url_for('home') }}">
-        <img
-          src="{{ url_for('static', filename='images/icon-logo.png') }}"
-          alt="Logo"
-          width="30"
-          height="30"
-        />
+        <img src="{{ url_for('static', filename='images/icon-logo.png') }}" alt="Logo" width="30" height="30" />
         <span class="logo-content--desktop">Moa Creek Rural Supplies</span>
         <span class="logo-content--mobile">MCRS</span>
       </a>
@@ -23,101 +16,41 @@
     <input type="radio" name="slider" id="menu-btn" />
     <input type="radio" name="slider" id="close-btn" />
     <ul class="nav-links">
-      <label for="close-btn" class="btn close-btn">
-        <i class="fas fa-times"></i>
-      </label>
+      <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
       <li>
-        <a href="{{ url_for('home') }}">Home</a>
-      </li>
-      <li>
-        <a href="{{ url_for('customer.categories') }}" class="desktop-item"
-          >Categories</a
-        >
+        <a href="{{ url_for('customer.categories') }}" class="desktop-item">Categories</a>
         <input type="checkbox" id="showMega" />
         <label for="showMega" class="mobile-item">Categories</label>
         <div class="mega-box">
           <div class="content">
-            <div class="row">
-              <img
-                src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg"
-                alt=""
-              />
-            </div>
-            <div class="row">
-              <ul class="mega-links">
-                <li><a href="{{ url_for('category', category_id=1) }}">Animal Healthcare</a></li>
-                <li><a href="{{ url_for('category', category_id=2) }}">Nutrition</a></li>
-                <li><a href="{{ url_for('category', category_id=3) }}">Shed Supplies</a></li>
-				<li>
-					<a href="{{ url_for('category', category_id=4) }}">
-						Calving
-					</a>
-				  </li>
-                <li>
-                  <a href="{{ url_for('category', category_id=5) }}">
-                    Animal Equipment
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="row">
-              <ul class="mega-links">
-				<!-- <li>
-					<a href="{{ url_for('category', category_id=6) }}">
-						Water Equipment
-					</a>
-				</li> -->
-
-				<!-- <li>
-					<a href="{{ url_for('category', category_id=7) }}">
-						Fencing
-					</a>
-				  </li> -->
-                <li>
-                  <a href="{{ url_for('category', category_id=8) }}">
-                  Clothing
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url_for('category', category_id=9) }}">
-                    Footwear
-                  </a>
-                </li>
-                <li>
-                  <a href="{{ url_for('category', category_id=10) }}">
-                    Household Supplies
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="row">
-              <ul class="mega-links">
-                <li><a href="{{ url_for('category', category_id=11) }}">Garden Supplies</a></li>
-                <li><a href="{{ url_for('category', category_id=12) }}">Agrichemicals</a></li>
-                <li><a href="{{ url_for('category', category_id=13) }}">Machinery & Oil</a></li>
-                <li><a href="{{ url_for('category', category_id=14) }}">Pasture & Cropping</a></li>
-                <li><a href="{{ url_for('category', category_id=15) }}">Fertilizer</a></li>
-                <li><a href="{{ url_for('category', category_id=17) }}">Clearance</a></li>
-                <li><a href="{{url_for('category', category_id=16)}}">Gift Card</a>
-                </li>
-              </ul>
-            </div>
+            {% for category in navbar_categories %}
+              <div class="row">
+                <ul class="mega-links">
+                  <li>
+                    <a href="{{ url_for('category', category_id=category.id) }}">{{ category.name }}</a>
+                    {% if category.children %}
+                      <ul>
+                        {% for child in category.children %}
+                          <li><a href="{{ url_for('category', category_id=child.id) }}">{{ child.name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                </ul>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </li>
     </ul>
     <div class="nav-side--links">
       <a class="nav-side--link" href="{{ url_for('login_page.login') }}">
-        <img
-          src="{{ url_for('static', filename='images/icon-account.svg') }}"
-        />
+        <img src="{{ url_for('static', filename='images/icon-account.svg') }}" />
       </a>
       <a class="nav-side--link" href="{{ url_for('cart.cart') }}">
         <img src="{{ url_for('static', filename='images/icon-cart.svg') }}" />
-        <span
-          data-user-id="{{ session['user_id'] }}"
-          class="nav-side--link-quantity"
-        ></span>
+        <span data-user-id="{{ session['user_id'] }}" class="nav-side--link-quantity"></span>
       </a>
     </div>
   </div>
