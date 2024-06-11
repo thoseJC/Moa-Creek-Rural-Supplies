@@ -4,12 +4,9 @@
 />
 
 {% extends 'base.html' %}
-
-
-
 {% block content %}
 <div class="form-error">{{ err_msg }}</div>
-{% if error != true %}
+
 <div>
     <div class="category-top-nav-bar">
         {% for ca in categories  %}
@@ -117,11 +114,5 @@
 </div>
 </div>
 </div>
-
-{%else%}
-<h1 class="vertical-center">Product Not Exist</h1>
-
-{% endif%}
-
 {% endblock %}
 

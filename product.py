@@ -56,12 +56,10 @@ def show_product(product_id):
 		categoryId = product["categoryId"]
 		cursor.execute("select * from products where category_id = %s",(categoryId,))
 		products = cursor.fetchall();
-
-		
-		return render_template('product_info.html',product = product, products= products, categories =categories, error_msg = None , error = False)
+		return render_template('product_info.html',product = product, products= products, categories =categories, error_msg = None)
 	except Exception as e:
 		print("@app.route('/product'): %s",e)
-		return render_template('product_info.html', error_msg = e, error = True)
+		return render_template('product_info.html', error_msg = e)
 
 
 @product_page.route('/add', methods=['GET', 'POST'])

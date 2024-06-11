@@ -13,9 +13,9 @@ def query_product_by_id():
 			i.quantity,
 			p.category_id
 		FROM products p 
-		INNER JOIN 
+		LEFT JOIN 
 			categories c ON p.category_id = c.category_id
-		INNER JOIN 
+		LEFT JOIN 
 			inventory i ON p.product_id = i.product_id
 		WHERE p.product_id = %s;
 	"""
