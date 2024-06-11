@@ -264,8 +264,6 @@ VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health
         'images/category_image/niuniu.jpg'),
        ('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
        ('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
-       ('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg'),
-       ('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg'),
        ('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
        ('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
        ('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg'),
@@ -283,9 +281,7 @@ INSERT INTO categories (name, parent_id, description, ct_image_path)
 VALUES ('Vaccines', (SELECT category_id
                      FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
         'Vaccines to prevent diseases in animals.', ''),
-       ('Antibiotics', (SELECT category_id
-                        FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Antibiotics to treat animal diseases.', ''),
+       ('Antibiotics', (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table), 'Antibiotics to treat animal diseases.', ''),
        ('Supplements', (SELECT category_id
                         FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
         'Supplements to enhance animal health.', ''),
@@ -325,13 +321,11 @@ VALUES ((SELECT category_id FROM categories WHERE name = 'Animal Health Care'), 
 Reduces the risk of milk fever by increasing the levels of calcium in the blood.', 15.00, 'Calcitop-new-web.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Dairy Hygiene and Shed Supplies'), 'Dairy Cleaner',
         'Cleaner for dairy equipment', 10.00, 'CleanerfordairyEquipment.jpeg', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Aid', 'Aid for assisting in calving.',
-        30.00, '', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Calving'), 'Calving Jack', 'Aid for assisting in calving.',340.00, 'calving-jack.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Animal Equipment'), 'Feeding Bottle','Bottle for feeding young animals.jpeg', 5.00, 'Feeding-Bottle.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Vaccines'), 'Animal Vaccine',
         'A vaccine to prevent diseases in animals.jpeg', 30.00, '', 1),
-       ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics',
-        'Antibiotics to treat animal diseases.jpeg', 20.00, '', 1),
+       ((SELECT category_id FROM categories WHERE name = 'Antibiotics'), 'Animal Antibiotics','Antibiotics to treat animal diseases.jpeg', 20.00, 'animal-antibiotic.png', 1),
        ((SELECT category_id FROM categories WHERE name = 'Supplements'), 'Animal Supplement',
         'A supplement to enhance animal health.jpeg', 25.00, '', 1),
        ((SELECT category_id FROM categories WHERE name = 'Poultry Feed'), 'Poultry Feed', 'Feed for poultry.', 15.00,
@@ -380,7 +374,7 @@ INSERT INTO inventory (product_id, quantity)
 VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Equilibrium Mineral Mix' LIMIT 1) AS derived_table), 30),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calcium deficiency in cattle' LIMIT 1) AS derived_table), 56),
        ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Dairy Cleaner' LIMIT 1) AS derived_table), 10),
-       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Aid' LIMIT 1) AS derived_table),
+       ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Calving Jack' LIMIT 1) AS derived_table),
         28),
        ((SELECT product_id
          FROM (SELECT product_id FROM products WHERE name = 'Feeding Bottle' LIMIT 1) AS derived_table), 20),
@@ -745,7 +739,6 @@ VALUES
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
 VALUES
 ((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Organic Fertilizer', 'Organic fertilizer for healthy crops.', 110.00, 'organic_fertilizer.jpg', 1),
-((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Nitrogen Fertilizer', 'Nitrogen-rich fertilizer.', 130.00, 'nitrogen_fertilizer.jpg', 1),
 ((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Phosphate Fertilizer', 'Phosphate fertilizer for strong roots.', 140.00, 'phosphate_fertilizer.jpg', 1),
 ((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Potassium Fertilizer', 'Potassium fertilizer for plant vigor.', 150.00, 'potassium_fertilizer.jpg', 1),
 ((SELECT category_id FROM categories WHERE name = 'Fertilizer'), 'Liquid Fertilizer', 'Liquid fertilizer for easy application.', 160.00, 'liquid_fertilizer.jpg', 1);
@@ -771,7 +764,6 @@ VALUES
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Pesticide' LIMIT 1) AS derived_table), 260),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Growth Enhancer' LIMIT 1) AS derived_table), 280),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Organic Fertilizer' LIMIT 1) AS derived_table), 300),
-((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Nitrogen Fertilizer' LIMIT 1) AS derived_table), 320),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Phosphate Fertilizer' LIMIT 1) AS derived_table), 340),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Potassium Fertilizer' LIMIT 1) AS derived_table), 360),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Liquid Fertilizer' LIMIT 1) AS derived_table), 380),
