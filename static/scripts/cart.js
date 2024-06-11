@@ -133,7 +133,7 @@ const getUserId = () => {
 		  const value = totalTopayEle.getAttribute("total-amount");
 		  const total = Number(value);
 		  const residue = total - Number(giftcardCredit);
-		  if (residue > 0) {
+		  if (residue >= 0) {
 			totalTopayEle.textContent = `$${residue.toFixed(2)}`;
 			totalTopayEle.setAttribute("total-amount", residue);
 			//  show info to user : gift card has no remain 
@@ -158,7 +158,6 @@ const getUserId = () => {
   
   const getRenderAddress = () => {
 	const userId = getUserId();
-  
 	fetch(`/checkout/get_user_address?user_id=${userId}`, {
 	  method: "GET",
 	  headers: {
@@ -212,19 +211,21 @@ const getUserId = () => {
 	  });
   }
   
+//   function to pop up checkout window
   const proceedCheckout = (flag) => {
 	const checkoutPopup = document.querySelector(".checkout--container");
-
 	if (checkoutPopup) {
 	  if (flag) {
 		getRenderAddress();
 		checkoutPopup.classList.add("active");
+		// store payment data into local storage
 	  } else {
 		checkoutPopup.classList.remove("active");
 	  }
 	}
   };
   
+//   function to handle cart chekout button click
   const btnCartCheckout = document.querySelector("#cart-checkout-btn");
   if (btnCartCheckout) {
 	btnCartCheckout.addEventListener("click", (e) => {
@@ -233,6 +234,8 @@ const getUserId = () => {
 	});
   }
   
+
+//   function to close 
   const checkoutPopupOverlay = document.querySelector(".checkout--overlay");
   if (checkoutPopupOverlay) {
 	checkoutPopupOverlay.addEventListener("click", (e) => {
@@ -656,6 +659,7 @@ const getUserId = () => {
 	  const regex = /^\d{3,4}$/;
 	  return regex.test(cvv);
 	}
+
 	paymentSubmit() {
 	  document
 		.getElementById("payment-form")
@@ -705,16 +709,21 @@ const getUserId = () => {
   
 			const cart_table = document.querySelector("#cart-table");
 			const { userId, total, gst, freight } = cart_table.dataset;
+			console.log("cart_table.dataset: ", cart_table.dataset)
+			console.log("total: " , total)
 			const giftcardCreditEle = document.getElementById("giftcard-credit");
+			const giftCardId = giftcardCreditEle.getAttribute("giftCardApplied")
 			const { giftCard } = giftcardCreditEle.dataset;
-			this.proceedPayment(userId, total, giftCard ? "gift-card" : "Credit Card", gst, freight, giftCard);
+			console.log("giftCard : ", giftCard)
+			this.proceedPayment(userId, total, giftCard ? "gift-card" : "Credit Card", gst, freight, giftCardId);
 		  }
 		});
 	}
   
-	proceedPayment(userId, total, paymentType, gst, freight, giftCardAmount) {
+	proceedPayment(userId, total, paymentType, gst, freight, giftCardId) {
 	  const cart = JSON.parse(localStorage.getItem("cart")) || {};
 	  const cartItems = cart[userId] || [];
+
 	  const data = {
 		userId,
 		total,
@@ -722,7 +731,7 @@ const getUserId = () => {
 		gst,
 		freight,
 		cartItems,
-		giftCardAmount,
+		giftCardId,
 	  };
   
 	  fetch("/checkout/proceed_payment", {
