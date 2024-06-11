@@ -9,6 +9,16 @@
 
 {% block content %}
 <div class="form-error">{{ err_msg }}</div>
+<div class="whole-container">
+    <div class="product-side-list">
+        <ul>
+        {% for pd in products%}
+        <a href="{{pd[0]}}"">
+        <li>{{pd[2]}}</li>
+        </a>
+        {%endfor%}
+    </ul>
+    </div>
 <div class="product-container">
     <div class="product-img">
         <img 
@@ -95,6 +105,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock %}

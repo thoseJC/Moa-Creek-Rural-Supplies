@@ -10,7 +10,8 @@ def query_product_by_id():
 			p.pd_image_path,
 			c.name,
 			p.is_active,
-			i.quantity
+			i.quantity,
+			p.category_id
 		FROM products p 
 		INNER JOIN 
 			categories c ON p.category_id = c.category_id

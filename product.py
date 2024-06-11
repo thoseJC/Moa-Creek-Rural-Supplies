@@ -48,9 +48,13 @@ def show_product(product_id):
 			"image": fetched_product[6],
 			"category": fetched_product[7],
 			"active": fetched_product[8],
-			"quantity": fetched_product[9]
+			"quantity": fetched_product[9],
+			"categoryId" : fetched_product[10]
 		}
-		return render_template('product_info.html',product = product)
+		categoryId = product["categoryId"]
+		cursor.execute("select * from products where category_id = %s",(categoryId,))
+		products = cursor.fetchall();
+		return render_template('product_info.html',product = product, products= products)
 	except Exception as e:
 		print("@app.route('/product'): %s",e)
 		return render_template('product_info.html', error_msg = e)
