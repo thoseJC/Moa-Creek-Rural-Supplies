@@ -178,8 +178,17 @@ const getUserId = () => {
 		  `;
 		}
 		const shippingAddressEle = document.querySelector('#shipping-address');
-		if (addressContent && shippingAddressEle) {
-		  shippingAddressEle.innerHTML = addressContent;
+		const shippingTypeSelect = document.getElementById("shipping-type-select");
+		const shippingMethodEle = document.getElementById("shipping-method-in-checkout-pop")
+		const selectedShippingType = shippingTypeSelect.value;
+		// const shipping
+		if (addressContent && shippingAddressEle && selectedShippingType !== 'pickup') {
+			shippingMethodEle.textContent = "Shipping To :"
+		  	shippingAddressEle.innerHTML = addressContent;
+		}
+		if(selectedShippingType === "pickup"){
+			shippingMethodEle.textContent = "Shipping Method :"
+			shippingAddressEle.textContent = "Pick Up"
 		}
 	  })
 	  .catch((error) => {
@@ -501,39 +510,43 @@ const getUserId = () => {
   customElements.define("cart-table", CartTable);
   
   const updateShippingCost = () => {
+	var shippingCost = 0;
 	const shippingTypeSelect = document.getElementById("shipping-type-select");
-	const selectedShippingType = shippingTypeSelect.value;
-	const selectedOption = shippingTypeSelect.options[shippingTypeSelect.selectedIndex];
-	const shippingCost = parseFloat(selectedOption.dataset.price);
+	if(shippingTypeSelect && shippingTypeSelect.value){
+
+		const selectedShippingType = shippingTypeSelect ? shippingTypeSelect.value : 'None';
+		console.log("selectedShippingType : ", selectedShippingType)
+		const selectedOption = shippingTypeSelect.options[shippingTypeSelect.selectedIndex];
+		shippingCost = parseFloat(selectedOption.dataset.price);
+	}
   
 	const cartTable = document.querySelector("#cart-table");
 	const orderSummaryShipping = document.getElementById("order-summary-shipping");
   
-	orderSummaryShipping.textContent = `$${shippingCost.toFixed(2)}`;
-	cartTable.setAttribute("data-freight", shippingCost);
-  
-	const totalGST = parseFloat(cartTable.getAttribute("data-gst"));
-	const total = parseFloat(cartTable.getAttribute("data-total"));
-  
-	const totalToPay = total + totalGST + shippingCost;
-  
-	const totalTopay = document.getElementById("total-to-pay");
-	totalTopay.textContent = `$${totalToPay.toFixed(2)}`;
-	totalTopay.setAttribute("total-amount", totalToPay);
-  
-	const orderSummaryTotal = document.getElementById("order-summary-total");
-	if (orderSummaryTotal) {
-	  orderSummaryTotal.textContent = `$${total.toFixed(2)}`;
+	if(orderSummaryShipping){
+		orderSummaryShipping.textContent = `$${shippingCost.toFixed(2)}`;
 	}
-  
-	const orderSummaryGST = document.getElementById("order-summary-gst");
-	if (orderSummaryGST) {
-	  orderSummaryGST.textContent = `$${totalGST.toFixed(2)}`;
+	if(cartTable){
+		cartTable.setAttribute("data-freight", shippingCost);
+		const totalGST = parseFloat(cartTable.getAttribute("data-gst"));
+		const total = parseFloat(cartTable.getAttribute("data-total"));
+		const totalToPay = total + totalGST + shippingCost;
+		const totalTopay = document.getElementById("total-to-pay");
+		totalTopay.textContent = `$${totalToPay.toFixed(2)}`;
+		totalTopay.setAttribute("total-amount", totalToPay);
+		const orderSummaryTotal = document.getElementById("order-summary-total");  
+		if (orderSummaryTotal) {
+		  orderSummaryTotal.textContent = `$${total.toFixed(2)}`;
+		}
+	  
+		const orderSummaryGST = document.getElementById("order-summary-gst");
+		if (orderSummaryGST) {
+		  orderSummaryGST.textContent = `$${totalGST.toFixed(2)}`;
+		}
 	}
   };
   
   document.addEventListener("DOMContentLoaded", () => {
-
 	updateShippingCost();
   });
   
