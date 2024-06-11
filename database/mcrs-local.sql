@@ -27,6 +27,7 @@ CREATE TABLE categories (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     ct_image_path VARCHAR(255),
+    active BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (parent_id) REFERENCES categories(category_id) ON DELETE SET NULL
 );
 
@@ -217,6 +218,7 @@ CREATE TABLE promotions (
     discount_value decimal (10, 2) NULL,
     target_category_id INT NULL, 
     target_product_id INT NULL,
+    active BOOLEAN DEFAULT TRUE,
     foreign key (target_category_id) references categories (category_id),
     foreign key (target_product_id) references products (product_id)
 );
@@ -255,62 +257,47 @@ VALUES
     (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Eva', 'Taylor', 'eva', 'eva@customer.com', '1', TRUE);
 
 
-INSERT INTO categories (name, parent_id, description, ct_image_path)
-VALUES ('Animal Health Care', NULL, 'Products aimed at maintaining animal health.',
-        'images/category_image/animal_healthcare.jpg'),
-       ('Animal Feed & Nutrition', NULL, 'Nutritional products for various animals.',
-        'images/category_image/animal_health_care.jpg'),
-       ('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.',
-        'images/category_image/niuniu.jpg'),
-       ('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg'),
-       ('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg'),
-       ('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg'),
-       ('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg'),
-       ('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg'),
-       ('Garden Supplies', NULL, 'Tools and materials for gardening.', 'images/category_image/garden_supplies.jpg'),
-       ('Agrichemicals', NULL, 'Chemicals used in agriculture.', 'images/category_image/Agrichemicals.jpg'),
-       ('Machinery & Oil', NULL, 'Machines and oils for agricultural use.',
-        'images/category_image/Machinery & Oil.jpg'),
-       ('Pasture & Cropping', NULL, 'Products for pasture management and cropping.',
-        'images/category_image/Pasture & Cropping.jpg'),
-       ('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg'),
-       ('Gift-Card', NULL, 'Gift-Card', 'images/category_image/gift_card.jpg'),
-       ('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg');
+INSERT INTO categories (name, parent_id, description, ct_image_path, active)
+VALUES
+('Animal Health Care', NULL, 'Products aimed at maintaining animal health.', 'images/category_image/animal_healthcare.jpg', TRUE),
+('Animal Feed & Nutrition', NULL, 'Nutritional products for various animals.', 'images/category_image/animal_health_care.jpg', TRUE),
+('Dairy Hygiene and Shed Supplies', NULL, 'Hygiene products for dairy operations.', 'images/category_image/niuniu.jpg', TRUE),
+('Calving', NULL, 'Products to assist with animal birthing.', 'images/category_image/calving.jpg', TRUE),
+('Animal Equipment', NULL, 'Equipment used in animal farming.', 'images/category_image/animal_equipment.jpg', TRUE),
+('Water', NULL, 'Water management supplies.', 'images/category_image/water.jpg', TRUE),
+('Fencing', NULL, 'Materials and tools for fencing.', 'images/category_image/fence.jpg', TRUE),
+('Clothing', NULL, 'Clothing for farm operations.', 'images/category_image/cloth.jpg', TRUE),
+('Footwear', NULL, 'Durable footwear for farming.', 'images/category_image/footwear.jpg', TRUE),
+('Household Supplies', NULL, 'Supplies for rural households.', 'images/category_image/household_supplies.jpg', TRUE),
+('Garden Supplies', NULL, 'Tools and materials for gardening.', 'images/category_image/garden_supplies.jpg', TRUE),
+('Agrichemicals', NULL, 'Chemicals used in agriculture.', 'images/category_image/Agrichemicals.jpg', TRUE),
+('Machinery & Oil', NULL, 'Machines and oils for agricultural use.', 'images/category_image/Machinery & Oil.jpg', TRUE),
+('Pasture & Cropping', NULL, 'Products for pasture management and cropping.', 'images/category_image/Pasture & Cropping.jpg', TRUE),
+('Fertilizer', NULL, 'Fertilizers for agricultural use.', 'images/category_image/Fertilizer.jpg', TRUE),
+('Gift-Card', NULL, 'Gift-Card', 'images/category_image/gift_card.jpg', TRUE),
+('Clearance', NULL, 'Discounted products on clearance.', 'images/category_image/Clearance.jpg', TRUE);
 
-INSERT INTO categories (name, parent_id, description, ct_image_path)
-VALUES ('Vaccines', (SELECT category_id
-                     FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Vaccines to prevent diseases in animals.', ''),
-       ('Antibiotics', (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table), 'Antibiotics to treat animal diseases.', ''),
-       ('Supplements', (SELECT category_id
-                        FROM (SELECT category_id FROM categories WHERE name = 'Animal Health Care') AS derived_table),
-        'Supplements to enhance animal health.', ''),
-       ('Poultry Feed', (SELECT category_id
-                         FROM (SELECT category_id
-                               FROM categories
-                               WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for poultry.', ''),
-       ('Cattle Feed', (SELECT category_id
-                        FROM (SELECT category_id
-                              FROM categories
-                              WHERE name = 'Animal Feed & Nutrition') AS derived_table), 'Feed for cattle.', ''),
-       ('Pet Food', (SELECT category_id
-                     FROM (SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition') AS derived_table),
-        'Food for pets.', ''),
-       ('Feeding Equipment',
-        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
-        'Equipment used for feeding livestock.', ''),
-       ('Milking Equipment',
-        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Animal Equipment') AS derived_table),
-        'Equipment used for milking livestock.', ''),
-       ('Pest Control',
-        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Products to control pests in crops.', ''),
-       ('Herbicides',
-        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Chemical products to control unwanted plants.', ''),
-       ('Fungicides',
-        (SELECT category_id FROM (SELECT category_id FROM categories WHERE name = 'Agrichemicals') AS derived_table),
-        'Chemical products to control fungi.', '');
+
+
+SET @animal_health_care_id = (SELECT category_id FROM categories WHERE name = 'Animal Health Care');
+SET @animal_feed_nutrition_id = (SELECT category_id FROM categories WHERE name = 'Animal Feed & Nutrition');
+SET @animal_equipment_id = (SELECT category_id FROM categories WHERE name = 'Animal Equipment');
+SET @agrichemicals_id = (SELECT category_id FROM categories WHERE name = 'Agrichemicals');
+
+INSERT INTO categories (name, parent_id, description, ct_image_path, active)
+VALUES
+('Vaccines', @animal_health_care_id, 'Vaccines to prevent diseases in animals.', '', TRUE),
+('Antibiotics', @animal_health_care_id, 'Antibiotics to treat animal diseases.', '', TRUE),
+('Supplements', @animal_health_care_id, 'Supplements to enhance animal health.', '', TRUE),
+('Poultry Feed', @animal_feed_nutrition_id, 'Feed for poultry.', '', TRUE),
+('Cattle Feed', @animal_feed_nutrition_id, 'Feed for cattle.', '', TRUE),
+('Pet Food', @animal_feed_nutrition_id, 'Food for pets.', '', TRUE),
+('Feeding Equipment', @animal_equipment_id, 'Equipment used for feeding livestock.', '', TRUE),
+('Milking Equipment', @animal_equipment_id, 'Equipment used for milking livestock.', '', TRUE),
+('Pest Control', @agrichemicals_id, 'Products to control pests in crops.', '', TRUE),
+('Herbicides', @agrichemicals_id, 'Chemical products to control unwanted plants.', '', TRUE),
+('Fungicides', @agrichemicals_id, 'Chemical products to control fungi.', '', TRUE);
+
 
 
 INSERT INTO products (category_id, name, description, price, pd_image_path, is_active)
@@ -408,10 +395,10 @@ VALUES ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'E
        ((select product_id FROM products where name = 'Gift Card 20'), 500),
        ((select product_id FROM products where name = 'Hand Sanitiser Aerosol'), 500);
 
-INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id) VALUES
-('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL),
-('30% Discount', 'special_price', NULL, 0.30, 2, NULL),
-('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL);
+INSERT INTO promotions ( description, promotion_type, threshold_value, discount_value, target_category_id, target_product_id, active) VALUES
+('Buy two get one free', 'get_1_free', 2, NULL, 1, NULL,TRUE),
+('30% Discount', 'special_price', NULL, 0.30, 2, NULL,TRUE),
+('Buy 100 get delivery free', 'free_delivery', 100, NULL, NULL, NULL,TRUE);
 
 INSERT INTO address (user_id, street_address, city, state, postal_code, country, is_primary) VALUES
 ((SELECT user_id FROM users WHERE username = 'alice'), '123 Main St', 'Townsville', 'State1', '12345', 'Country1', TRUE),
