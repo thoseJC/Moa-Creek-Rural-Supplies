@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, url_for, jsonify,render_template,session,request
 from app_query import get_user_profile_query, update_user_profile_query
+from auth import hashPassword
 from cursor import getCursor
 from validation import is_valid_email, is_valid_phone_number
 
@@ -12,8 +13,8 @@ def manage_own_profile():
 		"phone_number": "",
 		"success": ""
 	}
+	user_id = session.get("user_id")
 	try:
-		user_id = session.get("user_id")
 		cursor = getCursor()
 
 		if request.method == 'POST':
@@ -21,9 +22,9 @@ def manage_own_profile():
 			last_name = request.form.get('last_name')
 			email = request.form.get('email')
 			phone_number = request.form.get('phone_number')
-			user_password = request.form.get("first_password") if request.form.get("first_password") else session.get("password")
-			print("password : %s", user_password)
-			user = (first_name, last_name, email, phone_number,user_password)
+			hashed_password = hashPassword(request.form.get("first_password")) if request.form.get("first_password") else session.get("password")
+			print("password : %s", hashed_password)
+			user = (first_name, last_name, email, phone_number,hashed_password)
 			check_status = True
 			if email and is_valid_email(email) != True:
 				check_status = False
@@ -33,17 +34,16 @@ def manage_own_profile():
 				msg_obj["phone_number"] = "Please enter a correct phone number!"
 			if check_status:
 				sql_query = update_user_profile_query()
-				cursor.execute(sql_query, (first_name, last_name, email, phone_number,user_password, user_id,))
+				cursor.execute(sql_query, (first_name, last_name, email, phone_number,hashed_password, user_id,))
 				msg_obj["success"] = "Your profile has been updated successfully!"
 
-		else:
-			sql_query = get_user_profile_query()
-			cursor.execute(sql_query, (user_id,))
-			user = cursor.fetchone()
-
-		return render_template('manage_own_profile.html',
-			user=user, 
-			msg_obj=msg_obj)
+		sql_query = get_user_profile_query()
+		cursor.execute(sql_query, (user_id,))
+		user = cursor.fetchone()
+		return render_template('manage_own_profile.html',user=user, msg_obj=msg_obj)
 	except Exception as e:
 		print("def manage_own_profile(): %s", e)
+		sql_query = get_user_profile_query()
+		cursor.execute(sql_query, (user_id,))
+		user = cursor.fetchone()
 		return render_template('manage_own_profile.html',user=user, msg_obj=msg_obj, error_msg = e)
