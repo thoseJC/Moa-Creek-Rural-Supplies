@@ -25,8 +25,7 @@ def login():
 				return render_template('login.html', err_msg="User Not Exist")
 			user_password = user[3]
 			user_status = user[4]
-				# if checkHashingValue(user_password, user_password):
-			if user_password != password:
+			if not checkHashingValue(user_password, password):
 				return render_template('login.html', err_msg="Password Not Correct")
 			if user_status != 1:
 					return render_template('login.html', err_msg="Account Suspended")

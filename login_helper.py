@@ -28,7 +28,8 @@ def getUserInfo():
     	"first_name": session.get("first_name"),
     	"last_name": session.get("last_name"),
     	"order_count": session.get("order_count"),
-		"business_account_status" : session.get("business_account_status")
+		"business_account_status" : session.get("business_account_status"),
+		"username" : session.get("user_name")
 	}
 	return user;
 	
