@@ -50,16 +50,8 @@ def add_address():
             flash('Address added successfully!')
             return redirect(url_for('shipping_address.manage_addresses', user_id=user_id))
         except Exception as e:
-            if connection:
-                connection.rollback()
             flash(f'Failed to add address: {str(e)}')
             return render_template('shipping/add_address.html', error=str(e))
-        finally:
-            if cursor:
-                cursor.close()
-            if connection:
-                connection.close()
-
     return render_template('shipping/add_address.html')
 
 @shipping_address.route('/manage_addresses/<user_id>', methods=['GET'])
@@ -69,9 +61,10 @@ def manage_addresses(user_id):
         cursor.execute("SELECT * FROM address WHERE user_id = %s", (user_id,))
         addresses = cursor.fetchall()
         return render_template('shipping/manage_addresses.html', addresses=addresses, user_id=user_id)
-    finally:
-        cursor.close()
-        connection.close()
+    except Exception as e:
+        connection.rollback()
+        flash(f'Failed to delete address: {str(e)}')
+
 
 @shipping_address.route('/update_address/<int:address_id>', methods=['GET', 'POST'])
 def update_address(address_id):
@@ -112,9 +105,7 @@ def update_address(address_id):
         connection.rollback()
         flash(f'Failed to update address: {str(e)}')
         return render_template('shipping/update_address.html', error=str(e), address_id=address_id)
-    finally:
-        cursor.close()
-        connection.close()
+
 
 @shipping_address.route('/delete_address/<int:address_id>', methods=['POST'])
 def delete_address(address_id):
@@ -126,9 +117,6 @@ def delete_address(address_id):
     except Exception as e:
         connection.rollback()
         flash(f'Failed to delete address: {str(e)}')
-    finally:
-        cursor.close()
-        connection.close()
     return redirect(url_for('shipping_address.manage_addresses', user_id=session.get('user_id')))
 
 @shipping_address.route('/customer/dashboard', methods=['GET'])
@@ -150,6 +138,3 @@ def customer_dashboard():
     except Exception as e:
         flash(f"Error fetching data: {str(e)}", "error")
         return redirect(url_for('home'))
-    finally:
-        cursor.close()
-        connection.close()

@@ -71,8 +71,7 @@ def register():
 			except Exception as e:
 				flash(f'Registration failed: {str(e)}', 'error')
 				return render_template('register.html', error=str(e))
-			finally:
-				cursor.close()  
+
 
 		return render_template('register.html')
 	except Exception as e:

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from flask import Blueprint, jsonify, render_template, redirect, url_for, flash, session, request
 import mysql.connector
 import connect
 
@@ -27,9 +27,10 @@ def dashboard():
             FROM users WHERE account_holder != 'init'
         """)
         applications = cursor.fetchall()
-    finally:
-        cursor.close()
-        connection.close()
+    except Exception as e:
+        print("@checkout_page.route(/proceed_payment): %s", e)
+        return jsonify({'message': 'Payment Error'}), 400
+
 
     return render_template("manager/manage_account_apply.html", applications=applications)
 
@@ -92,6 +93,4 @@ def update_application_status(user_id, status, credit_limit=None):
         print(f"Error updating application status: {e}")
         connection.rollback()
         return False
-    finally:
-        cursor.close()
-        connection.close()
+

@@ -25,11 +25,7 @@ def cart():
             prices[row[0]] = row[1]
     except Exception as e:
         print("Error fetching shipping prices: %s" % e)
-    finally:
-        if cursor:
-            cursor.close()
-        if db_conn:
-            db_conn.close()
+
 
     return render_template(
         'global/cart.html',

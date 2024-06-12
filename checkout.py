@@ -70,8 +70,7 @@ def proceed_payment():
     except Exception as e:
         print("@checkout_page.route(/proceed_payment): %s", e)
         return jsonify({'message': 'Payment Error'}), 400
-    finally:
-        cursor.close()
+
 
 @checkout_page.route("/get_user_address", methods=["GET"])
 def get_user_address():
@@ -92,8 +91,7 @@ def get_user_address():
                 'message': 'Fail',
                 'data': address
             }), 400
-    finally:
-        cursor.close()
+
 
 
 def get_figt_card_amount(gift_card_type_id):

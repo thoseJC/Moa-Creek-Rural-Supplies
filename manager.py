@@ -72,8 +72,7 @@ def update_credit_apply():
 	except Exception as e:
 		print("@manager_page.route(/update_credit_apply): %s", e)
 		return jsonify({'message': 'Credit Limit Updated Error'}), 400
-	finally:
-		cursor.close()
+
 
 
 @manager_page.route("/user-account", methods = ['GET', 'POST'])
@@ -185,8 +184,7 @@ def updateAccountStatus(data):
       print(f"Error: {err}")
       connc.rollback()
       return None
-   finally:
-      connc.close()
+
 
 
 def process_users_data(users):

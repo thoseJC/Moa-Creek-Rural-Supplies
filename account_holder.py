@@ -44,9 +44,7 @@ def apply_account_holder():
             print(f"Failed to submit application: {str(e)}")
             flash(f'Failed to submit application: {str(e)}', 'error')
             return redirect(url_for('account_holder.apply_account_holder'))  
-        finally:
-            cursor.close()
-            connection.close()
+
 
     connection, cursor = getDictCursor()
     try:
@@ -57,9 +55,9 @@ def apply_account_holder():
         """, (user_id,))
         result = cursor.fetchone()
         account_holder_status = result["account_holder"] if result else None
-    finally:
-        cursor.close()
-        connection.close()
+    except Exception as e:
+        print(e)
+        
 
     user = {
         "user_id": user_id,

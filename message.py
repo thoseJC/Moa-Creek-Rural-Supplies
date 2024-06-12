@@ -44,7 +44,7 @@ def send_status_update_notifications(user_id):
 
         return jsonify({'message': 'notification sent successfully!'})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 400
     
 
 @message_page.route('/inbox')
@@ -94,10 +94,7 @@ def conversation():
         msg_receiver_id_id = get_receiver_id(messages, current_user_id)
         return render_template('conversation.html', messages=processed_message, msg_receiver_id_id= msg_receiver_id_id)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        if connection:
-            connection.close()
+        return jsonify({'error': str(e)}), 400
 
 
 @message_page.route('/send_message', methods=['POST', 'GET'])
@@ -131,10 +128,8 @@ def send_message():
         return jsonify(response)
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        if connection:
-            connection.close()
+        return jsonify({'error': str(e)}), 400
+
 
 
    
