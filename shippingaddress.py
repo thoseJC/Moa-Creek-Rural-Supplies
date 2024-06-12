@@ -22,7 +22,7 @@ def shipping_info():
 def add_address():
     if not session.get('user_id'):
         flash('You need to login to add an address.', 'warning')
-        return redirect(url_for('login_page'))
+        return redirect(url_for('login_page.login'))
 
     user_id = session['user_id']
 
@@ -83,13 +83,9 @@ def update_address(address_id):
             state = request.form.get('state')
             postal_code = request.form.get('postal_code')
             country = request.form.get('country')
-            is_primary = request.form.get('is_primary') == 'on'
+            is_primary_value = request.form.get('is_primary')
+            is_primary = 1 if is_primary_value == 'true' else 0
 
-            if is_primary:
-                cursor.execute("""
-                    UPDATE address SET is_primary = %s
-                    WHERE user_id = %s AND is_primary = %s
-                """, (False, session['user_id'], True))
 
             cursor.execute("""
                 UPDATE address SET
@@ -147,7 +143,7 @@ def customer_dashboard():
         cursor.execute("SELECT first_name, last_name, user_role, (SELECT COUNT(*) FROM orders WHERE user_id = %s) as order_count FROM users WHERE user_id = %s", (user_id, user_id))
         user = cursor.fetchone()
 
-        cursor.execute("SELECT street_address, city, state, postal_code, country FROM address WHERE user_id = %s AND is_primary = TRUE", (user_id,))
+        cursor.execute("SELECT street_address, city, state, postal_code, country FROM address WHERE user_id = %s AND is_primary = '1'", (user_id,))
         primary_address = cursor.fetchone()
 
         return render_template('customer/dashboard.html', user=user, primary_address=primary_address)
