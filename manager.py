@@ -1,7 +1,8 @@
 from flask import Blueprint, flash, redirect, url_for, jsonify,request,render_template,session
-from app_query import update_user_profile_by_manager
+from app_query import query_user_when_login, update_user_profile_by_manager
+from auth import hashPassword
 from cursor import getConection, getCursor
-from login_helper import getUserInfo
+from login_helper import getUserInfo, setUp_session
 from flask import render_template
 from manager_query import get_all_account_holders, update_customer_credit_apply
 
@@ -115,14 +116,16 @@ def manage_user_account_by_id(user_id):
             last_name = request.form.get('last_name')
             email = request.form.get('email')
             phone_number = request.form.get('phone_number')
-            user_password = request.form.get("first_password") if request.form.get("first_password") else session.get("password")
+            user_password = hashPassword(request.form.get("first_password")) if request.form.get("first_password") else session.get("password")
             update_user_info = update_user_profile_by_manager()
             cursor.execute(update_user_info, (first_name,last_name,email,phone_number,user_password, user_id))
             connc.commit()
             msg_obj["success"] = "Your profile has been updated successfully!"
-      cursor.execute("select * from users where user_id = %s", (user_id,))
+      cursor.execute(query_user_when_login(), (user_id,))
       dbUser = cursor.fetchone()
+      setUp_session(dbUser)
       user_data = process_user_data(dbUser)
+      # update session data : 
       return render_template("manage_user_by_id.html", user = user_data, msg_obj= msg_obj)
    except Exception as e:
       cursor.execute("select * from users where user_id = %s", (user_id,))
