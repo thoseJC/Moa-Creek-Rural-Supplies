@@ -128,7 +128,8 @@ def get_user_profile_query():
 			u.last_name,
 			u.email,
 			u.phone_number,
-			ur.role_name
+			ur.role_name,
+			u.username
 		FROM 
 			users u
 		INNER JOIN 

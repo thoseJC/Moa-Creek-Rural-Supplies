@@ -40,7 +40,7 @@ def register():
 						username, 
 						email, 
 						phone_number, 
-						password
+						hashed_password
 					)
 				)
 

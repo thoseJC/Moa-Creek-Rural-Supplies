@@ -1,13 +1,15 @@
-from flask import Blueprint, session, render_template
+from flask import Blueprint, flash, redirect, session, render_template, url_for
 from cursor import getCursor, getConection
 
 cart_page = Blueprint("cart", __name__, static_folder="static", template_folder="templates/cart")
 
 @cart_page.route("/")
 def cart():
-    user_id = 0
-    if session.get("user_id"):
-        user_id = session.get("user_id")
+    if not session.get('user_id'):
+        flash('You need to login to check Cart.', 'warning')
+        return redirect(url_for('login_page.login'))
+
+    user_id = session['user_id']
 
     query = "SELECT shipping_type, price FROM shipping_fee"
     prices = {}

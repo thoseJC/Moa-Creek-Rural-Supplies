@@ -244,17 +244,17 @@ CREATE TABLE gift_card (
 
 INSERT INTO user_roles (role_name) VALUES ('manager'), ('customer'), ('admin'), ('staff');
 
-INSERT INTO users (user_id, role_id, first_name, last_name, username, email, user_password, status) 
+INSERT INTO users (user_id, role_id, first_name, last_name, username,  email,phone_number, user_password, status) 
 VALUES 
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'kevin.li@lincolnuni.ac.nz', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Alice', 'Johnson', 'alice', 'alice@manager.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Bob', 'Smith', 'bob', 'bob@customer.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Charlie', 'Brown', 'charlie', 'charlie@staff.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'David', 'Wilson', 'david', 'david@staff.com', '1', TRUE),
-    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Eva', 'Taylor', 'eva', 'eva@customer.com', '1', TRUE);
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Monica', 'Briggs', 'manager', 'manager@manager.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Forrest', 'Curtis', 'customer', 'kevin.li@lincolnuni.ac.nz','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'admin'), 'Basil', 'Parker', 'admin', 'admin@admin.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Harley', 'Stephenson', 'staff', 'staff@staff.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'manager'), 'Alice', 'Johnson', 'alice', 'alice@manager.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Bob', 'Smith', 'bob', 'bob@customer.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'Charlie', 'Brown', 'charlie', 'charlie@staff.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'staff'), 'David', 'Wilson', 'david', 'david@staff.com', '02108840355' ,'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE),
+    (UUID(), (SELECT role_id FROM user_roles WHERE role_name = 'customer'), 'Eva', 'Taylor', 'eva', 'eva@customer.com','02108840355' , 'cf084719165ebe921d17d10804f520994a9f9d6d702871e1cc6337cff1e20203', TRUE);
 
 
 INSERT INTO categories (name, parent_id, description, ct_image_path, active)
@@ -757,5 +757,6 @@ VALUES
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Fertilizer' LIMIT 1) AS derived_table), 440),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Herbicide' LIMIT 1) AS derived_table), 460),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Equipment' LIMIT 1) AS derived_table), 480),
+(24,100),
 (69, 480);
 

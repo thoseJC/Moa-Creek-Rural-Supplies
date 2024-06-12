@@ -5,7 +5,7 @@
 
 <div class="account-content--container">
   <div class="account-ccount--header">
-    Welcome / {{ user["first_name"] }} {{ user["last_name"] }} 
+    Welcome / {{ user["username"] }}
     {% set role = 'staff' %}
     {% include 'components/role-badge.html' %}
   </div>
