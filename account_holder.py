@@ -18,7 +18,7 @@ def getDictCursor():
 def apply_account_holder():
     if not session.get('user_id'):
         flash('You need to login to apply.', 'warning')
-        return redirect(url_for('login.login_page'))
+        return redirect(url_for('login_page.login'))
 
     user_id = session['user_id']
 
