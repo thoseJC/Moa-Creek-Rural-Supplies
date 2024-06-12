@@ -39,6 +39,7 @@ app.register_blueprint(news_page, url_prefix="/news")
 app.register_blueprint(account_holder, url_prefix='/account_holder')
 app.register_blueprint(manage_account_apply_page, url_prefix="/manage_account_apply")
 app.register_blueprint(giftcard_page,url_prefix = "/giftcard" )
+app.config['UPLOAD_FOLDER'] = 'static/images/products/'
 
 @app.route("/")
 def home():

@@ -23,7 +23,7 @@
 
         <div class="row">
             <div>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <!-- Category -->
                     <div class="form-group">
                         <label for="category_id">Category:</label>
@@ -51,8 +51,8 @@
                     </div>
                     <!-- Image Path -->
                     <div class="form-group">
-                        <label for="image_path">Image Path:</label>
-                        <input type="text" class="form-control" id="image_path" name="image_path" required>
+                        <label for="image_path">Product Image:</label>
+                        <input type="file" class="form-control" id="product_image" name="product_image" accept=".jpg, .jpeg, .png" required>
                     </div>
                     <div class="mt-2">
                         <button type="submit" class="common-btn--border">Submit</button>

@@ -1,10 +1,11 @@
+import os
 from flask import Blueprint, flash,request, redirect, url_for, jsonify,render_template,session
 from app_query import get_products_by_categories, query_product_by_id, get_products_by_ids
 from cursor import getCursor
 from product_query import query_product_by_id, insert_product, get_all_categories, sql_update_product,query_product_list
 
 product_page = Blueprint("product_page", __name__, static_folder="static", template_folder="templates/product")
-
+UPLOAD_FOLDER = 'static/images/products'
 
 @product_page.route("/product-management")
 def get_list_of_product():
@@ -73,13 +74,20 @@ def add_product():
 			name = request.form['name']
 			description = request.form['description']
 			price = request.form['price']
-			image_path = request.form['image_path']
+			file = request.files['product_image']
 			category_id = request.form['category_id']
+
+			if file.filename == "":
+				flash("No select file")
+				return redirect(url_for('product_page.get_list_of_product'))
+			filename = file.filename
+			print(os.path.join(UPLOAD_FOLDER))
+			file.save(os.path.join(UPLOAD_FOLDER, filename))
 
 			# Insert the new product into the database
 			cursor = getCursor()
 			sql_query = insert_product()
-			cursor.execute(sql_query, (name, description, price, image_path, category_id, 1))
+			cursor.execute(sql_query, (name, description, price, filename, category_id, 1))
 
 			# Redirect to the product info page of the newly added product
 			return redirect(url_for('product_page.get_list_of_product'))
