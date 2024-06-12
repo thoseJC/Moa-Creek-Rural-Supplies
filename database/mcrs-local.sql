@@ -770,5 +770,6 @@ VALUES
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Fertilizer' LIMIT 1) AS derived_table), 440),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Herbicide' LIMIT 1) AS derived_table), 460),
 ((SELECT product_id FROM (SELECT product_id FROM products WHERE name = 'Clearance Equipment' LIMIT 1) AS derived_table), 480),
+(24,100),
 (69, 480);
 
