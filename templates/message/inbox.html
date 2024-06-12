@@ -19,11 +19,11 @@
     </div>
 
     <div>
-      {%if noMessage == True %}
+      {%if noMessage == true %}
 
       <div class="account-ccount--header">You have no message in Inbox</div>
 
-      {%endif%}
+      {%else%}
       <ul>
         {% for convsn in conversations %}
         <li>
@@ -36,6 +36,7 @@
         </li>
         {% endfor %}
       </ul>
+      {%endif%}
     </div>
   </div>
 

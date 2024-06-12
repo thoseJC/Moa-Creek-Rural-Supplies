@@ -74,10 +74,7 @@ def inbox():
         return render_template('inbox.html', conversations=[], msg = msg,user =user ,noMessage = True)
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        if connection:
-            connection.close()
+        return jsonify({'error': str(e)}), 400
 
 
 
