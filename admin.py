@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, jsonify, request, session
 from cursor import getConection, getCursor
 from flask import current_app as app
 from login_helper import getUserInfo
-from admin_query import query_add, query_edit, query_delete_prm, query_delete_p, query_delete_c, query_ctgr_list
+from admin_query import query_add, query_edit,query_ctgr_list, query_deactivate_prm, query_deactivate_p, query_deactivate_c
 
 admin_page = Blueprint("admin", __name__, static_folder="static", template_folder="templates/admin")
 
@@ -61,25 +61,24 @@ def edit():
         return redirect(url_for('admin.categories_management'))
 
 
-@admin_page.route('/delete', methods=['GET','POST'])
-def delete():
+@admin_page.route('/delete/<id>', methods=['GET', 'POST'])
+def delete(id):
     try:
-        id = request.args.get('id')
         connection = getCursor()
 
-        prm_sql_query = query_delete_prm()
+        prm_sql_query = query_deactivate_prm()
         connection.execute(prm_sql_query, (id,))
 
-        p_sql_query = query_delete_p()
+        p_sql_query = query_deactivate_p()
         connection.execute(p_sql_query, (id,))
 
-        c_sql_query = query_delete_c()
-        connection.execute(c_sql_query, (id,))
+        c_sql_query = query_deactivate_c()
+        connection.execute(c_sql_query, (id,id))
 
-        return redirect(url_for('admin.categories_management'))
+        return redirect('/admin/categories_management')
     except Exception as e:
         flash(f"An error occurred while deleting the category: {e}", "error")
-        return redirect(url_for('admin.categories_management'))
+        return redirect('/admin/categories_management')
 
 
 @admin_page.route('/manage_shipping_prices', methods=['GET', 'POST'])

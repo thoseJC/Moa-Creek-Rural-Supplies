@@ -32,6 +32,7 @@ def get_list_of_product():
 		# Handle error appropriately, like rendering an error template
 		return render_template('product_management.html', error_msg="An error occurred while fetching products.")
 
+
 @product_page.route('/<int:product_id>')
 def show_product(product_id):
 	try:
@@ -61,6 +62,7 @@ def show_product(product_id):
 	except Exception as e:
 		print("@app.route('/product'): %s",e)
 		return render_template('product_info.html', error_msg = e)
+
 
 
 @product_page.route('/add', methods=['GET', 'POST'])
@@ -154,7 +156,7 @@ def edit_product(product_id):
 		print("@app.route('/product/edit'): %s",e)
 		return render_template('edit_product.html', product=product, error_msg = e)
 
-		
+
 @product_page.route('/delete/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
 	try:
@@ -210,9 +212,9 @@ def list_product(categries):
 		cursor.close()
 		return render_template("product_list.html", products = products)
 	except Exception as e:
-		print(e)	
+		print(e)
 		return render_template("product_list.html" ,products= [] )
-	
+
 
 def process_product(products_data):
 	new_list = []

@@ -54,6 +54,42 @@ def logout():
     session.pop('user_role', None)
     return redirect(url_for('login_page.login'))
 
+
+def get_all_categories():
+    connection = getCursor()
+    sql_query = """
+    SELECT category_id, parent_id, name FROM categories WHERE active = 1
+    """
+    connection.execute(sql_query)
+    categories = connection.fetchall()
+    print("Fetched categories:", categories)
+    return categories
+
+
+def build_category_tree(categories):
+    category_dict = {}
+    for category in categories:
+        category_dict[category[0]] = {"id": category[0], "parent_id": category[1], "name": category[2], "children": []}
+    root = []
+    for category in category_dict.values():
+        if category["parent_id"]:
+            category_dict[category["parent_id"]]["children"].append(category)
+        else:
+            root.append(category)
+    return root
+
+
+@app.context_processor
+def inject_categories():
+    try:
+        categories = get_all_categories()
+        category_tree = build_category_tree(categories)
+    except Exception as e:
+        category_tree = []
+        print(f"Error fetching categories: {e}")
+    return dict(navbar_categories=category_tree)
+
+
 @app.route('/category/<category_id>', methods=['GET'])
 def category(category_id):
     products = []
@@ -69,6 +105,7 @@ def category(category_id):
     except Exception as e:
         print("@app.route(/category): %s", e)
     return render_template('global/category.html', products=products, category=category)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
