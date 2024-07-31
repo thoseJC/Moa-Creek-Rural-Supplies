@@ -46,10 +46,4 @@ Features: Robust data handling and complex query execution.
 * Staff Functionality: Facilitates product, order, and customer interaction management.
 * Manager Functionality: Can execute all the staff tasks, manage promotions, accounts of all roles management, and reports management.
 * Administrative Access: Provides tools for operational oversight and system customization.
-
-### Authors
-* Feifei Song
-* Mia Zhao
-* Jason Lin
-* Kevin Li
-* Jianing Chen
+  
