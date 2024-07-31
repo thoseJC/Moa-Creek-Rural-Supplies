@@ -47,3 +47,8 @@ Features: Robust data handling and complex query execution.
 * Manager Functionality: Can execute all the staff tasks, manage promotions, accounts of all roles management, and reports management.
 * Administrative Access: Provides tools for operational oversight and system customization.
   
+![image](https://github.com/user-attachments/assets/bb98ed57-f7bb-4fc2-9158-ec0ace54fa3f)
+![image](https://github.com/user-attachments/assets/92c0b2c4-1046-4127-b394-e1d09261399f)
+![image](https://github.com/user-attachments/assets/b3d670cc-6db5-427b-9cf9-a05530761fa1)
+
+
